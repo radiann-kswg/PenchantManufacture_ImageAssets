@@ -1,0 +1,17 @@
+# PenchantManufacture ImageAssets — Python依存ライブラリ
+# Python 3.11+ 推奨
+
+# フォント解析・グリフ抽出（extract_glyphs.py / inspect_font.py）
+fontTools>=4.53.0
+
+# SVG→PNG変換（export_png.py / build.py）
+cairosvg>=2.7.1
+
+# 画像処理・PNG生成（export_png.py）
+Pillow>=10.4.0
+
+# SVGファイル生成補助（将来の合成SVG生成用）
+svgwrite>=1.4.3
+
+# CLI引数処理（build.py / extract_glyphs.py）
+click>=8.1.7
