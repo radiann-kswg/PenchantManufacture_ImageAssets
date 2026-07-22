@@ -1,0 +1,322 @@
+# PenchantManufacture Glyph Map
+# Font: PenchantManufacture.otf
+# Units per em: 1000
+# Total glyphs: 103
+# Unicode mapped glyphs: 208
+
+## Unicode -> Glyph Name (AGL name)
+
+U+0000  '.'    glyph=.null             agl=-
+U+000A  '.'    glyph=controlLF         agl=-
+U+000D  '.'    glyph=controlCR         agl=-
+U+0020  ' '    glyph=space             agl=space
+U+0021  '!'    glyph=exclam            agl=exclam
+U+0022  '"'    glyph=quotedbl          agl=quotedbl
+U+0023  '#'    glyph=numbersign        agl=numbersign
+U+0024  '$'    glyph=dollar            agl=dollar
+U+0025  '%'    glyph=percent           agl=percent
+U+0026  '&'    glyph=ampersand         agl=ampersand
+U+0027  "'"    glyph=quotesingle       agl=quotesingle
+U+0028  '('    glyph=parenleft         agl=parenleft
+U+0029  ')'    glyph=parenright        agl=parenright
+U+002A  '*'    glyph=asterisk          agl=asterisk
+U+002B  '+'    glyph=plus              agl=plus
+U+002C  ','    glyph=comma             agl=comma
+U+002D  '-'    glyph=hyphen            agl=hyphen
+U+002E  '.'    glyph=period            agl=period
+U+002F  '/'    glyph=slash             agl=slash
+U+0030  '0'    glyph=zero              agl=zero
+U+0031  '1'    glyph=one               agl=one
+U+0032  '2'    glyph=two               agl=two
+U+0033  '3'    glyph=three             agl=three
+U+0034  '4'    glyph=four              agl=four
+U+0035  '5'    glyph=five              agl=five
+U+0036  '6'    glyph=six               agl=six
+U+0037  '7'    glyph=seven             agl=seven
+U+0038  '8'    glyph=eight             agl=eight
+U+0039  '9'    glyph=nine              agl=nine
+U+003A  ':'    glyph=colon             agl=colon
+U+003B  ';'    glyph=semicolon         agl=semicolon
+U+003C  '<'    glyph=less              agl=less
+U+003D  '='    glyph=equal             agl=equal
+U+003E  '>'    glyph=greater           agl=greater
+U+003F  '?'    glyph=question          agl=question
+U+0040  '@'    glyph=at                agl=at
+U+0041  'A'    glyph=A                 agl=A
+U+0042  'B'    glyph=B                 agl=B
+U+0043  'C'    glyph=C                 agl=C
+U+0044  'D'    glyph=D                 agl=D
+U+0045  'E'    glyph=E                 agl=E
+U+0046  'F'    glyph=F                 agl=F
+U+0047  'G'    glyph=G                 agl=G
+U+0048  'H'    glyph=H                 agl=H
+U+0049  'I'    glyph=I                 agl=I
+U+004A  'J'    glyph=J                 agl=J
+U+004B  'K'    glyph=K                 agl=K
+U+004C  'L'    glyph=L                 agl=L
+U+004D  'M'    glyph=M                 agl=M
+U+004E  'N'    glyph=N                 agl=N
+U+004F  'O'    glyph=O                 agl=O
+U+0050  'P'    glyph=P                 agl=P
+U+0051  'Q'    glyph=Q                 agl=Q
+U+0052  'R'    glyph=R                 agl=R
+U+0053  'S'    glyph=S                 agl=S
+U+0054  'T'    glyph=T                 agl=T
+U+0055  'U'    glyph=U                 agl=U
+U+0056  'V'    glyph=V                 agl=V
+U+0057  'W'    glyph=W                 agl=W
+U+0058  'X'    glyph=X                 agl=X
+U+0059  'Y'    glyph=Y                 agl=Y
+U+005A  'Z'    glyph=Z                 agl=Z
+U+005B  '['    glyph=bracketleft       agl=bracketleft
+U+005C  '\\'   glyph=backslash         agl=backslash
+U+005D  ']'    glyph=bracketright      agl=bracketright
+U+005E  '^'    glyph=asciicircum       agl=asciicircum
+U+005F  '_'    glyph=underscore        agl=underscore
+U+0060  '`'    glyph=grave             agl=grave
+U+0061  'a'    glyph=A                 agl=a
+U+0062  'b'    glyph=B                 agl=b
+U+0063  'c'    glyph=C                 agl=c
+U+0064  'd'    glyph=D                 agl=d
+U+0065  'e'    glyph=E                 agl=e
+U+0066  'f'    glyph=F                 agl=f
+U+0067  'g'    glyph=G                 agl=g
+U+0068  'h'    glyph=H                 agl=h
+U+0069  'i'    glyph=I                 agl=i
+U+006A  'j'    glyph=J                 agl=j
+U+006B  'k'    glyph=K                 agl=k
+U+006C  'l'    glyph=L                 agl=l
+U+006D  'm'    glyph=M                 agl=m
+U+006E  'n'    glyph=N                 agl=n
+U+006F  'o'    glyph=O                 agl=o
+U+0070  'p'    glyph=P                 agl=p
+U+0071  'q'    glyph=Q                 agl=q
+U+0072  'r'    glyph=R                 agl=r
+U+0073  's'    glyph=S                 agl=s
+U+0074  't'    glyph=T                 agl=t
+U+0075  'u'    glyph=U                 agl=u
+U+0076  'v'    glyph=V                 agl=v
+U+0077  'w'    glyph=W                 agl=w
+U+0078  'x'    glyph=X                 agl=x
+U+0079  'y'    glyph=Y                 agl=y
+U+007A  'z'    glyph=Z                 agl=z
+U+007B  '{'    glyph=braceleft         agl=braceleft
+U+007C  '|'    glyph=verticalbar       agl=bar
+U+007D  '}'    glyph=braceright        agl=braceright
+U+007E  '~'    glyph=asciitilde        agl=asciitilde
+U+00A0  '.'    glyph=nonbreakingspace  agl=-
+U+00AD  '.'    glyph=softhyphen        agl=-
+U+00C0  'À'    glyph=A                 agl=Agrave
+U+00C1  'Á'    glyph=A                 agl=Aacute
+U+00C2  'Â'    glyph=A                 agl=Acircumflex
+U+00C3  'Ã'    glyph=A                 agl=Atilde
+U+00C4  'Ä'    glyph=A                 agl=Adieresis
+U+00C5  'Å'    glyph=A                 agl=Aring
+U+00C7  'Ç'    glyph=C                 agl=Ccedilla
+U+00C8  'È'    glyph=E                 agl=Egrave
+U+00C9  'É'    glyph=E                 agl=Eacute
+U+00CA  'Ê'    glyph=E                 agl=Ecircumflex
+U+00CB  'Ë'    glyph=E                 agl=Edieresis
+U+00CC  'Ì'    glyph=I                 agl=Igrave
+U+00CD  'Í'    glyph=I                 agl=Iacute
+U+00CE  'Î'    glyph=I                 agl=Icircumflex
+U+00CF  'Ï'    glyph=I                 agl=Idieresis
+U+00D1  'Ñ'    glyph=N                 agl=Ntilde
+U+00D2  'Ò'    glyph=O                 agl=Ograve
+U+00D3  'Ó'    glyph=O                 agl=Oacute
+U+00D4  'Ô'    glyph=O                 agl=Ocircumflex
+U+00D5  'Õ'    glyph=O                 agl=Otilde
+U+00D6  'Ö'    glyph=O                 agl=Odieresis
+U+00D8  'Ø'    glyph=O                 agl=Oslash
+U+00D9  'Ù'    glyph=U                 agl=Ugrave
+U+00DA  'Ú'    glyph=U                 agl=Uacute
+U+00DB  'Û'    glyph=U                 agl=Ucircumflex
+U+00DC  'Ü'    glyph=U                 agl=Udieresis
+U+00DD  'Ý'    glyph=Y                 agl=Yacute
+U+00E0  'à'    glyph=A                 agl=agrave
+U+00E1  'á'    glyph=A                 agl=aacute
+U+00E2  'â'    glyph=A                 agl=acircumflex
+U+00E3  'ã'    glyph=A                 agl=atilde
+U+00E4  'ä'    glyph=A                 agl=adieresis
+U+00E5  'å'    glyph=A                 agl=aring
+U+00E7  'ç'    glyph=C                 agl=ccedilla
+U+00E8  'è'    glyph=E                 agl=egrave
+U+00E9  'é'    glyph=E                 agl=eacute
+U+00EA  'ê'    glyph=E                 agl=ecircumflex
+U+00EB  'ë'    glyph=E                 agl=edieresis
+U+00EC  'ì'    glyph=I                 agl=igrave
+U+00ED  'í'    glyph=I                 agl=iacute
+U+00EE  'î'    glyph=I                 agl=icircumflex
+U+00EF  'ï'    glyph=I                 agl=idieresis
+U+00F1  'ñ'    glyph=N                 agl=ntilde
+U+00F2  'ò'    glyph=O                 agl=ograve
+U+00F3  'ó'    glyph=O                 agl=oacute
+U+00F4  'ô'    glyph=O                 agl=ocircumflex
+U+00F5  'õ'    glyph=O                 agl=otilde
+U+00F6  'ö'    glyph=O                 agl=odieresis
+U+00F8  'ø'    glyph=O                 agl=oslash
+U+00F9  'ù'    glyph=U                 agl=ugrave
+U+00FA  'ú'    glyph=U                 agl=uacute
+U+00FB  'û'    glyph=U                 agl=ucircumflex
+U+00FC  'ü'    glyph=U                 agl=udieresis
+U+00FD  'ý'    glyph=Y                 agl=yacute
+U+00FF  'ÿ'    glyph=Y                 agl=ydieresis
+U+0178  'Ÿ'    glyph=Y                 agl=Ydieresis
+U+0391  'Α'    glyph=Alpha             agl=Alpha
+U+0392  'Β'    glyph=Beta              agl=Beta
+U+0393  'Γ'    glyph=Gamma             agl=Gamma
+U+0394  'Δ'    glyph=Deltagreek        agl=-
+U+0395  'Ε'    glyph=Epsilon           agl=Epsilon
+U+0396  'Ζ'    glyph=Zeta              agl=Zeta
+U+0397  'Η'    glyph=Eta               agl=Eta
+U+0398  'Θ'    glyph=Theta             agl=Theta
+U+0399  'Ι'    glyph=Iota              agl=Iota
+U+039A  'Κ'    glyph=Kappa             agl=Kappa
+U+039B  'Λ'    glyph=Lambda            agl=Lambda
+U+039C  'Μ'    glyph=Mu                agl=Mu
+U+039D  'Ν'    glyph=Nu                agl=Nu
+U+039E  'Ξ'    glyph=Xi                agl=Xi
+U+039F  'Ο'    glyph=Omicron           agl=Omicron
+U+03A0  'Π'    glyph=Pi                agl=Pi
+U+03A1  'Ρ'    glyph=Rho               agl=Rho
+U+03A3  'Σ'    glyph=Sigma             agl=Sigma
+U+03A4  'Τ'    glyph=Tau               agl=Tau
+U+03A5  'Υ'    glyph=Upsilon           agl=Upsilon
+U+03A6  'Φ'    glyph=Phi               agl=Phi
+U+03A7  'Χ'    glyph=Chi               agl=Chi
+U+03A8  'Ψ'    glyph=Psi               agl=Psi
+U+03A9  'Ω'    glyph=Omegagreek        agl=-
+U+03B1  'α'    glyph=Alpha             agl=alpha
+U+03B2  'β'    glyph=Beta              agl=beta
+U+03B3  'γ'    glyph=Gamma             agl=gamma
+U+03B4  'δ'    glyph=Deltagreek        agl=delta
+U+03B5  'ε'    glyph=Epsilon           agl=epsilon
+U+03B6  'ζ'    glyph=Zeta              agl=zeta
+U+03B7  'η'    glyph=Eta               agl=eta
+U+03B8  'θ'    glyph=Theta             agl=theta
+U+03B9  'ι'    glyph=Iota              agl=iota
+U+03BA  'κ'    glyph=Kappa             agl=kappa
+U+03BB  'λ'    glyph=Lambda            agl=lambda
+U+03BC  'μ'    glyph=Mu                agl=-
+U+03BD  'ν'    glyph=Nu                agl=nu
+U+03BE  'ξ'    glyph=Xi                agl=xi
+U+03BF  'ο'    glyph=Omicron           agl=omicron
+U+03C0  'π'    glyph=Pi                agl=pi
+U+03C1  'ρ'    glyph=Rho               agl=rho
+U+03C3  'σ'    glyph=Sigma             agl=sigma
+U+03C4  'τ'    glyph=Tau               agl=tau
+U+03C5  'υ'    glyph=Upsilon           agl=upsilon
+U+03C6  'φ'    glyph=Phi               agl=phi
+U+03C7  'χ'    glyph=Chi               agl=chi
+U+03C8  'ψ'    glyph=Psi               agl=psi
+U+03C9  'ω'    glyph=Omegagreek        agl=omega
+U+2018  '‘'    glyph=quoteleft         agl=quoteleft
+U+2019  '’'    glyph=quoteright        agl=quoteright
+U+201C  '“'    glyph=quotedblleft      agl=quotedblleft
+U+201D  '”'    glyph=quotedblright     agl=quotedblright
+
+## All Glyph Names
+
+  .notdef
+  .null
+  A
+  Alpha
+  B
+  Beta
+  C
+  Chi
+  D
+  Deltagreek
+  E
+  Epsilon
+  Eta
+  F
+  G
+  Gamma
+  H
+  I
+  Iota
+  J
+  K
+  Kappa
+  L
+  Lambda
+  M
+  Mu
+  N
+  Nu
+  O
+  Omegagreek
+  Omicron
+  P
+  Phi
+  Pi
+  Psi
+  Q
+  R
+  Rho
+  S
+  Sigma
+  T
+  Tau
+  Theta
+  U
+  Upsilon
+  V
+  W
+  X
+  Xi
+  Y
+  Z
+  Zeta
+  ampersand
+  asciicircum
+  asciitilde
+  asterisk
+  at
+  backslash
+  braceleft
+  braceright
+  bracketleft
+  bracketright
+  colon
+  comma
+  controlCR
+  controlLF
+  dollar
+  eight
+  equal
+  exclam
+  five
+  four
+  grave
+  greater
+  hyphen
+  less
+  nine
+  nonbreakingspace
+  numbersign
+  one
+  parenleft
+  parenright
+  percent
+  period
+  plus
+  question
+  quotedbl
+  quotedblleft
+  quotedblright
+  quoteleft
+  quoteright
+  quotesingle
+  semicolon
+  seven
+  six
+  slash
+  softhyphen
+  space
+  three
+  two
+  underscore
+  verticalbar
+  zero

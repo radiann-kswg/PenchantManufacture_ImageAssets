@@ -7,8 +7,12 @@ fontTools>=4.53.0
 # SVG→PNG変換（export_png.py / build.py）
 cairosvg>=2.7.1
 
-# 画像処理・PNG生成（export_png.py）
+# 画像処理・PNG生成（export_png.py / generate_decal.py）
 Pillow>=10.4.0
+
+# 工業デカール生成のSDF・距離場・グレイン処理（generate_decal.py）
+numpy>=1.26.0
+scipy>=1.11.0
 
 # SVGファイル生成補助（将来の合成SVG生成用）
 svgwrite>=1.4.3

@@ -20,9 +20,11 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from export_png import export_category, svg2png_category
 from extract_glyphs import extract_all
+from generate_decal import SCHEMES as DECAL_SCHEMES
+from generate_decal import build as build_decal
 from inspect_font import inspect_font
 
-STEPS = ["inspect", "extract", "png", "svg2png"]
+STEPS = ["inspect", "extract", "png", "svg2png", "decal"]
 
 
 def run_step(step: str, dry_run: bool) -> None:
@@ -45,6 +47,12 @@ def run_step(step: str, dry_run: bool) -> None:
             print("  DRY-RUN: svg2png/glyphs/*.png を生成予定")
         else:
             svg2png_category("glyphs")
+    elif step == "decal":
+        if dry_run:
+            keys = ", ".join(DECAL_SCHEMES)
+            print(f"  DRY-RUN: dist/glyphs_decal/{{{keys}}}/*_512.png / *_128.png を生成予定")
+        else:
+            build_decal()
 
 
 @click.command()
