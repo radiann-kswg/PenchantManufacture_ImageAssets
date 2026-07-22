@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from xml.sax.saxutils import escape
 
 import click
 from fontTools import agl, ttLib
@@ -110,7 +111,7 @@ def extract_glyph_svg(
         '<svg xmlns="http://www.w3.org/2000/svg"\n'
         f'     viewBox="0 0 {viewbox} {viewbox}"\n'
         f'     width="{viewbox}" height="{viewbox}">\n'
-        f"  <title>{title}</title>\n"
+        f"  <title>{escape(title)}</title>\n"
         f'  <g transform="{transform}">\n'
         f'    <path d="{path_data}" fill="#000000"/>\n'
         "  </g>\n"
