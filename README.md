@@ -11,7 +11,7 @@
 
 ## フォント収録グリフ
 
-`_original-fonts/penchant-manufacture_v2.0-beta/収録グリフ.txt` に記載の作者公式グリフ:
+`_original-fonts/penchant-manufacture_v2.1-beta/収録グリフ.txt` に記載の作者公式グリフ:
 
 | カテゴリ           | 内容                                                          | 字数 |
 | ------------------ | ------------------------------------------------------------- | ---- |
@@ -22,7 +22,7 @@
 | 項目              | 値                                   |
 | ----------------- | ------------------------------------ |
 | フォント名        | PenchantManufacture (Regular)        |
-| バージョン        | Version 1.002 (Fontself Maker 3.5.9) |
+| バージョン        | Version 1.003 (Fontself Maker 3.6.12) |
 | Units per em      | 1000                                 |
 | cmap マッピング数 | 208                                  |
 | 実グリフ数        | 103                                  |

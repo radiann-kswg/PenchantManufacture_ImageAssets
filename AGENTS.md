@@ -21,9 +21,9 @@
 
 ---
 
-## 収録グリフ（PenchantManufacture v2.0-beta）
+## 収録グリフ（PenchantManufacture v2.1-beta）
 
-`_original-fonts/penchant-manufacture_v2.0-beta/収録グリフ.txt` に記載の作者公式グリフ:
+`_original-fonts/penchant-manufacture_v2.1-beta/収録グリフ.txt` に記載の作者公式グリフ:
 
 ```
 ASCII可視記号・数字・英大文字 : U+0021–U+007E（94字）
@@ -37,7 +37,7 @@ ASCII可視記号・数字・英大文字 : U+0021–U+007E（94字）
 | 項目                 | 値                                        |
 | -------------------- | ----------------------------------------- |
 | フォント名           | PenchantManufacture (Regular)             |
-| バージョン           | Version 1.002 (Fontself Maker 3.5.9)      |
+| バージョン           | Version 1.003 (Fontself Maker 3.6.12)     |
 | Units per em         | 1000                                      |
 | cmap マッピング数    | 208                                       |
 | 実グリフ数           | 103                                       |
