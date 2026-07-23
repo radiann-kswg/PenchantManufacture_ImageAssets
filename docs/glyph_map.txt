@@ -1,8 +1,8 @@
 # PenchantManufacture Glyph Map
 # Font: PenchantManufacture.otf
 # Units per em: 1000
-# Total glyphs: 129
-# Unicode mapped glyphs: 184
+# Total glyphs: 155
+# Unicode mapped glyphs: 210
 
 ## Unicode -> Glyph Name (AGL name)
 
@@ -133,6 +133,7 @@ U+00DA  'Ú'    glyph=U                 agl=Uacute
 U+00DB  'Û'    glyph=U                 agl=Ucircumflex
 U+00DC  'Ü'    glyph=U                 agl=Udieresis
 U+00DD  'Ý'    glyph=Y                 agl=Yacute
+U+00DF  'ß'    glyph=germandbls        agl=germandbls
 U+00E0  'à'    glyph=a                 agl=agrave
 U+00E1  'á'    glyph=a                 agl=aacute
 U+00E2  'â'    glyph=a                 agl=acircumflex
@@ -186,6 +187,31 @@ U+03A6  'Φ'    glyph=Phi               agl=Phi
 U+03A7  'Χ'    glyph=Chi               agl=Chi
 U+03A8  'Ψ'    glyph=Psi               agl=Psi
 U+03A9  'Ω'    glyph=Omegagreek        agl=-
+U+03B1  'α'    glyph=alpha             agl=alpha
+U+03B2  'β'    glyph=beta              agl=beta
+U+03B3  'γ'    glyph=gamma             agl=gamma
+U+03B4  'δ'    glyph=delta             agl=delta
+U+03B5  'ε'    glyph=epsilon           agl=epsilon
+U+03B6  'ζ'    glyph=zeta              agl=zeta
+U+03B7  'η'    glyph=eta               agl=eta
+U+03B8  'θ'    glyph=theta             agl=theta
+U+03B9  'ι'    glyph=iota              agl=iota
+U+03BA  'κ'    glyph=kappa             agl=kappa
+U+03BB  'λ'    glyph=lambda            agl=lambda
+U+03BC  'μ'    glyph=mugreek           agl=-
+U+03BD  'ν'    glyph=nu                agl=nu
+U+03BE  'ξ'    glyph=xi                agl=xi
+U+03BF  'ο'    glyph=omicron           agl=omicron
+U+03C0  'π'    glyph=pi                agl=pi
+U+03C1  'ρ'    glyph=rho               agl=rho
+U+03C2  'ς'    glyph=sigmafinal        agl=sigma1
+U+03C3  'σ'    glyph=sigma             agl=sigma
+U+03C4  'τ'    glyph=tau               agl=tau
+U+03C5  'υ'    glyph=upsilon           agl=upsilon
+U+03C6  'φ'    glyph=phi               agl=phi
+U+03C7  'χ'    glyph=chi               agl=chi
+U+03C8  'ψ'    glyph=psi               agl=psi
+U+03C9  'ω'    glyph=omega             agl=omega
 U+2018  '‘'    glyph=quoteleft         agl=quoteleft
 U+2019  '’'    glyph=quoteright        agl=quoteright
 U+201C  '“'    glyph=quotedblleft      agl=quotedblleft
@@ -246,6 +272,7 @@ U+201D  '”'    glyph=quotedblright     agl=quotedblright
   Z
   Zeta
   a
+  alpha
   ampersand
   asciicircum
   asciitilde
@@ -253,47 +280,64 @@ U+201D  '”'    glyph=quotedblright     agl=quotedblright
   at
   b
   backslash
+  beta
   braceleft
   braceright
   bracketleft
   bracketright
   c
+  chi
   colon
   comma
   controlCR
   controlLF
   d
+  delta
   dollar
   e
   eight
+  epsilon
   equal
+  eta
   exclam
   f
   five
   four
   g
+  gamma
+  germandbls
   grave
   greater
   h
   hyphen
   i
+  iota
   j
   k
+  kappa
   l
+  lambda
   less
   m
+  mugreek
   n
   nine
   nonbreakingspace
+  nu
   numbersign
   o
+  omega
+  omicron
   one
   p
   parenleft
   parenright
   percent
   period
+  phi
+  pi
   plus
+  psi
   q
   question
   quotedbl
@@ -303,22 +347,30 @@ U+201D  '”'    glyph=quotedblright     agl=quotedblright
   quoteright
   quotesingle
   r
+  rho
   s
   semicolon
   seven
+  sigma
+  sigmafinal
   six
   slash
   softhyphen
   space
   t
+  tau
+  theta
   three
   two
   u
   underscore
+  upsilon
   v
   verticalbar
   w
   x
+  xi
   y
   z
   zero
+  zeta

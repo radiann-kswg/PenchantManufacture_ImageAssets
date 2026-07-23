@@ -21,29 +21,29 @@
 
 ---
 
-## 収録グリフ（PenchantManufacture v2.2-alpha）
+## 収録グリフ（PenchantManufacture v3.0-release）
 
-`_original-fonts/penchant-manufacture_v2.2-alpha/収録グリフ.txt` に記載の作者公式グリフ:
+`_original-fonts/penchant-manufacture_v3.0-release/収録グリフ.txt` に記載の作者公式グリフ:
 
 ```
 ASCII可視記号・数字・英大文字・英小文字 : U+0021–U+007E（94字）
 ギリシャ大文字                         : Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω（24字）
-曲がり引用符                           : ' ' " "（U+2018 U+2019 U+201C U+201D）
+ギリシャ小文字                         : α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ ς σ τ υ φ χ ψ ω（25字）
+曲がり引用符・その他                   : ' ' " "（U+2018 U+2019 U+201C U+201D）、ß（U+00DF）
 ```
 
-v2.2-alpha（Version 1.004）で **英小文字 a–z が独立グリフとして実装**された
-（従来は大文字グリフへの再マップ）。小文字は x-height・アセンダ・ディセンダ
-（g/j/p/q/y は base line 下 ~101/1000 まで伸びる）を持つ。一方で **ギリシャ小文字は
-収録対象外**（cmap から除外）となった。cmap にはアクセント付きラテンの
-マッピングも含まれる（多くは大文字／小文字グリフへの再マップ）。
+v3.0-release（Version 1.005）で **ギリシャ小文字 α–ω と ß が新規追加**され、
+一部グリフの形状が修正された。英小文字 a–z は独立グリフとして x-height・アセンダ・
+ディセンダ（g/j/p/q/y は base line 下 ~101/1000 まで伸びる）を持つ。cmap には
+アクセント付きラテンのマッピングも含まれる（多くは大文字／小文字グリフへの再マップ）。
 
 | 項目                 | 値                                        |
 | -------------------- | ----------------------------------------- |
 | フォント名           | PenchantManufacture (Regular)             |
-| バージョン           | Version 1.004 (Fontself Maker 3.6.12)     |
+| バージョン           | Version 1.005 (Fontself Maker 3.6.12)     |
 | Units per em         | 1000                                      |
-| cmap マッピング数    | 184                                       |
-| 実グリフ数           | 129                                       |
+| cmap マッピング数    | 210                                       |
+| 実グリフ数           | 155                                       |
 
 > フォントが更新されたら `python scripts/inspect_font.py` を再実行し、
 > `docs/glyph_map.txt` で差分を確認すること。
