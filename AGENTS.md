@@ -1,7 +1,8 @@
 # AGENTS.md — PenchantManufacture ImageAssets 共通エージェント指示書
 
-このファイルは **GitHub Copilot** および **Claude Code** の両エージェントが参照する
-統合ワークスペース指示書です。ツール固有の補足は末尾のセクションを参照してください。
+このファイルは **Codex**、**Claude Code**、**GitHub Copilot** が共有する
+PenchantManufacture リポジトリ固有指示の **唯一の正（SSOT）** です。
+`CLAUDE.md` は `@AGENTS.md` の参照入口であり、詳細指示を重複記載しません。
 
 姉妹プロジェクト **Secvier_ImageAssets** と同じ設計思想・命名規則・ビルドフローを踏襲します。
 
@@ -93,7 +94,7 @@ cmap は 210 コードポイントだが、**同一グリフ（同一アウト�
 ```
 PenchantManufacture_ImageAssets/
 ├── AGENTS.md                   ← 本ファイル（エージェント共通指示書）
-├── CLAUDE.md                   ← Claude Code 向け補足（AGENTS.mdをインポート）
+├── CLAUDE.md                   ← Claude Code 互換入口（@AGENTS.md のみ）
 ├── .github/
 │   └── copilot-instructions.md ← GitHub Copilot 向け補足
 ├── assets/
@@ -283,19 +284,9 @@ docs: add AGENTS.md / CLAUDE.md for PenchantManufacture setup
 
 ---
 
-## [Claude Code 向け補足]
+## 作業開始時の共通チェック
 
 - `docs/glyph_map.txt` を読んで利用可能グリフを把握してから作業すること
   （未生成の場合は `python scripts/inspect_font.py` を実行）
 - Python依存の追加は `requirements.txt` に記録し、インストール手順も更新すること
 - テスト実行: `python scripts/build.py --dry-run`
-
----
-
-## [GitHub Copilot 向け補足]
-
-- 補完提案はこのAGENTS.mdの命名規則・ディレクトリ規則に従うこと
-- SVGの `viewBox` は常に `0 0 512 512`
-- フォント参照は `assets/fonts/PenchantManufacture.otf` への相対パス、または
-  アウトライン化（パス埋め込み）を使用すること
-- 新規スクリプトは `scripts/` に配置し、`from __future__ import annotations` を先頭に記述すること
