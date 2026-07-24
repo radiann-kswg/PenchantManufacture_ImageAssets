@@ -33,12 +33,21 @@
 > x-height・アセンダ・ディセンダ（g/j/p/q/y）を持つため、デカール生成のトリミングは
 > 全グリフ一律の固定縦バンドでベースラインを揃えています（後述）。
 
-抽出スクリプトは cmap 全コードポイント（210）を対象とし、空パスのグリフ
-（スペース・NBSP・制御文字など）は自動でスキップして 155 の実グリフを書き出します。
+抽出スクリプトは cmap 全コードポイント（210）を走査しますが、**同一グリフへ再マップ
+されたコードポイントを 1 枚に統合**します。アクセント付きラテン 56 字（À Á … ÿ Ÿ）は
+基底グリフ（A/E/I/O/U/Y/C/N とその小文字）への再マップのため、正規グリフ **148 字**のみを
+SVG 化し、統合した異体字は `docs/glyph_aliases.json` に検索エイリアスとして記録します。
+さらに工業デカール生成では、絵文字サイズで描画が完全一致するギリシャ同形 5 組
+（A=Α, B=Β, E=Ε, O=Ο, o=ο）を出力 PNG 上で統合し、**絵文字は正味 143 字**になります
+（統合表 `docs/glyph_render_merges.json`。ソース SVG の 148 字は温存）。この 2 段の
+重複排除により、**同一画像が別名で二重登録されることを防ぎます**。
 
 ---
 
 ## ディレクトリ構成
+
+姉妹プロジェクト **Secvier** のビルド構成（`dist/{カテゴリ}/{バリアント}/` ＋
+`_exported-dist/` の Misskey 一括インポート zip）に揃えています。
 
 ```
 PenchantManufacture_ImageAssets/
@@ -46,25 +55,35 @@ PenchantManufacture_ImageAssets/
 │   └── fonts/
 │       └── PenchantManufacture.otf   # ビルドで参照するフォント
 ├── src/
-│   └── glyphs/                       # グリフ SVG（アウトライン化済み）
+│   └── glyphs/                       # グリフ SVG 148字（アウトライン化済み）
 ├── dist/
-│   └── glyphs/                       # グリフ透過PNG（72px / 512px）
+│   ├── glyphs/                       # グリフ透過PNG（72px / 512px、装飾なし）
+│   ├── glyphs_decal/{variant}/       # 工業デカール 幅可変PNG（Misskey向け・マスター）
+│   └── glyphs_decal_square/{variant}/ # 工業デカール 正方形PNG（Discord向け）
 ├── svg2png/
 │   └── glyphs/                       # SVG の単純PNG変換（装飾なし）
 ├── scripts/
 │   ├── inspect_font.py               # フォントグリフ検査
-│   ├── extract_glyphs.py             # フォント → SVGアウトライン抽出
+│   ├── extract_glyphs.py             # フォント → SVGアウトライン抽出（重複排除）
 │   ├── export_png.py                 # SVG → PNG 変換
+│   ├── generate_decal.py             # 工業デカール生成（幅可変＋正方形／描画一致統合）
+│   ├── build_misskey_zip.py          # Misskey一括インポートzip生成
 │   └── build.py                      # 全ステップ一括ビルド
 ├── docs/
-│   └── glyph_map.txt                 # inspect_font.py が自動生成
+│   ├── glyph_map.txt                 # inspect_font.py が自動生成
+│   ├── glyph_aliases.json            # 異体字→正規グリフ 対応表
+│   ├── glyph_render_merges.json      # 描画一致グリフ 統合表
+│   └── DECAL_VARIANTS.md             # 工業デカール バリアント仕様
 ├── _original-fonts/                  # 原本フォント（読み取り専用・.gitignore対象）
+├── _exported-dist/                   # エクスポートzip格納（.gitignore対象）
 ├── requirements.txt
 ├── .gitattributes
 ├── LICENSE
 ├── AGENTS.md                         # エージェント共通指示書
 └── CLAUDE.md                         # Claude 向け補足
 ```
+
+variant = `rust`（酸鉄）/ `hazard`（警戒）/ `patina`（緑青真鍮）/ `nickel`（白銅燐光）
 
 ---
 
@@ -85,29 +104,44 @@ pip install -r requirements.txt
 # フォント検査 → docs/glyph_map.txt
 python scripts/inspect_font.py
 
-# グリフSVG抽出（まず対象確認 → 書き出し） → src/glyphs/
+# グリフSVG抽出（重複排除。まず対象確認 → 書き出し） → src/glyphs/, docs/glyph_aliases.json
 python scripts/extract_glyphs.py --dry-run
 python scripts/extract_glyphs.py
 
 # SVG → PNG変換 → dist/glyphs/, svg2png/glyphs/
 python scripts/export_png.py
 
+# 工業デカール生成（幅可変＋正方形／描画一致統合） → dist/glyphs_decal[_square]/
+python scripts/generate_decal.py
+
+# Misskey一括インポートzip → _exported-dist/
+python scripts/build_misskey_zip.py
+
 # 全ステップ一括ビルド（dry-run確認 → 実行）
 python scripts/build.py --dry-run
 python scripts/build.py
 ```
 
+### SNS カスタム絵文字の登録
+
+- **Misskey**: `_exported-dist/penchant-misskey-*.zip` を管理画面から一括インポート
+  （非正方形をそのまま扱えるため幅可変版を収録。カテゴリ・エイリアス付き）。
+- **Discord**: `dist/glyphs_decal_square/{variant}/*_128.png` を個別アップロード
+  （正方形スロット向け。1ファイル 256KB 以下）。
+
 ---
 
 ## 出力仕様
 
-| 項目             | 仕様                                  |
-| ---------------- | ------------------------------------- |
-| フォーマット     | PNG（RGBA）                           |
-| グリフ SVG       | viewBox `0 0 512 512`、アウトライン化 |
-| グリフ PNG       | 72 × 72 px / 512 × 512 px             |
-| 背景             | 透過（alpha）                         |
-| カラーモード     | sRGB                                  |
+| 項目               | 仕様                                                       |
+| ------------------ | ---------------------------------------------------------- |
+| フォーマット       | PNG（RGBA）                                                 |
+| グリフ SVG         | viewBox `0 0 512 512`、アウトライン化                       |
+| グリフ PNG（装飾なし） | 72 × 72 px / 512 × 512 px                               |
+| デカール（Misskey） | 高さ 512 / 128 px・**幅可変**（字面比率を維持）            |
+| デカール（Discord） | 512 / 128 px の**正方形**（中央寄せパディング）           |
+| 背景               | 透過（alpha）                                              |
+| カラーモード       | sRGB                                                       |
 
 ファイル命名: `char_{AGL名}_{コードポイント}.svg`（例: `char_A_0041.svg`, `char_Alpha_0391.svg`）。
 末尾のコードポイントにより、case-insensitive なファイルシステムでも大文字/小文字グリフが衝突しません。

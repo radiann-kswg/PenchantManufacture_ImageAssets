@@ -37,6 +37,30 @@ v3.0-release（Version 1.005）で **ギリシャ小文字 α–ω と ß が新
 ディセンダ（g/j/p/q/y は base line 下 ~101/1000 まで伸びる）を持つ。cmap には
 アクセント付きラテンのマッピングも含まれる（多くは大文字／小文字グリフへの再マップ）。
 
+### 重複排除の方針（同一画像を二重生成しない）
+
+cmap は 210 コードポイントだが、**同一グリフ（同一アウトライン）へ再マップされた
+コードポイントを含む**ため、素朴に全コードポイントを書き出すと同じ画像が別名で二重
+生成される。SNS カスタム絵文字（Discord・Misskey）向けには同一画像の重複登録を避けたい。
+本パイプラインは 2 段でこれを排除する:
+
+1. **cmap 再マップの統合（`extract_glyphs.py`）** — アクセント付きラテン 56 字
+   （À Á Â … ø ù … Ÿ など）は基底グリフ（A/E/I/O/U/Y/C/N とその小文字）への再マップ。
+   グリフ名でユニーク化し、**正規グリフ 148 字のみ** SVG 化する。統合した異体字は
+   `docs/glyph_aliases.json` に検索エイリアスとして記録する。
+2. **描画一致の統合（`generate_decal.py` → `dedupe_renders`）** — フォント上は別グリフ
+   でも絵文字サイズで描画が完全一致する字（ラテンとギリシャの同形: A=Α, B=Β, E=Ε,
+   O=Ο, o=ο の 5 組）は、出力 PNG を正規側 1 枚に統合。**絵文字は正味 143 字**となる。
+   統合表は `docs/glyph_render_merges.json`。**ソース SVG（`src/glyphs/`）は 148 字を
+   温存**し、ギリシャ文字セットの独立性を保つ（統合は出力 PNG と絵文字登録のみ）。
+
+| 段階                       | 対象         | 結果         |
+| -------------------------- | ------------ | ------------ |
+| cmap マッピング            | —            | 210          |
+| 実グリフ                   | —            | 155          |
+| SVG ソース（cmap再マップ統合後） | src/glyphs   | **148**      |
+| 絵文字 PNG（描画一致統合後）     | dist/glyphs_decal | **143** |
+
 | 項目                 | 値                                        |
 | -------------------- | ----------------------------------------- |
 | フォント名           | PenchantManufacture (Regular)             |
@@ -63,6 +87,9 @@ v3.0-release（Version 1.005）で **ギリシャ小文字 α–ω と ß が新
 
 ## ディレクトリ構成
 
+姉妹プロジェクト **Secvier** のビルド構成（`dist/{カテゴリ}/{バリアント}/` ＋
+`_exported-dist/` への Misskey 一括インポート zip）に揃えている。
+
 ```
 PenchantManufacture_ImageAssets/
 ├── AGENTS.md                   ← 本ファイル（エージェント共通指示書）
@@ -73,18 +100,26 @@ PenchantManufacture_ImageAssets/
 │   └── fonts/
 │       └── PenchantManufacture.otf ← ビルド参照フォント（_original-fontsのコピー）
 ├── src/
-│   └── glyphs/                 ← グリフ SVGソース（アウトライン化済み、extract_glyphs.py 出力）
+│   └── glyphs/                 ← グリフ SVGソース 148字（アウトライン化済み、extract_glyphs.py 出力）
 ├── dist/
-│   └── glyphs/                 ← グリフ透過PNG（72px / 512px、export_png.py 出力）
+│   ├── glyphs/                 ← グリフ透過PNG（72px / 512px、装飾なし、export_png.py 出力）
+│   ├── glyphs_decal/{variant}/       ← 工業デカール 幅可変PNG（Misskey向け・マスター）
+│   └── glyphs_decal_square/{variant}/ ← 工業デカール 正方形PNG（Discord向け）
+│                                   variant = rust / hazard / patina / nickel
 ├── svg2png/
 │   └── glyphs/                 ← SVG の単純PNG変換（装飾なし、ユーティリティ用途）
 ├── scripts/
 │   ├── inspect_font.py         ← グリフ検査 → docs/glyph_map.txt
-│   ├── extract_glyphs.py       ← フォントアウトライン → src/glyphs/ SVG
-│   ├── export_png.py           ← SVG → PNG変換（dist/ と svg2png/）
+│   ├── extract_glyphs.py       ← フォントアウトライン → src/glyphs/ SVG（重複排除＋エイリアス表）
+│   ├── export_png.py           ← SVG → PNG変換（dist/glyphs, svg2png/）
+│   ├── generate_decal.py       ← 工業デカール生成（幅可変＋正方形、描画一致統合）
+│   ├── build_misskey_zip.py    ← Misskey一括インポートzip生成 → _exported-dist/
 │   └── build.py                ← 全ステップ一括ビルド
 ├── docs/
-│   └── glyph_map.txt           ← inspect_font.py が自動生成
+│   ├── glyph_map.txt           ← inspect_font.py が自動生成
+│   ├── glyph_aliases.json      ← 異体字→正規グリフ 対応表（extract_glyphs.py 生成）
+│   ├── glyph_render_merges.json ← 描画一致グリフ 統合表（generate_decal.py 生成）
+│   └── DECAL_VARIANTS.md        ← 工業デカール バリアント仕様
 ├── _original-fonts/            ← 原本（読み取り専用、.gitignore対象）
 ├── _exported-dist/             ← エクスポートzip格納（.gitignore対象）
 ├── requirements.txt
@@ -133,28 +168,51 @@ PenchantManufacture.otf
   ├─ [検査] scripts/inspect_font.py
   │         └─ docs/glyph_map.txt
   │
-  ├─ [グリフ アウトライン抽出] scripts/extract_glyphs.py
-  │         └─ src/glyphs/char_*.svg  （fontToolsのSVGPathPenで純粋パス出力）
+  ├─ [グリフ アウトライン抽出＋重複排除] scripts/extract_glyphs.py
+  │         ├─ src/glyphs/char_*.svg  （正規148字、fontToolsのSVGPathPenで純粋パス）
+  │         └─ docs/glyph_aliases.json（異体字→正規グリフ 対応表）
   │
-  └─ [PNG変換] scripts/export_png.py
-            ├─ dist/glyphs/{stem}_72.png / {stem}_512.png  （絵文字出力）
-            └─ svg2png/glyphs/{stem}.png                    （単純変換）
+  ├─ [単純PNG変換] scripts/export_png.py
+  │         ├─ dist/glyphs/{stem}_72.png / {stem}_512.png
+  │         └─ svg2png/glyphs/{stem}.png
+  │
+  ├─ [工業デカール生成＋描画一致統合] scripts/generate_decal.py
+  │         ├─ dist/glyphs_decal/{variant}/{stem}_{512,128}.png        （幅可変・Misskey）
+  │         ├─ dist/glyphs_decal_square/{variant}/{stem}_{512,128}.png （正方形・Discord）
+  │         └─ docs/glyph_render_merges.json（描画一致グリフ 統合表）
+  │
+  └─ [Misskey zip] scripts/build_misskey_zip.py
+            └─ _exported-dist/penchant-misskey-{timestamp}.zip（meta.json付き）
 ```
 
 一括実行は `python scripts/build.py`（全ステップ）。`--step` で個別指定。
+ステップ順: inspect → extract → png → svg2png → decal → misskey_zip。
 
 ### ビルドコマンド早見表
 
 ```bash
-pip install -r requirements.txt          # 初回セットアップ
+pip install -r requirements.txt          # 初回セットアップ（numpy / scipy 含む）
 python scripts/inspect_font.py           # フォント検査 → docs/glyph_map.txt
-python scripts/extract_glyphs.py         # グリフSVG抽出 → src/glyphs/
 python scripts/extract_glyphs.py --dry-run   # 抽出対象の確認（生成なし）
-python scripts/export_png.py             # src/glyphs/*.svg → dist/glyphs/*.png
+python scripts/extract_glyphs.py         # グリフSVG抽出（重複排除）→ src/glyphs/, glyph_aliases.json
+python scripts/export_png.py             # src/glyphs/*.svg → dist/glyphs/, svg2png/
+python scripts/generate_decal.py         # 工業デカール（幅可変＋正方形）＋描画一致統合
+python scripts/generate_decal.py -v rust # 単一スキームのみ（統合はスキップ）
+python scripts/build_misskey_zip.py      # Misskey一括インポートzip → _exported-dist/
 python scripts/build.py                  # 全ステップ一括
 python scripts/build.py --dry-run        # 実行確認（ファイル生成なし）
-python scripts/build.py --step extract   # 特定ステップのみ
+python scripts/build.py --step decal     # 特定ステップのみ
 ```
+
+### SNS カスタム絵文字 登録の前提
+
+- **Misskey**: `_exported-dist/penchant-misskey-*.zip` を管理画面から一括インポート。
+  非正方形の絵文字をそのまま扱えるため **幅可変版**（字面本来の比率）を収録する。
+  meta.json のカテゴリは `PenchantManufacture/工業デカール_{和名}/{字種}`、
+  各絵文字に基底文字・異体字（アクセント付き／ギリシャ同形）・バリアント名を alias 付与。
+- **Discord**: 絵文字は正方形スロットで表示されるため **正方形版**
+  （`dist/glyphs_decal_square/{variant}/*_128.png`）を個別アップロードする。
+  1 ファイル 256KB 以下（本出力は全て充足）。
 
 ---
 

@@ -76,26 +76,42 @@ PenchantManufacture のグリフに工業的・スチームパンク・電脳の
 ```
 assets/fonts/PenchantManufacture.otf
     │ inspect_font.py     → docs/glyph_map.txt
-    │ extract_glyphs.py   → src/glyphs/char_*.svg（アウトライン化・XMLエスケープ済み）
+    │ extract_glyphs.py   → src/glyphs/char_*.svg（重複排除・正規148字）+ docs/glyph_aliases.json
     ▼
 src/glyphs/char_*.svg
     │ generate_decal.py   ← cairosvg で白背景マスク化 → SDF＋質感合成
+    │                     ← 幅可変版（Misskey）＋正方形版（Discord）を出力
+    │                     ← dedupe_renders: 描画完全一致グリフを統合 → docs/glyph_render_merges.json
     ▼
-dist/glyphs_decal/{variant}/{stem}_{size}.png   （512 / 128 の透過PNG）
+dist/glyphs_decal/{variant}/{stem}_{size}.png         （幅可変・Misskey向け）
+dist/glyphs_decal_square/{variant}/{stem}_{size}.png  （正方形・Discord向け）
+    │ build_misskey_zip.py → _exported-dist/penchant-misskey-{ts}.zip（meta.json付き）
 ```
+
+## 重複排除（同一画像を二重生成しない）
+
+工業デカールの対象は、`extract_glyphs.py` が cmap 再マップ（アクセント付き56字）を統合した
+**正規148字**。さらに `generate_decal.py` の `dedupe_renders` が、絵文字サイズで描画が
+**完全一致**するギリシャ同形5組（A=Α, B=Β, E=Ε, O=Ο, o=ο）を全スキーム×全サイズの
+バイト一致で検出し、出力PNGを正規側1枚へ統合する（**絵文字は正味143字**）。統合された
+異体字は Misskey の meta.json に検索エイリアスとして付与される。ソースSVG（`src/glyphs/`
+148字、ギリシャ文字セットを含む独立グリフ）は温存する。
 
 ## 出力ディレクトリ構成
 
 ```
-dist/glyphs_decal/
+dist/glyphs_decal/          幅可変（高さ基準／Misskey向け・マスター）
 ├── rust/    char_A_0041_512.png / char_A_0041_128.png ...
 ├── hazard/  ...
 ├── patina/  ...
 └── nickel/  ...
+dist/glyphs_decal_square/   正方形（中央寄せパディング／Discord向け）
+├── rust/ ... └── nickel/ ...
 ```
 
-各バリアントに 178 グリフ × 2 サイズ。合計 4 × 178 × 2 = 1,424 PNG。
-サフィックス `_512` / `_128` は**高さ** px（幅はトリミングで可変）。
+各バリアントに 143 グリフ × 2 サイズ × 2 形状（幅可変／正方形）。
+合計 4 × 143 × 2 × 2 = 2,288 PNG。サフィックス `_512` / `_128` は**高さ** px
+（幅可変版は幅がトリミングで可変、正方形版は幅＝高さ）。
 
 ---
 
@@ -104,14 +120,21 @@ dist/glyphs_decal/
 ```bash
 pip install -r requirements.txt          # numpy / scipy を含む
 
-python scripts/generate_decal.py                 # 全4スキーム × 全グリフ
-python scripts/generate_decal.py --variant rust  # 単一スキームのみ
+python scripts/generate_decal.py                 # 全4スキーム × 全グリフ（幅可変＋正方形＋統合）
+python scripts/generate_decal.py --variant rust  # 単一スキームのみ（描画一致統合はスキップ）
+python scripts/generate_decal.py --no-square     # 正方形版を生成しない（幅可変のみ）
 python scripts/generate_decal.py --limit 5       # 先頭5グリフで試写
 
-# 一括ビルド（inspect→extract→png→svg2png→decal）
+python scripts/build_misskey_zip.py              # Misskey一括インポートzip → _exported-dist/
+
+# 一括ビルド（inspect→extract→png→svg2png→decal→misskey_zip）
 python scripts/build.py --dry-run
 python scripts/build.py
 ```
+
+> **注**: 描画一致統合（`dedupe_renders`）は全4スキームが揃った全量ビルド時のみ実施する。
+> `--variant` や `--limit` を付けた部分ビルドではスキップされる（統合判定に全スキームの
+> 出力が必要なため）。単一スキームで試した後は、最終的に全量ビルドで統合を確定させること。
 
 ## パラメータ調整の勘所（`scripts/generate_decal.py`）
 
