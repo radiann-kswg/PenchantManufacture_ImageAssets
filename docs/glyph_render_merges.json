@@ -1,0 +1,87 @@
+{
+  "generated": "2026-07-24T00:35:23Z",
+  "note": "絵文字サイズで描画が完全一致する別グリフの統合表。ソースSVGは温存し、出力PNGは正規側1枚に統合、非正規側は絵文字のエイリアスとして扱う。",
+  "merge_count": 5,
+  "merges": {
+    "char_A_0041": {
+      "canonical": {
+        "stem": "char_A_0041",
+        "glyph": "A",
+        "char": "A",
+        "agl": "A"
+      },
+      "merged": [
+        {
+          "stem": "char_Alpha_0391",
+          "glyph": "Alpha",
+          "char": "Α",
+          "agl": "Alpha"
+        }
+      ]
+    },
+    "char_B_0042": {
+      "canonical": {
+        "stem": "char_B_0042",
+        "glyph": "B",
+        "char": "B",
+        "agl": "B"
+      },
+      "merged": [
+        {
+          "stem": "char_Beta_0392",
+          "glyph": "Beta",
+          "char": "Β",
+          "agl": "Beta"
+        }
+      ]
+    },
+    "char_E_0045": {
+      "canonical": {
+        "stem": "char_E_0045",
+        "glyph": "E",
+        "char": "E",
+        "agl": "E"
+      },
+      "merged": [
+        {
+          "stem": "char_Epsilon_0395",
+          "glyph": "Epsilon",
+          "char": "Ε",
+          "agl": "Epsilon"
+        }
+      ]
+    },
+    "char_O_004F": {
+      "canonical": {
+        "stem": "char_O_004F",
+        "glyph": "O",
+        "char": "O",
+        "agl": "O"
+      },
+      "merged": [
+        {
+          "stem": "char_Omicron_039F",
+          "glyph": "Omicron",
+          "char": "Ο",
+          "agl": "Omicron"
+        }
+      ]
+    },
+    "char_o_006F": {
+      "canonical": {
+        "stem": "char_o_006F",
+        "glyph": "o",
+        "char": "o",
+        "agl": "o"
+      },
+      "merged": [
+        {
+          "stem": "char_omicron_03BF",
+          "glyph": "omicron",
+          "char": "ο",
+          "agl": "omicron"
+        }
+      ]
+    }
+  }
+}

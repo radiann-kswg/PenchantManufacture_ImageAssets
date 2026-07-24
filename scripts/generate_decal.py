@@ -17,7 +17,9 @@
         │    stencil … スプレーの掠れ（グレイン）＋ハザード斜線
         │    circuit … ブラシド金属ボディ＋燐光回路トレース（彫刻溝の発光）
         ▼
-    dist/glyphs_decal/{variant}/{stem}_{size}.png （512 / 128 の透過PNG）
+    dist/glyphs_decal/{variant}/{stem}_{size}.png         幅可変（Misskey 向け・マスター）
+    dist/glyphs_decal_square/{variant}/{stem}_{size}.png  正方形パディング（Discord 向け）
+        （いずれも 512 / 128 の透過PNG）
 
 4スキーム（2バリアント × 各2配色）:
     A 酸化ステンシル（物理寄り）
@@ -38,6 +40,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from datetime import datetime, timezone
 from io import BytesIO
 from pathlib import Path
 from typing import NamedTuple
@@ -50,7 +53,13 @@ from scipy.ndimage import distance_transform_edt, uniform_filter
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src" / "glyphs"
+# 幅可変版（高さ基準・幅はインク幅に応じて可変）。Misskey 向け＆マスター。
 DIST = ROOT / "dist" / "glyphs_decal"
+# 正方形パディング版（中央寄せ・余白透過）。Discord のスクエア絵文字枠向け。
+DIST_SQUARE = ROOT / "dist" / "glyphs_decal_square"
+# 描画結果が完全一致するグリフの統合表（絵文字ビルダーがエイリアス化に使用）。
+MERGES_PATH = ROOT / "docs" / "glyph_render_merges.json"
+ALIASES_PATH = ROOT / "docs" / "glyph_aliases.json"
 
 RES = 512                 # SVGラスタライズ解像度（グリフ本体のマスク基準）
 PAD = 18                  # 作業キャンバスの外周余白（ハローの逃げ, px）
@@ -352,15 +361,34 @@ def _save_all_sizes(
     out_dir: Path,
     stem: str,
     box: tuple[int, int, int, int],
+    square_dir: Path | None = None,
 ) -> None:
-    """クロップ後、高さ基準で各サイズにリサイズして保存する（幅はアスペクト維持で可変）。"""
+    """クロップ後、2形状で各サイズに保存する。
+
+    - **幅可変版**（``out_dir``）: 高さを SIZES に固定し、幅はアスペクト維持で可変。
+      Misskey は非正方形の絵文字をそのまま表示できるため、字面本来の比率を保つ。
+    - **正方形版**（``square_dir``、指定時のみ）: 幅可変クロップを一辺 ``max(幅,高さ)`` の
+      透過キャンバスへ中央寄せでパディングしてから SIZES 正方形へ縮小。Discord は
+      絵文字を正方形スロットで表示するため、字面が歪まないようパディングで正方形化する。
+      いずれも同一クロップ（＝同一ベースライン整合）から生成する。
+    """
     out_dir.mkdir(parents=True, exist_ok=True)
     cropped = img.crop(box)
     cw, ch = cropped.size
+
+    # 幅可変版（高さ基準）
     for sz in SIZES:
         w = max(1, round(cw * sz / ch))
-        scaled = cropped.resize((w, sz), Image.LANCZOS)
-        scaled.save(out_dir / f"{stem}_{sz}.png")
+        cropped.resize((w, sz), Image.LANCZOS).save(out_dir / f"{stem}_{sz}.png")
+
+    # 正方形版（中央寄せパディング）
+    if square_dir is not None:
+        square_dir.mkdir(parents=True, exist_ok=True)
+        side = max(cw, ch)
+        square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+        square.paste(cropped, ((side - cw) // 2, (side - ch) // 2), cropped)
+        for sz in SIZES:
+            square.resize((sz, sz), Image.LANCZOS).save(square_dir / f"{stem}_{sz}.png")
 
 
 def _seed_for(key: str) -> int:
@@ -372,12 +400,120 @@ def _seed_for(key: str) -> int:
     return int.from_bytes(key.encode("utf-8"), "little") % (2 ** 31)
 
 
-def build(variant: str | None = None, limit: int | None = None) -> int:
+def dedupe_renders(square: bool = True) -> dict[str, list[str]]:
+    """描画結果が**完全一致**するグリフを統合し、非正規側のPNGを削除する。
+
+    フォント上は別グリフ（別パス）でも、絵文字サイズでは同形になる字がある
+    （例: ラテン A と ギリシャ Α（Alpha）、B と Β、E と Ε、O と Ο、o と ο）。
+    これらは「同一画像が別名で登録される」状態になるため、絵文字成果物としては
+    1 枚に統合する。ソースSVG（src/glyphs, ギリシャ文字セットの独立グリフ）は温存し、
+    ここでは **出力PNGのみ** を対象に、全スキーム×全サイズで**バイト完全一致**する
+    グリフだけを統合対象とする（1スキームでも差があれば統合しない＝安全側）。
+
+    正規グリフはステム辞書順で最小のもの（ラテン < ギリシャ）を採用する。
+    統合結果は ``MERGES_PATH`` に保存し、絵文字ビルダーがエイリアス付与に用いる。
+
+    Returns:
+        {正規ステム: [統合された非正規ステム, ...]} の辞書
+    """
+    variants = list(SCHEMES)
+    ref_dir = DIST / variants[0]
+    if not ref_dir.exists():
+        return {}
+    stems = sorted(p.name[: -len(f"_{SIZES[0]}.png")]
+                   for p in ref_dir.glob(f"char_*_{SIZES[0]}.png"))
+
+    # 各グリフの署名 = 全スキーム×全サイズ（幅可変）の出力バイトを連結ハッシュ
+    signatures: dict[str, str] = {}
+    for stem in stems:
+        h = hashlib.md5()
+        ok = True
+        for v in variants:
+            for sz in SIZES:
+                f = DIST / v / f"{stem}_{sz}.png"
+                if not f.exists():
+                    ok = False
+                    break
+                h.update(f.read_bytes())
+            if not ok:
+                break
+        if ok:
+            signatures[stem] = h.hexdigest()
+
+    seen: dict[str, str] = {}
+    merges: dict[str, list[str]] = {}
+    for stem in stems:                       # 辞書順（ラテンが先＝正規）
+        sig = signatures.get(stem)
+        if sig is None:
+            continue
+        if sig in seen:
+            merges.setdefault(seen[sig], []).append(stem)
+        else:
+            seen[sig] = stem
+
+    # 非正規PNGを全ディレクトリから削除
+    removed = 0
+    for dups in merges.values():
+        for d in dups:
+            for v in variants:
+                for sz in SIZES:
+                    for base in ((DIST, DIST_SQUARE) if square else (DIST,)):
+                        p = base / v / f"{d}_{sz}.png"
+                        try:
+                            p.unlink()
+                            removed += 1
+                        except FileNotFoundError:
+                            pass
+                        except OSError as exc:
+                            print(f"  WARN: 削除できません {p}: {exc}")
+
+    # 統合表を保存（glyph_aliases.json のグリフ情報を付与）
+    glyph_info: dict[str, dict] = {}
+    if ALIASES_PATH.exists():
+        glyph_info = json.loads(ALIASES_PATH.read_text(encoding="utf-8")).get("glyphs", {})
+
+    def _info(stem: str) -> dict:
+        gi = glyph_info.get(stem, {})
+        return {"stem": stem, "glyph": gi.get("glyph", ""),
+                "char": gi.get("char", ""), "agl": gi.get("agl", "")}
+
+    doc = {
+        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "note": ("絵文字サイズで描画が完全一致する別グリフの統合表。ソースSVGは温存し、"
+                 "出力PNGは正規側1枚に統合、非正規側は絵文字のエイリアスとして扱う。"),
+        "merge_count": sum(len(v) for v in merges.values()),
+        "merges": {
+            canon: {"canonical": _info(canon),
+                    "merged": [_info(d) for d in dups]}
+            for canon, dups in sorted(merges.items())
+        },
+    }
+    MERGES_PATH.parent.mkdir(parents=True, exist_ok=True)
+    MERGES_PATH.write_text(json.dumps(doc, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    if merges:
+        pairs = ", ".join(
+            f"{glyph_info.get(c, {}).get('char', c)}<={'/'.join(glyph_info.get(d, {}).get('char', d) for d in ds)}"
+            for c, ds in sorted(merges.items())
+        )
+        print(f"  描画一致の統合: {sum(len(v) for v in merges.values())}件 "
+              f"({removed} PNG削除)  {pairs}")
+    return merges
+
+
+def build(variant: str | None = None, limit: int | None = None, square: bool = True,
+          dedupe: bool = True) -> int:
     """全スキーム（または指定スキーム）で src/glyphs を工業デカール化する。
+
+    幅可変版（Misskey 向け）を dist/glyphs_decal/{variant}/ に、正方形版（Discord 向け）を
+    dist/glyphs_decal_square/{variant}/ に出力する。
 
     Args:
         variant: スキームキー（rust/hazard/patina/nickel）。None なら全4種。
         limit:   先頭 N グリフのみ処理（試写用）。None なら全グリフ。
+        square:  True で正方形版（Discord 向け）も併せて生成する。
+        dedupe:  True かつ全スキーム生成時、描画完全一致グリフを統合する
+                 （dedupe_renders）。単一スキーム/limit 指定時はスキップ。
 
     Returns:
         生成した (グリフ×スキーム) の件数
@@ -397,14 +533,22 @@ def build(variant: str | None = None, limit: int | None = None) -> int:
     count = 0
     for key, scheme in targets.items():
         out_dir = DIST / key
-        print(f"[{key}] {scheme.label}（{scheme.finish}）→ {out_dir}")
+        sq_dir = (DIST_SQUARE / key) if square else None
+        arrow = f"{out_dir}" + (f" + {sq_dir}" if square else "")
+        print(f"[{key}] {scheme.label}（{scheme.finish}）→ {arrow}")
         for svg in sources:
             if svg.stem not in bounds:   # 空インク（通常発生しない）
                 continue
             mask = load_mask(svg)
             img = render(mask, scheme, _seed_for(svg.stem + key))
-            _save_all_sizes(img, out_dir, svg.stem, crop_box_for(svg.stem, bounds, vband))
+            _save_all_sizes(img, out_dir, svg.stem, crop_box_for(svg.stem, bounds, vband),
+                            square_dir=sq_dir)
             count += 1
+
+    # 描画完全一致グリフの統合は全スキーム分が揃っている時のみ実施
+    if dedupe and variant is None and not limit:
+        dedupe_renders(square=square)
+
     return count
 
 
@@ -413,15 +557,18 @@ def build(variant: str | None = None, limit: int | None = None) -> int:
               default=None, help="単一スキームのみ生成（未指定なら全4種）")
 @click.option("--limit", "-n", type=int, default=None,
               help="先頭Nグリフのみ処理（試写用）")
-def main(variant: str | None, limit: int | None) -> None:
+@click.option("--no-square", is_flag=True, help="正方形版（Discord向け）を生成しない")
+def main(variant: str | None, limit: int | None, no_square: bool) -> None:
     """PenchantManufacture グリフを工業デカール4スキームで生成します。"""
-    print(f"入力  : {SRC}")
-    print(f"出力  : {DIST}")
-    print(f"対象  : {variant or '全4スキーム (' + ', '.join(SCHEMES) + ')'}")
-    print(f"サイズ: {SIZES}")
+    print(f"入力    : {SRC}")
+    print(f"出力(幅可変): {DIST}   … Misskey 向け")
+    print(f"出力(正方形): {DIST_SQUARE if not no_square else '（生成しない）'}   … Discord 向け")
+    print(f"対象    : {variant or '全4スキーム (' + ', '.join(SCHEMES) + ')'}")
+    print(f"サイズ  : {SIZES}")
     print()
-    n = build(variant=variant, limit=limit)
-    print(f"\n完了: {n} 件（グリフ×スキーム）を生成しました（× {len(SIZES)} サイズ）")
+    n = build(variant=variant, limit=limit, square=not no_square)
+    shapes = "幅可変" + ("＋正方形" if not no_square else "")
+    print(f"\n完了: {n} 件（グリフ×スキーム）を生成しました（{shapes} × {len(SIZES)} サイズ）")
 
 
 if __name__ == "__main__":
