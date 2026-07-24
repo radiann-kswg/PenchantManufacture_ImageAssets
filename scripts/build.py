@@ -3,10 +3,14 @@
 初期設定（グリフパイプライン）の一括実行を担う。フォント検査 → グリフSVG抽出 →
 PNG変換（dist/ と svg2png/）を順に行う。
 
+ステップ: inspect → extract（重複排除）→ png → svg2png → decal（幅可変＋正方形）
+→ misskey_zip（一括インポートzip）
+
 使い方:
-  python scripts/build.py                 # 全ステップ実行（glyphs）
+  python scripts/build.py                 # 全ステップ実行
   python scripts/build.py --dry-run       # 実行内容の確認のみ（生成なし）
-  python scripts/build.py --step extract  # 特定ステップのみ（inspect/extract/png/svg2png）
+  python scripts/build.py --step extract  # 特定ステップのみ
+                                          # inspect/extract/png/svg2png/decal/misskey_zip
 """
 from __future__ import annotations
 
@@ -18,13 +22,14 @@ import click
 # scriptsディレクトリをパスに追加
 sys.path.insert(0, str(Path(__file__).parent))
 
+from build_misskey_zip import build_zip as build_misskey_zip
 from export_png import export_category, svg2png_category
 from extract_glyphs import extract_all
 from generate_decal import SCHEMES as DECAL_SCHEMES
 from generate_decal import build as build_decal
 from inspect_font import inspect_font
 
-STEPS = ["inspect", "extract", "png", "svg2png", "decal"]
+STEPS = ["inspect", "extract", "png", "svg2png", "decal", "misskey_zip"]
 
 
 def run_step(step: str, dry_run: bool) -> None:
@@ -50,9 +55,15 @@ def run_step(step: str, dry_run: bool) -> None:
     elif step == "decal":
         if dry_run:
             keys = ", ".join(DECAL_SCHEMES)
-            print(f"  DRY-RUN: dist/glyphs_decal/{{{keys}}}/*_512.png / *_128.png を生成予定")
+            print(f"  DRY-RUN: dist/glyphs_decal/{{{keys}}}/ (幅可変・Misskey) と "
+                  f"dist/glyphs_decal_square/{{{keys}}}/ (正方形・Discord) に *_512/*_128.png を生成予定")
         else:
             build_decal()
+    elif step == "misskey_zip":
+        if dry_run:
+            print("  DRY-RUN: _exported-dist/penchant-misskey-{timestamp}.zip を生成予定")
+        else:
+            build_misskey_zip()
 
 
 @click.command()
