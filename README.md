@@ -83,7 +83,7 @@ PenchantManufacture_ImageAssets/
 └── CLAUDE.md                         # Claude 向け補足
 ```
 
-variant = `rust`（酸鉄）/ `hazard`（警戒）/ `patina`（緑青真鍮）/ `nickel`（白銅燐光）
+variant = `sumi`（墨・**既定**／二画面）/ `rust`（酸鉄）/ `hazard`（警戒）/ `patina`（緑青真鍮）/ `nickel`（白銅燐光）
 
 ---
 

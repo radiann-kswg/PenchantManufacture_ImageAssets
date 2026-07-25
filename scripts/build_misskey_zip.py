@@ -1,6 +1,6 @@
 """Misskey一括インポート用zipファイルを生成するスクリプト。
 
-姉妹プロジェクト Secvier の ``build_misskey_zip.py`` に倣い、工業デカール4スキームの
+姉妹プロジェクト Secvier の ``build_misskey_zip.py`` に倣い、工業デカール5スキームの
 **幅可変版** PNG（``dist/glyphs_decal/{variant}/*_128.png``）から Misskey 互換の
 meta.json 付き zip アーカイブを作成する。Misskey は非正方形の絵文字をそのまま
 表示できるため、幅可変版（字面本来の比率）を採用する。
@@ -31,6 +31,8 @@ from pathlib import Path
 
 import click
 
+from glyph_tokens import glyph_token, VARIANT_JP, VARIANT_SUFFIX
+
 ROOT = Path(__file__).parent.parent
 DIST = ROOT / "dist" / "glyphs_decal"          # 幅可変版（Misskey向け）
 ALIASES_PATH = ROOT / "docs" / "glyph_aliases.json"        # 異体字（cmap再マップ）統合表
@@ -46,13 +48,8 @@ _LICENSE = (
     "CC BY 4.0 https://creativecommons.org/licenses/by/4.0/"
 )
 
-# ── 4スキーム → 和名ラベル（generate_decal.py の SCHEMES と対応） ──
-VARIANT_JP: dict[str, str] = {
-    "rust": "酸鉄",
-    "hazard": "警戒",
-    "patina": "緑青真鍮",
-    "nickel": "白銅燐光",
-}
+# スキーム → 和名ラベルは glyph_tokens.VARIANT_JP（命名様式のSSOT）を参照する。
+# 既定は sumi（墨・二画面）＝後置タグ p。工業4種は pr / ph / pt / pn。
 
 # ギリシャ大文字/小文字 AGL 名（カテゴリ分類・エイリアス用）
 _GREEK_UPPER = {
@@ -97,17 +94,6 @@ def _parse_stem(stem: str) -> tuple[str, str, str]:
     except ValueError:
         char = ""
     return agl, cp, char
-
-
-def _token(agl: str, char: str) -> str:
-    """絵文字名に使う短いトークンを返す。
-
-    ASCII 英数字はその文字自体（A / a / 0）、それ以外は AGL 名（exclam / Alpha /
-    alpha / germandbls など）を用いる。大文字/小文字は Secvier と同様に区別する。
-    """
-    if len(char) == 1 and char.isascii() and char.isalnum():
-        return char
-    return agl
 
 
 def _subcategory(agl: str, char: str) -> str:
@@ -184,15 +170,17 @@ def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
         for png in sorted(var_dir.glob(f"char_*_{size}.png")):
             stem = png.stem[: -(len(str(size)) + 1)]  # char_A_0041_128 -> char_A_0041
             agl, _cp, char = _parse_stem(stem)
-            token = _token(agl, char)
+            token = glyph_token(char, agl)          # 字体トークン（例 ua / n2 / hy / cdelta）
+            suffix = VARIANT_SUFFIX[var]            # 後置タグ（pr / ph / pt / pn、既定sumiはp）
 
-            zip_name = f"pm_{var}_{token}.png"
-            emoji_name = f"pm_{var}_{token}"
+            emoji_name = f"{token}{suffix}"         # 確定様式: {字体トークン}{後置タグ}
+            zip_name = f"{emoji_name}.png"
             category = f"PenchantManufacture/工業デカール_{vjp}/{_subcategory(agl, char)}"
 
-            aliases = [token, token.lower(), agl, agl.lower(), var, vjp]
+            # 名前は打鍵用に最短、エイリアスは検索・可読用に多めに（SPEC §2.6）
+            aliases = [token, agl, agl.lower(), var, vjp]
             if char and char.isprintable() and len(char) == 1:
-                aliases.append(char)
+                aliases.append(char)               # リテラル字（Misskeyは大文字/非ASCIIも別名可）
             # 統合した異体字（アクセント付き等）を検索エイリアスとして展開
             info = aliases_map.get(stem)
             if info:
@@ -204,9 +192,12 @@ def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
                         aliases.append(alc)
             # 描画一致で統合したグリフ（ギリシャ同形など）もエイリアス化
             for mg in render_merges.get(stem, []):
-                aliases.append(mg.get("agl", ""))
-                aliases.append(mg.get("agl", "").lower())
+                m_agl = mg.get("agl", "")
                 mc = mg.get("char", "")
+                aliases.append(m_agl)
+                aliases.append(m_agl.lower())
+                if m_agl:
+                    aliases.append(glyph_token(mc, m_agl))  # 統合グリフの字体トークンも別名に
                 if mc and mc.isprintable() and len(mc) == 1:
                     aliases.append(mc)
 
@@ -221,7 +212,7 @@ def build_zip(variant: str | None = None, size: int = 128) -> Path | None:
     """工業デカールPNGから Misskey 一括インポート用 zip を生成する。
 
     Args:
-        variant: スキームキー（未指定なら全4種）。
+        variant: スキームキー（未指定なら全5種）。
         size:    収録するPNGサイズ（高さpx）。
 
     Returns:
@@ -261,7 +252,7 @@ def build_zip(variant: str | None = None, size: int = 128) -> Path | None:
 
 @click.command()
 @click.option("--variant", "-v", type=click.Choice(list(VARIANT_JP.keys())),
-              default=None, help="単一スキームのみ収録（未指定なら全4種）")
+              default=None, help="単一スキームのみ収録（未指定なら全5種）")
 @click.option("--size", type=int, default=128, show_default=True,
               help="収録するPNGサイズ（高さpx）")
 def main(variant: str | None, size: int) -> None:

@@ -21,7 +21,9 @@
     dist/glyphs_decal_square/{variant}/{stem}_{size}.png  正方形パディング（Discord 向け）
         （いずれも 512 / 128 の透過PNG）
 
-4スキーム（2バリアント × 各2配色）:
+5スキーム（既定の墨 ＋ 2バリアント × 各2配色）:
+    C 二画面モノクロ（既定）
+        sumi   … 墨       近黒ボディ＋オフホワイト縁取り（ダーク/ライト両対応）
     A 酸化ステンシル（物理寄り）
         rust   … A-1 酸鉄   ガンメタル地＋酸化オレンジの縁＋ボーン文字
         hazard … A-2 警戒   暗鋼地＋安全標識イエロー＋黒斜線ハザード
@@ -101,8 +103,14 @@ class Scheme(NamedTuple):
     stripes: bool = False           # True でハザード斜線を重畳
 
 
-# ── 2バリアント × 各2配色 = 4スキーム ──
+# ── 5スキーム（既定の墨 ＋ 2バリアント × 各2配色） ──
 SCHEMES: dict[str, Scheme] = {
+    # C 二画面モノクロ（既定・技術テキスト本文向け）
+    #    近黒ボディをオフホワイトの縁取り（キーライン＋外ハロー）で囲む。
+    #    ライト地では黒ボディが、ダーク地では白縁が効き、両モードで視認できる。
+    "sumi":   Scheme("墨",     "mono",
+                     (22, 24, 28),   (11, 12, 14),
+                     (232, 228, 216), (232, 228, 216), (232, 228, 216), grain=0.10),
     # A 酸化ステンシル（物理寄り）
     "rust":   Scheme("酸鉄",   "stencil",
                      (223, 216, 202), (198, 190, 175),
@@ -122,6 +130,7 @@ SCHEMES: dict[str, Scheme] = {
 
 # ── バリアント → スキームキー（ドキュメント／CLI補助用） ──
 VARIANT_GROUPS: dict[str, list[str]] = {
+    "C_mono": ["sumi"],
     "A_stencil": ["rust", "hazard"],
     "B_circuit": ["patina", "nickel"],
 }
@@ -334,6 +343,10 @@ def render(mask: np.ndarray, s: Scheme, seed: int) -> Image.Image:
         g = grain_field(seed, s.grain)
         a_body = a_body * g
         a_key = a_key * (0.4 + 0.6 * g)   # 縁も worn に
+    elif s.finish == "mono":
+        # 掠れはボディのみへ控えめに適用する。縁取り（キーライン／外ハロー）は
+        # 二画面視認の要であり、削ると明地・暗地どちらかで輪郭が沈むため温存する。
+        a_body = a_body * grain_field(seed, s.grain)
 
     # 二重縁取り（外ハロー → キーライン → ボディ）
     _over(canvas, np.array(s.halo, dtype=np.float32), a_halo)

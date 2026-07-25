@@ -106,7 +106,7 @@ PenchantManufacture_ImageAssets/
 │   ├── glyphs/                 ← グリフ透過PNG（72px / 512px、装飾なし、export_png.py 出力）
 │   ├── glyphs_decal/{variant}/       ← 工業デカール 幅可変PNG（Misskey向け・マスター）
 │   └── glyphs_decal_square/{variant}/ ← 工業デカール 正方形PNG（Discord向け）
-│                                   variant = rust / hazard / patina / nickel
+│                                   variant = sumi（既定）/ rust / hazard / patina / nickel
 ├── svg2png/
 │   └── glyphs/                 ← SVG の単純PNG変換（装飾なし、ユーティリティ用途）
 ├── scripts/

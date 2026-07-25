@@ -24,10 +24,11 @@ PenchantManufacture のグリフに工業的・スチームパンク・電脳の
 
 ---
 
-## バリアントと配色（2バリアント × 各2配色 = 4スキーム）
+## バリアントと配色（既定の墨 ＋ 2バリアント × 各2配色 = 5スキーム）
 
 | キー | バリアント | finish | 位置づけ | ボディ | キーライン | ハロー | アクセント |
 | ------ | ------------ | ------- | ------------ | -------- | ---------- | -------- | ---------- |
+| `sumi`   | C **既定** 墨 | mono | 二画面・技術テキスト本文 | 近黒 `#16181C→#0B0C0E` | オフホワイト `#E8E4D8` | オフホワイト `#E8E4D8` | （未使用） |
 | `rust`   | A-1 酸鉄     | stencil | 物理寄り     | ボーン `#DFD8CA→#C6BEAF` | ガンメタル `#14161A` | 酸化オレンジ `#B5532A` | 暗錆 `#783A1E` |
 | `hazard` | A-2 警戒     | stencil | 物理寄り     | 標識イエロー `#E8B430→#CD961C` | 暗鋼 `#16181C` | オフホワイト `#E8E4D8` | 黒斜線 `#121214` |
 | `patina` | B-1 緑青真鍮 | circuit | 物理×電脳   | 真鍮 `#C89C4E→#8C6A2E` | 暗銅 `#261C0C` | 淡真鍮 `#D6C496` | 燐光シアン `#33E0D0` |
@@ -35,6 +36,13 @@ PenchantManufacture のグリフに工業的・スチームパンク・電脳の
 
 ### finish 別の質感処理
 
+- **mono**（`sumi`・既定）
+  - 近黒ボディをオフホワイトの縁取り（キーライン＋外ハロー）で囲む二画面設計。
+    ライト地では黒ボディが、ダーク地では白縁が silhouette を担い、両モードで視認できる。
+  - 掠れ（グレイン `0.10`）は **ボディのみ** に控えめに適用する。縁取りは両モード視認の
+    要であり、削ると明地・暗地のいずれかで輪郭が沈むため温存する。
+  - 技術テキスト（日付・型番・数式・コード）の本文用として最も中立。命名様式では
+    最短の後置タグ `p` を占有する（`docs/EMOJI_TECHCODE_SPEC.md` §2.4）。
 - **stencil**（`rust` / `hazard`）
   - スプレーの掠れ（グレイン）を SDF ボディ被覆へ乗算。`grain` 係数で強度制御。
     シードはファイル名から決定論的に算出し、リビルド時も同一結果になる。
@@ -67,7 +75,7 @@ PenchantManufacture のグリフに工業的・スチームパンク・電脳の
 - **ハローの逃げ**：作業キャンバスは `WORK = 512 + 2×PAD`（`PAD=18px`）。字面がSVGキャンバス
   上端等に接していても外縁取りが切れないよう、外周に余白を確保してからSDF合成する。
 - **境界キャッシュ**：全グリフ走査で得た境界を `.build_cache/decal_bounds.json` に保存し、
-  4スキーム間で再利用（`BOUNDS_VERSION` 変更で自動無効化）。
+  5スキーム間で再利用（`BOUNDS_VERSION` 変更で自動無効化）。
 
 ---
 
@@ -101,16 +109,17 @@ dist/glyphs_decal_square/{variant}/{stem}_{size}.png  （正方形・Discord向�
 
 ```
 dist/glyphs_decal/          幅可変（高さ基準／Misskey向け・マスター）
-├── rust/    char_A_0041_512.png / char_A_0041_128.png ...
+├── sumi/    char_A_0041_512.png / char_A_0041_128.png ...  ← 既定（墨・二画面）
+├── rust/    ...
 ├── hazard/  ...
 ├── patina/  ...
 └── nickel/  ...
 dist/glyphs_decal_square/   正方形（中央寄せパディング／Discord向け）
-├── rust/ ... └── nickel/ ...
+├── sumi/ ... └── nickel/ ...
 ```
 
 各バリアントに 143 グリフ × 2 サイズ × 2 形状（幅可変／正方形）。
-合計 4 × 143 × 2 × 2 = 2,288 PNG。サフィックス `_512` / `_128` は**高さ** px
+合計 5 × 143 × 2 × 2 = 2,860 PNG。サフィックス `_512` / `_128` は**高さ** px
 （幅可変版は幅がトリミングで可変、正方形版は幅＝高さ）。
 
 ---
@@ -120,8 +129,8 @@ dist/glyphs_decal_square/   正方形（中央寄せパディング／Discord向
 ```bash
 pip install -r requirements.txt          # numpy / scipy を含む
 
-python scripts/generate_decal.py                 # 全4スキーム × 全グリフ（幅可変＋正方形＋統合）
-python scripts/generate_decal.py --variant rust  # 単一スキームのみ（描画一致統合はスキップ）
+python scripts/generate_decal.py                 # 全5スキーム × 全グリフ（幅可変＋正方形＋統合）
+python scripts/generate_decal.py --variant sumi  # 単一スキームのみ（描画一致統合はスキップ）
 python scripts/generate_decal.py --no-square     # 正方形版を生成しない（幅可変のみ）
 python scripts/generate_decal.py --limit 5       # 先頭5グリフで試写
 
@@ -132,7 +141,7 @@ python scripts/build.py --dry-run
 python scripts/build.py
 ```
 
-> **注**: 描画一致統合（`dedupe_renders`）は全4スキームが揃った全量ビルド時のみ実施する。
+> **注**: 描画一致統合（`dedupe_renders`）は全5スキームが揃った全量ビルド時のみ実施する。
 > `--variant` や `--limit` を付けた部分ビルドではスキップされる（統合判定に全スキームの
 > 出力が必要なため）。単一スキームで試した後は、最終的に全量ビルドで統合を確定させること。
 
