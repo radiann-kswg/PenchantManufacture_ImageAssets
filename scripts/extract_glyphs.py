@@ -44,10 +44,12 @@ import json
 import re
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import NamedTuple
 from xml.sax.saxutils import escape
 
 import click
 from fontTools import agl, ttLib
+from fontTools.pens.boundsPen import BoundsPen
 from fontTools.pens.svgPathPen import SVGPathPen
 
 from glyph_tokens import GLYPH_NAME_OVERRIDES
@@ -62,9 +64,8 @@ FONT_TITLE = "PenchantManufacture"
 # ── 制作途中グリフ（既定で抽出対象外） ──
 # (開始CP, 終了CP, 説明) の閉区間。作者が調整中で絵文字化を保留する字を挙げる。
 # 完成したらこの表から外すだけで通常ビルドに乗る（他スクリプトの変更は不要）。
-PENDING_RANGES: tuple[tuple[int, int, str], ...] = (
-    (0x0400, 0x04FF, "キリル文字（v3.1.0-develop で作字中）"),
-)
+# キリル U+0400–U+04FF は v3.1-release で全66字が確定したため除外を解除した。
+PENDING_RANGES: tuple[tuple[int, int, str], ...] = ()
 
 _SAFE_RE = re.compile(r"[^A-Za-z0-9]+")
 
@@ -104,11 +105,84 @@ def char_to_stem(codepoint: int, glyph_name: str) -> str:
     return f"char_{_agl_name(codepoint, glyph_name)}_{codepoint:04X}"
 
 
+class VerticalFit(NamedTuple):
+    """全グリフ共通の縦方向配置（スケールとベースライン位置）。
+
+    Attributes:
+        scale:  フォントユニット → px のスケール
+        ty:     SVG 座標でのベースライン Y 位置（px）
+        top:    字面上端に使ったフォント座標 Y（＝この値が SVG の y=0 に来る）
+        bottom: 字面下端に使ったフォント座標 Y
+    """
+
+    scale: float
+    ty: float
+    top: float
+    bottom: float
+
+
+def compute_vertical_fit(
+    glyph_set: object,
+    glyph_names: set[str],
+    ascender: int,
+    upm: int,
+    viewbox: int,
+) -> VerticalFit:
+    """全グリフの字面が viewBox に収まる共通のスケールとベースライン位置を返す。
+
+    以前はベースラインを ``ascender`` 固定で置いていたため、**アセンダーを超える
+    字面を持つグリフの頭が viewBox 外に出て切り落とされていた**（v3.1 のキリル
+    ``Ё``/``Й`` は分音記号が y=792.5 まで伸び、アセンダー 660 を大きく超える。
+    その結果 ``Ё`` が ``Е`` と 1px も違わない画像になっていた）。
+
+    実際のインク上端・下端を走査し、``max(ascender, インク上端)`` を SVG の y=0 に
+    合わせる。スケールは従来どおり ``viewbox / upm`` を保ち、**字面の総高が em を
+    超える場合に限り**縮小する。字面がアセンダー内に収まっているフォントでは
+    従来と完全に同じ結果になる（後方互換）。
+
+    NOTE: 基準にするのは **実インクの上下端だけ** で、``sTypoDescender`` のような
+    メトリクス値は使わない。v3.1 の descender は −400 だが実インクは −198 までしか
+    無く、メトリクスを基準にすると不要な縮小（−16%）が入ってしまう。
+
+    Args:
+        glyph_set:   fontTools glyphSet オブジェクト
+        glyph_names: 対象グリフ名の集合
+        ascender:    フォントのアセンダー高さ（フォントユニット）
+        upm:         Units Per Em
+        viewbox:     出力SVGのviewBoxサイズ（正方形）
+
+    Returns:
+        全グリフ共通の ``VerticalFit``。
+    """
+    ink_top: float | None = None
+    ink_bottom: float | None = None
+    for name in glyph_names:
+        pen = BoundsPen(glyph_set)
+        try:
+            glyph_set[name].draw(pen)
+        except KeyError:
+            continue
+        if pen.bounds is None:
+            continue
+        ink_top = pen.bounds[3] if ink_top is None else max(ink_top, pen.bounds[3])
+        ink_bottom = pen.bounds[1] if ink_bottom is None else min(ink_bottom, pen.bounds[1])
+
+    top = max(float(ascender), ink_top if ink_top is not None else float(ascender))
+    bottom = ink_bottom if ink_bottom is not None else top - upm
+
+    scale = viewbox / upm
+    span = top - bottom
+    if span > upm:
+        # 字面の総高が em を超える。全グリフを一律に縮めて収める（比率は保つ）。
+        scale = viewbox / span
+    return VerticalFit(scale=scale, ty=top * scale, top=top, bottom=bottom)
+
+
 def extract_glyph_svg(
     glyph_name: str,
     glyph_set: object,
     hmtx_metrics: dict[str, tuple[int, int]],
-    ascender: int,
+    fit: VerticalFit,
     upm: int,
     viewbox: int,
     title: str,
@@ -119,7 +193,7 @@ def extract_glyph_svg(
         glyph_name: フォント内グリフ名（例: 'A', 'zero', 'Alpha'）
         glyph_set:  fontTools glyphSet オブジェクト
         hmtx_metrics: {グリフ名: (advanceWidth, lsb)} のマップ
-        ascender:   フォントのアセンダー高さ（フォントユニット）
+        fit:        全グリフ共通の縦方向配置（``compute_vertical_fit``）
         upm:        Units Per Em
         viewbox:    出力SVGのviewBoxサイズ（正方形）
         title:      SVG <title> 要素のテキスト
@@ -138,13 +212,13 @@ def extract_glyph_svg(
 
     # フォント座標系（Y上方向）→ SVG座標系（Y下方向）の変換
     # 変換行列: matrix(sx, 0, 0, -sx, tx, ty)
-    #   sx = viewbox / upm  （スケール）
-    #   ty = ascender * sx  （ベースライン位置をY軸に反映）
+    #   sx = fit.scale  （全グリフ共通のスケール）
+    #   ty = fit.ty     （ベースライン位置。字面上端が y=0 に来るよう決めてある）
     #   tx = グリフを水平中央揃えするオフセット
-    scale = viewbox / upm
+    scale = fit.scale
     glyph_width_px = advance_width * scale
     tx = (viewbox - glyph_width_px) / 2
-    ty = ascender * scale
+    ty = fit.ty
 
     transform = f"matrix({scale:.6f},0,0,{-scale:.6f},{tx:.3f},{ty:.3f})"
 
@@ -207,6 +281,20 @@ def extract_all(
     except (KeyError, AttributeError):
         ascender = tt["hhea"].ascender
 
+    # 縦方向の配置は **抽出対象グリフ全体** から一度だけ決める（グリフごとに変えると
+    # ベースラインが揃わなくなる）。制作途中で除外する字は基準に含めない。
+    target_glyphs = {
+        name for cp, name in cmap.items()
+        if include_pending or not is_pending(cp)
+    }
+    fit = compute_vertical_fit(glyph_set, target_glyphs, ascender, upm, viewbox)
+    if fit.top > ascender:
+        print(f"  字面上端 {fit.top:.1f} がアセンダー {ascender} を超えるため、"
+              f"ベースラインを {(fit.top - ascender) * fit.scale:.1f}px 下げて全グリフを収めます")
+    if fit.scale < viewbox / upm:
+        print(f"  字面の総高 {fit.top - fit.bottom:.1f} が em({upm}) を超えるため、"
+              f"全グリフを {fit.scale / (viewbox / upm) * 100:.1f}% に縮小します")
+
     if not dry_run:
         out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -238,7 +326,7 @@ def extract_all(
         title = f"{FONT_TITLE} {_printable(codepoint)}"
         svg = extract_glyph_svg(
             glyph_name, glyph_set, hmtx_metrics,
-            ascender, upm, viewbox, title,
+            fit, upm, viewbox, title,
         )
         if svg is None:
             skipped_empty += 1

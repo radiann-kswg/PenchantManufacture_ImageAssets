@@ -1,7 +1,7 @@
 {
-  "generated": "2026-07-29T01:30:36Z",
+  "generated": "2026-07-29T10:36:33Z",
   "note": "絵文字サイズで描画が完全一致する別グリフの統合表。ソースSVGは温存し、出力PNGは正規側1枚に統合、非正規側は絵文字のエイリアスとして扱う。",
-  "merge_count": 5,
+  "merge_count": 17,
   "merges": {
     "char_A_0041": {
       "canonical": {
@@ -11,6 +11,12 @@
         "agl": "A"
       },
       "merged": [
+        {
+          "stem": "char_Acyrillic_0410",
+          "glyph": "Acyrillic",
+          "char": "А",
+          "agl": "Acyrillic"
+        },
         {
           "stem": "char_Alpha_0391",
           "glyph": "Alpha",
@@ -32,6 +38,44 @@
           "glyph": "Beta",
           "char": "Β",
           "agl": "Beta"
+        },
+        {
+          "stem": "char_Vecyrillic_0412",
+          "glyph": "Vecyrillic",
+          "char": "В",
+          "agl": "Vecyrillic"
+        }
+      ]
+    },
+    "char_C_0043": {
+      "canonical": {
+        "stem": "char_C_0043",
+        "glyph": "C",
+        "char": "C",
+        "agl": "C"
+      },
+      "merged": [
+        {
+          "stem": "char_Escyrillic_0421",
+          "glyph": "Escyrillic",
+          "char": "С",
+          "agl": "Escyrillic"
+        }
+      ]
+    },
+    "char_Chi_03A7": {
+      "canonical": {
+        "stem": "char_Chi_03A7",
+        "glyph": "Chi",
+        "char": "Χ",
+        "agl": "Chi"
+      },
+      "merged": [
+        {
+          "stem": "char_Khacyrillic_0425",
+          "glyph": "Khacyrillic",
+          "char": "Х",
+          "agl": "Khacyrillic"
         }
       ]
     },
@@ -48,6 +92,60 @@
           "glyph": "Epsilon",
           "char": "Ε",
           "agl": "Epsilon"
+        },
+        {
+          "stem": "char_Iecyrillic_0415",
+          "glyph": "Iecyrillic",
+          "char": "Е",
+          "agl": "Iecyrillic"
+        }
+      ]
+    },
+    "char_Emcyrillic_041C": {
+      "canonical": {
+        "stem": "char_Emcyrillic_041C",
+        "glyph": "Emcyrillic",
+        "char": "М",
+        "agl": "Emcyrillic"
+      },
+      "merged": [
+        {
+          "stem": "char_Mu_039C",
+          "glyph": "Mu",
+          "char": "Μ",
+          "agl": "Mu"
+        }
+      ]
+    },
+    "char_Encyrillic_041D": {
+      "canonical": {
+        "stem": "char_Encyrillic_041D",
+        "glyph": "Encyrillic",
+        "char": "Н",
+        "agl": "Encyrillic"
+      },
+      "merged": [
+        {
+          "stem": "char_Eta_0397",
+          "glyph": "Eta",
+          "char": "Η",
+          "agl": "Eta"
+        }
+      ]
+    },
+    "char_Kacyrillic_041A": {
+      "canonical": {
+        "stem": "char_Kacyrillic_041A",
+        "glyph": "Kacyrillic",
+        "char": "К",
+        "agl": "Kacyrillic"
+      },
+      "merged": [
+        {
+          "stem": "char_Kappa_039A",
+          "glyph": "Kappa",
+          "char": "Κ",
+          "agl": "Kappa"
         }
       ]
     },
@@ -60,10 +158,48 @@
       },
       "merged": [
         {
+          "stem": "char_Ocyrillic_041E",
+          "glyph": "Ocyrillic",
+          "char": "О",
+          "agl": "Ocyrillic"
+        },
+        {
           "stem": "char_Omicron_039F",
           "glyph": "Omicron",
           "char": "Ο",
           "agl": "Omicron"
+        }
+      ]
+    },
+    "char_T_0054": {
+      "canonical": {
+        "stem": "char_T_0054",
+        "glyph": "T",
+        "char": "T",
+        "agl": "T"
+      },
+      "merged": [
+        {
+          "stem": "char_Tecyrillic_0422",
+          "glyph": "Tecyrillic",
+          "char": "Т",
+          "agl": "Tecyrillic"
+        }
+      ]
+    },
+    "char_c_0063": {
+      "canonical": {
+        "stem": "char_c_0063",
+        "glyph": "c",
+        "char": "c",
+        "agl": "c"
+      },
+      "merged": [
+        {
+          "stem": "char_escyrillic_0441",
+          "glyph": "escyrillic",
+          "char": "с",
+          "agl": "escyrillic"
         }
       ]
     },
@@ -75,6 +211,12 @@
         "agl": "o"
       },
       "merged": [
+        {
+          "stem": "char_ocyrillic_043E",
+          "glyph": "ocyrillic",
+          "char": "о",
+          "agl": "ocyrillic"
+        },
         {
           "stem": "char_omicron_03BF",
           "glyph": "omicron",

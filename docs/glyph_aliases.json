@@ -1,15 +1,10 @@
 {
   "font": "PenchantManufacture",
-  "generated": "2026-07-29T01:25:00Z",
-  "unique_glyphs": 181,
-  "cmap_mappings": 270,
+  "generated": "2026-07-29T10:27:36Z",
+  "unique_glyphs": 247,
+  "cmap_mappings": 309,
   "alias_count": 56,
-  "pending_skipped": {
-    "キリル文字（v3.1.0-develop で作字中）": {
-      "count": 27,
-      "chars": "ЁАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩ"
-    }
-  },
+  "pending_skipped": {},
   "note": "異体字（アクセント付きラテン等）は基底グリフと同一アウトラインのため画像は 統合し、ここに検索エイリアスとして記録する。絵文字ビルダーが参照する。",
   "glyphs": {
     "char_A_0041": {
@@ -50,6 +45,13 @@
         }
       ]
     },
+    "char_Acyrillic_0410": {
+      "glyph": "Acyrillic",
+      "codepoint": "U+0410",
+      "char": "А",
+      "agl": "Acyrillic",
+      "aliases": []
+    },
     "char_Alpha_0391": {
       "glyph": "Alpha",
       "codepoint": "U+0391",
@@ -62,6 +64,13 @@
       "codepoint": "U+0042",
       "char": "B",
       "agl": "B",
+      "aliases": []
+    },
+    "char_Becyrillic_0411": {
+      "glyph": "Becyrillic",
+      "codepoint": "U+0411",
+      "char": "Б",
+      "agl": "Becyrillic",
       "aliases": []
     },
     "char_Beta_0392": {
@@ -84,6 +93,13 @@
         }
       ]
     },
+    "char_Checyrillic_0427": {
+      "glyph": "Checyrillic",
+      "codepoint": "U+0427",
+      "char": "Ч",
+      "agl": "Checyrillic",
+      "aliases": []
+    },
     "char_Chi_03A7": {
       "glyph": "Chi",
       "codepoint": "U+03A7",
@@ -96,6 +112,13 @@
       "codepoint": "U+0044",
       "char": "D",
       "agl": "D",
+      "aliases": []
+    },
+    "char_Decyrillic_0414": {
+      "glyph": "Decyrillic",
+      "codepoint": "U+0414",
+      "char": "Д",
+      "agl": "Decyrillic",
       "aliases": []
     },
     "char_Deltagreek_0394": {
@@ -133,11 +156,60 @@
         }
       ]
     },
+    "char_Efcyrillic_0424": {
+      "glyph": "Efcyrillic",
+      "codepoint": "U+0424",
+      "char": "Ф",
+      "agl": "Efcyrillic",
+      "aliases": []
+    },
+    "char_Elcyrillic_041B": {
+      "glyph": "Elcyrillic",
+      "codepoint": "U+041B",
+      "char": "Л",
+      "agl": "Elcyrillic",
+      "aliases": []
+    },
+    "char_Emcyrillic_041C": {
+      "glyph": "Emcyrillic",
+      "codepoint": "U+041C",
+      "char": "М",
+      "agl": "Emcyrillic",
+      "aliases": []
+    },
+    "char_Encyrillic_041D": {
+      "glyph": "Encyrillic",
+      "codepoint": "U+041D",
+      "char": "Н",
+      "agl": "Encyrillic",
+      "aliases": []
+    },
     "char_Epsilon_0395": {
       "glyph": "Epsilon",
       "codepoint": "U+0395",
       "char": "Ε",
       "agl": "Epsilon",
+      "aliases": []
+    },
+    "char_Ercyrillic_0420": {
+      "glyph": "Ercyrillic",
+      "codepoint": "U+0420",
+      "char": "Р",
+      "agl": "Ercyrillic",
+      "aliases": []
+    },
+    "char_Ereversedcyrillic_042D": {
+      "glyph": "Ereversedcyrillic",
+      "codepoint": "U+042D",
+      "char": "Э",
+      "agl": "Ereversedcyrillic",
+      "aliases": []
+    },
+    "char_Escyrillic_0421": {
+      "glyph": "Escyrillic",
+      "codepoint": "U+0421",
+      "char": "С",
+      "agl": "Escyrillic",
       "aliases": []
     },
     "char_Eta_0397": {
@@ -168,11 +240,39 @@
       "agl": "Gamma",
       "aliases": []
     },
+    "char_Gecyrillic_0413": {
+      "glyph": "Gecyrillic",
+      "codepoint": "U+0413",
+      "char": "Г",
+      "agl": "Gecyrillic",
+      "aliases": []
+    },
     "char_H_0048": {
       "glyph": "H",
       "codepoint": "U+0048",
       "char": "H",
       "agl": "H",
+      "aliases": []
+    },
+    "char_Hardsigncyrillic_042A": {
+      "glyph": "Hardsigncyrillic",
+      "codepoint": "U+042A",
+      "char": "Ъ",
+      "agl": "Hardsigncyrillic",
+      "aliases": []
+    },
+    "char_IAcyrillic_042F": {
+      "glyph": "IAcyrillic",
+      "codepoint": "U+042F",
+      "char": "Я",
+      "agl": "IAcyrillic",
+      "aliases": []
+    },
+    "char_IUcyrillic_042E": {
+      "glyph": "IUcyrillic",
+      "codepoint": "U+042E",
+      "char": "Ю",
+      "agl": "IUcyrillic",
       "aliases": []
     },
     "char_I_0049": {
@@ -203,6 +303,34 @@
         }
       ]
     },
+    "char_Iecyrillic_0415": {
+      "glyph": "Iecyrillic",
+      "codepoint": "U+0415",
+      "char": "Е",
+      "agl": "Iecyrillic",
+      "aliases": []
+    },
+    "char_Iicyrillic_0418": {
+      "glyph": "Iicyrillic",
+      "codepoint": "U+0418",
+      "char": "И",
+      "agl": "Iicyrillic",
+      "aliases": []
+    },
+    "char_Iishortcyrillic_0419": {
+      "glyph": "Iishortcyrillic",
+      "codepoint": "U+0419",
+      "char": "Й",
+      "agl": "Iishortcyrillic",
+      "aliases": []
+    },
+    "char_Iocyrillic_0401": {
+      "glyph": "Iocyrillic",
+      "codepoint": "U+0401",
+      "char": "Ё",
+      "agl": "Iocyrillic",
+      "aliases": []
+    },
     "char_Iota_0399": {
       "glyph": "Iota",
       "codepoint": "U+0399",
@@ -224,11 +352,25 @@
       "agl": "K",
       "aliases": []
     },
+    "char_Kacyrillic_041A": {
+      "glyph": "Kacyrillic",
+      "codepoint": "U+041A",
+      "char": "К",
+      "agl": "Kacyrillic",
+      "aliases": []
+    },
     "char_Kappa_039A": {
       "glyph": "Kappa",
       "codepoint": "U+039A",
       "char": "Κ",
       "agl": "Kappa",
+      "aliases": []
+    },
+    "char_Khacyrillic_0425": {
+      "glyph": "Khacyrillic",
+      "codepoint": "U+0425",
+      "char": "Х",
+      "agl": "Khacyrillic",
       "aliases": []
     },
     "char_L_004C": {
@@ -317,6 +459,13 @@
         }
       ]
     },
+    "char_Ocyrillic_041E": {
+      "glyph": "Ocyrillic",
+      "codepoint": "U+041E",
+      "char": "О",
+      "agl": "Ocyrillic",
+      "aliases": []
+    },
     "char_Omegagreek_03A9": {
       "glyph": "Omegagreek",
       "codepoint": "U+03A9",
@@ -336,6 +485,13 @@
       "codepoint": "U+0050",
       "char": "P",
       "agl": "P",
+      "aliases": []
+    },
+    "char_Pecyrillic_041F": {
+      "glyph": "Pecyrillic",
+      "codepoint": "U+041F",
+      "char": "П",
+      "agl": "Pecyrillic",
       "aliases": []
     },
     "char_Phi_03A6": {
@@ -387,11 +543,32 @@
       "agl": "S",
       "aliases": []
     },
+    "char_Shacyrillic_0428": {
+      "glyph": "Shacyrillic",
+      "codepoint": "U+0428",
+      "char": "Ш",
+      "agl": "Shacyrillic",
+      "aliases": []
+    },
+    "char_Shchacyrillic_0429": {
+      "glyph": "Shchacyrillic",
+      "codepoint": "U+0429",
+      "char": "Щ",
+      "agl": "Shchacyrillic",
+      "aliases": []
+    },
     "char_Sigma_03A3": {
       "glyph": "Sigma",
       "codepoint": "U+03A3",
       "char": "Σ",
       "agl": "Sigma",
+      "aliases": []
+    },
+    "char_Softsigncyrillic_042C": {
+      "glyph": "Softsigncyrillic",
+      "codepoint": "U+042C",
+      "char": "Ь",
+      "agl": "Softsigncyrillic",
       "aliases": []
     },
     "char_T_0054": {
@@ -408,11 +585,25 @@
       "agl": "Tau",
       "aliases": []
     },
+    "char_Tecyrillic_0422": {
+      "glyph": "Tecyrillic",
+      "codepoint": "U+0422",
+      "char": "Т",
+      "agl": "Tecyrillic",
+      "aliases": []
+    },
     "char_Theta_0398": {
       "glyph": "Theta",
       "codepoint": "U+0398",
       "char": "Θ",
       "agl": "Theta",
+      "aliases": []
+    },
+    "char_Tsecyrillic_0426": {
+      "glyph": "Tsecyrillic",
+      "codepoint": "U+0426",
+      "char": "Ц",
+      "agl": "Tsecyrillic",
       "aliases": []
     },
     "char_U_0055": {
@@ -443,6 +634,13 @@
         }
       ]
     },
+    "char_Ucyrillic_0423": {
+      "glyph": "Ucyrillic",
+      "codepoint": "U+0423",
+      "char": "У",
+      "agl": "Ucyrillic",
+      "aliases": []
+    },
     "char_Upsilon_03A5": {
       "glyph": "Upsilon",
       "codepoint": "U+03A5",
@@ -455,6 +653,13 @@
       "codepoint": "U+0056",
       "char": "V",
       "agl": "V",
+      "aliases": []
+    },
+    "char_Vecyrillic_0412": {
+      "glyph": "Vecyrillic",
+      "codepoint": "U+0412",
+      "char": "В",
+      "agl": "Vecyrillic",
       "aliases": []
     },
     "char_W_0057": {
@@ -496,6 +701,13 @@
         }
       ]
     },
+    "char_Yericyrillic_042B": {
+      "glyph": "Yericyrillic",
+      "codepoint": "U+042B",
+      "char": "Ы",
+      "agl": "Yericyrillic",
+      "aliases": []
+    },
     "char_Z_005A": {
       "glyph": "Z",
       "codepoint": "U+005A",
@@ -503,11 +715,25 @@
       "agl": "Z",
       "aliases": []
     },
+    "char_Zecyrillic_0417": {
+      "glyph": "Zecyrillic",
+      "codepoint": "U+0417",
+      "char": "З",
+      "agl": "Zecyrillic",
+      "aliases": []
+    },
     "char_Zeta_0396": {
       "glyph": "Zeta",
       "codepoint": "U+0396",
       "char": "Ζ",
       "agl": "Zeta",
+      "aliases": []
+    },
+    "char_Zhecyrillic_0416": {
+      "glyph": "Zhecyrillic",
+      "codepoint": "U+0416",
+      "char": "Ж",
+      "agl": "Zhecyrillic",
       "aliases": []
     },
     "char_a_0061": {
@@ -547,6 +773,13 @@
           "agl": "aring"
         }
       ]
+    },
+    "char_acyrillic_0430": {
+      "glyph": "acyrillic",
+      "codepoint": "U+0430",
+      "char": "а",
+      "agl": "acyrillic",
+      "aliases": []
     },
     "char_alpha_03B1": {
       "glyph": "alpha",
@@ -611,6 +844,13 @@
       "agl": "bar",
       "aliases": []
     },
+    "char_becyrillic_0431": {
+      "glyph": "becyrillic",
+      "codepoint": "U+0431",
+      "char": "б",
+      "agl": "becyrillic",
+      "aliases": []
+    },
     "char_beta_03B2": {
       "glyph": "beta",
       "codepoint": "U+03B2",
@@ -659,6 +899,13 @@
         }
       ]
     },
+    "char_checyrillic_0447": {
+      "glyph": "checyrillic",
+      "codepoint": "U+0447",
+      "char": "ч",
+      "agl": "checyrillic",
+      "aliases": []
+    },
     "char_chi_03C7": {
       "glyph": "chi",
       "codepoint": "U+03C7",
@@ -685,6 +932,13 @@
       "codepoint": "U+0064",
       "char": "d",
       "agl": "d",
+      "aliases": []
+    },
+    "char_decyrillic_0434": {
+      "glyph": "decyrillic",
+      "codepoint": "U+0434",
+      "char": "д",
+      "agl": "decyrillic",
       "aliases": []
     },
     "char_delta_03B4": {
@@ -729,6 +983,13 @@
         }
       ]
     },
+    "char_efcyrillic_0444": {
+      "glyph": "efcyrillic",
+      "codepoint": "U+0444",
+      "char": "ф",
+      "agl": "efcyrillic",
+      "aliases": []
+    },
     "char_eight_0038": {
       "glyph": "eight",
       "codepoint": "U+0038",
@@ -748,6 +1009,27 @@
       "codepoint": "U+2078",
       "char": "⁸",
       "agl": "eightsuperior",
+      "aliases": []
+    },
+    "char_elcyrillic_043B": {
+      "glyph": "elcyrillic",
+      "codepoint": "U+043B",
+      "char": "л",
+      "agl": "elcyrillic",
+      "aliases": []
+    },
+    "char_emcyrillic_043C": {
+      "glyph": "emcyrillic",
+      "codepoint": "U+043C",
+      "char": "м",
+      "agl": "emcyrillic",
+      "aliases": []
+    },
+    "char_encyrillic_043D": {
+      "glyph": "encyrillic",
+      "codepoint": "U+043D",
+      "char": "н",
+      "agl": "encyrillic",
       "aliases": []
     },
     "char_epsilon_03B5": {
@@ -776,6 +1058,27 @@
       "codepoint": "U+207C",
       "char": "⁼",
       "agl": "equalsuperior",
+      "aliases": []
+    },
+    "char_ercyrillic_0440": {
+      "glyph": "ercyrillic",
+      "codepoint": "U+0440",
+      "char": "р",
+      "agl": "ercyrillic",
+      "aliases": []
+    },
+    "char_ereversedcyrillic_044D": {
+      "glyph": "ereversedcyrillic",
+      "codepoint": "U+044D",
+      "char": "э",
+      "agl": "ereversedcyrillic",
+      "aliases": []
+    },
+    "char_escyrillic_0441": {
+      "glyph": "escyrillic",
+      "codepoint": "U+0441",
+      "char": "с",
+      "agl": "escyrillic",
       "aliases": []
     },
     "char_eta_03B7": {
@@ -855,6 +1158,13 @@
       "agl": "gamma",
       "aliases": []
     },
+    "char_gecyrillic_0433": {
+      "glyph": "gecyrillic",
+      "codepoint": "U+0433",
+      "char": "г",
+      "agl": "gecyrillic",
+      "aliases": []
+    },
     "char_germandbls_00DF": {
       "glyph": "germandbls",
       "codepoint": "U+00DF",
@@ -881,6 +1191,13 @@
       "codepoint": "U+0068",
       "char": "h",
       "agl": "h",
+      "aliases": []
+    },
+    "char_hardsigncyrillic_044A": {
+      "glyph": "hardsigncyrillic",
+      "codepoint": "U+044A",
+      "char": "ъ",
+      "agl": "hardsigncyrillic",
       "aliases": []
     },
     "char_hyphen_002D": {
@@ -918,6 +1235,41 @@
         }
       ]
     },
+    "char_iacyrillic_044F": {
+      "glyph": "iacyrillic",
+      "codepoint": "U+044F",
+      "char": "я",
+      "agl": "iacyrillic",
+      "aliases": []
+    },
+    "char_iecyrillic_0435": {
+      "glyph": "iecyrillic",
+      "codepoint": "U+0435",
+      "char": "е",
+      "agl": "iecyrillic",
+      "aliases": []
+    },
+    "char_iicyrillic_0438": {
+      "glyph": "iicyrillic",
+      "codepoint": "U+0438",
+      "char": "и",
+      "agl": "iicyrillic",
+      "aliases": []
+    },
+    "char_iishortcyrillic_0439": {
+      "glyph": "iishortcyrillic",
+      "codepoint": "U+0439",
+      "char": "й",
+      "agl": "iishortcyrillic",
+      "aliases": []
+    },
+    "char_iocyrillic_0451": {
+      "glyph": "iocyrillic",
+      "codepoint": "U+0451",
+      "char": "ё",
+      "agl": "iocyrillic",
+      "aliases": []
+    },
     "char_iota_03B9": {
       "glyph": "iota",
       "codepoint": "U+03B9",
@@ -930,6 +1282,13 @@
       "codepoint": "U+2071",
       "char": "ⁱ",
       "agl": "isuperior",
+      "aliases": []
+    },
+    "char_iucyrillic_044E": {
+      "glyph": "iucyrillic",
+      "codepoint": "U+044E",
+      "char": "ю",
+      "agl": "iucyrillic",
       "aliases": []
     },
     "char_j_006A": {
@@ -946,11 +1305,25 @@
       "agl": "k",
       "aliases": []
     },
+    "char_kacyrillic_043A": {
+      "glyph": "kacyrillic",
+      "codepoint": "U+043A",
+      "char": "к",
+      "agl": "kacyrillic",
+      "aliases": []
+    },
     "char_kappa_03BA": {
       "glyph": "kappa",
       "codepoint": "U+03BA",
       "char": "κ",
       "agl": "kappa",
+      "aliases": []
+    },
+    "char_khacyrillic_0445": {
+      "glyph": "khacyrillic",
+      "codepoint": "U+0445",
+      "char": "х",
+      "agl": "khacyrillic",
       "aliases": []
     },
     "char_l_006C": {
@@ -1102,6 +1475,13 @@
         }
       ]
     },
+    "char_ocyrillic_043E": {
+      "glyph": "ocyrillic",
+      "codepoint": "U+043E",
+      "char": "о",
+      "agl": "ocyrillic",
+      "aliases": []
+    },
     "char_omega_03C9": {
       "glyph": "omega",
       "codepoint": "U+03C9",
@@ -1184,6 +1564,13 @@
       "codepoint": "U+207E",
       "char": "⁾",
       "agl": "parenrightsuperior",
+      "aliases": []
+    },
+    "char_pecyrillic_043F": {
+      "glyph": "pecyrillic",
+      "codepoint": "U+043F",
+      "char": "п",
+      "agl": "pecyrillic",
       "aliases": []
     },
     "char_percent_0025": {
@@ -1347,6 +1734,20 @@
       "agl": "sevensuperior",
       "aliases": []
     },
+    "char_shacyrillic_0448": {
+      "glyph": "shacyrillic",
+      "codepoint": "U+0448",
+      "char": "ш",
+      "agl": "shacyrillic",
+      "aliases": []
+    },
+    "char_shchacyrillic_0449": {
+      "glyph": "shchacyrillic",
+      "codepoint": "U+0449",
+      "char": "щ",
+      "agl": "shchacyrillic",
+      "aliases": []
+    },
     "char_sigma1_03C2": {
       "glyph": "sigmafinal",
       "codepoint": "U+03C2",
@@ -1389,6 +1790,13 @@
       "agl": "slash",
       "aliases": []
     },
+    "char_softsigncyrillic_044C": {
+      "glyph": "softsigncyrillic",
+      "codepoint": "U+044C",
+      "char": "ь",
+      "agl": "softsigncyrillic",
+      "aliases": []
+    },
     "char_t_0074": {
       "glyph": "t",
       "codepoint": "U+0074",
@@ -1401,6 +1809,13 @@
       "codepoint": "U+03C4",
       "char": "τ",
       "agl": "tau",
+      "aliases": []
+    },
+    "char_tecyrillic_0442": {
+      "glyph": "tecyrillic",
+      "codepoint": "U+0442",
+      "char": "т",
+      "agl": "tecyrillic",
       "aliases": []
     },
     "char_theta_03B8": {
@@ -1429,6 +1844,13 @@
       "codepoint": "U+00B3",
       "char": "³",
       "agl": "threesuperior",
+      "aliases": []
+    },
+    "char_tsecyrillic_0446": {
+      "glyph": "tsecyrillic",
+      "codepoint": "U+0446",
+      "char": "ц",
+      "agl": "tsecyrillic",
       "aliases": []
     },
     "char_two_0032": {
@@ -1480,6 +1902,13 @@
         }
       ]
     },
+    "char_ucyrillic_0443": {
+      "glyph": "ucyrillic",
+      "codepoint": "U+0443",
+      "char": "у",
+      "agl": "ucyrillic",
+      "aliases": []
+    },
     "char_underscore_005F": {
       "glyph": "underscore",
       "codepoint": "U+005F",
@@ -1499,6 +1928,13 @@
       "codepoint": "U+0076",
       "char": "v",
       "agl": "v",
+      "aliases": []
+    },
+    "char_vecyrillic_0432": {
+      "glyph": "vecyrillic",
+      "codepoint": "U+0432",
+      "char": "в",
+      "agl": "vecyrillic",
       "aliases": []
     },
     "char_w_0077": {
@@ -1540,11 +1976,25 @@
         }
       ]
     },
+    "char_yericyrillic_044B": {
+      "glyph": "yericyrillic",
+      "codepoint": "U+044B",
+      "char": "ы",
+      "agl": "yericyrillic",
+      "aliases": []
+    },
     "char_z_007A": {
       "glyph": "z",
       "codepoint": "U+007A",
       "char": "z",
       "agl": "z",
+      "aliases": []
+    },
+    "char_zecyrillic_0437": {
+      "glyph": "zecyrillic",
+      "codepoint": "U+0437",
+      "char": "з",
+      "agl": "zecyrillic",
       "aliases": []
     },
     "char_zero_0030": {
@@ -1573,6 +2023,13 @@
       "codepoint": "U+03B6",
       "char": "ζ",
       "agl": "zeta",
+      "aliases": []
+    },
+    "char_zhecyrillic_0436": {
+      "glyph": "zhecyrillic",
+      "codepoint": "U+0436",
+      "char": "ж",
+      "agl": "zhecyrillic",
       "aliases": []
     }
   }

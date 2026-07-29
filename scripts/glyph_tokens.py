@@ -77,6 +77,30 @@ SUBSCRIPT_TOKENS: dict[str, str] = {
     "ₙ": "subn",
 }
 
+# ── キリル文字（SPEC §4 C1 / v3.1-release で 66字すべて作字） ──
+# トークンは `y`（Cyrillic）＋ `u`/`l`（大小）＋ BGN/PCGN 準拠の簡易翻字。
+# ラテン・ギリシャと違い AGL 名（Acyrillic 等）は一貫しているが、上付き／下付きと
+# 同じく **文字キー** に統一してグリフ名の揺れから独立させる。
+_CYRILLIC_TRANSLIT: tuple[tuple[str, str, str], ...] = (
+    # (大文字, 小文字, 翻字)
+    ("А", "а", "a"), ("Б", "б", "b"), ("В", "в", "v"), ("Г", "г", "g"),
+    ("Д", "д", "d"), ("Е", "е", "e"), ("Ё", "ё", "yo"), ("Ж", "ж", "zh"),
+    ("З", "з", "z"), ("И", "и", "i"), ("Й", "й", "j"), ("К", "к", "k"),
+    ("Л", "л", "l"), ("М", "м", "m"), ("Н", "н", "n"), ("О", "о", "o"),
+    ("П", "п", "p"), ("Р", "р", "r"), ("С", "с", "s"), ("Т", "т", "t"),
+    ("У", "у", "u"), ("Ф", "ф", "f"), ("Х", "х", "kh"), ("Ц", "ц", "ts"),
+    ("Ч", "ч", "ch"), ("Ш", "ш", "sh"), ("Щ", "щ", "shch"), ("Ъ", "ъ", "hard"),
+    ("Ы", "ы", "y"), ("Ь", "ь", "soft"), ("Э", "э", "eh"), ("Ю", "ю", "yu"),
+    ("Я", "я", "ya"),
+)
+
+CYRILLIC_UPPER_TOKENS: dict[str, str] = {
+    up: f"yu{tr}" for up, _lo, tr in _CYRILLIC_TRANSLIT
+}
+CYRILLIC_LOWER_TOKENS: dict[str, str] = {
+    lo: f"yl{tr}" for _up, lo, tr in _CYRILLIC_TRANSLIT
+}
+
 # ── グリフ名の可読化オーバーライド（コードポイント → 表示名） ──
 # フォント側が `uni207b` のような機械名を持つグリフだけ、他の上付き／下付きと同じ
 # `{値}{superior|inferior}` 様式に揃える。SVG/PNG のステム（``char_{名}_{CP}``）が
@@ -137,6 +161,10 @@ def glyph_token(char: str, agl: str) -> str:
         return SUPERSCRIPT_TOKENS[char]
     if char in SUBSCRIPT_TOKENS:
         return SUBSCRIPT_TOKENS[char]
+    if char in CYRILLIC_UPPER_TOKENS:
+        return CYRILLIC_UPPER_TOKENS[char]
+    if char in CYRILLIC_LOWER_TOKENS:
+        return CYRILLIC_LOWER_TOKENS[char]
     if agl in SYMBOL_TOKENS:
         return SYMBOL_TOKENS[agl]
     if agl in _GREEK_UPPER_AGL:
@@ -170,6 +198,10 @@ def glyph_subcategory(char: str, agl: str) -> str:
         return "上付き"
     if char in SUBSCRIPT_TOKENS:
         return "下付き"
+    if char in CYRILLIC_UPPER_TOKENS:
+        return "キリル大文字"
+    if char in CYRILLIC_LOWER_TOKENS:
+        return "キリル小文字"
     if agl in _GREEK_UPPER_AGL:
         return "ギリシャ大文字"
     if agl in _GREEK_LOWER_AGL:
@@ -197,6 +229,13 @@ def glyph_extra_aliases(char: str, agl: str) -> list[str]:
     token = SUBSCRIPT_TOKENS.get(char)
     if token:
         return ["subscript", "下付き", f"sub_{token[len('sub'):]}"]
+    # キリルは翻字（yuzh の zh）を単独でも引けるようにする。型番検索で有効。
+    token = CYRILLIC_UPPER_TOKENS.get(char)
+    if token:
+        return ["cyrillic", "キリル", token[len("yu"):]]
+    token = CYRILLIC_LOWER_TOKENS.get(char)
+    if token:
+        return ["cyrillic", "キリル", token[len("yl"):]]
     return []
 
 

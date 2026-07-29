@@ -1,8 +1,8 @@
 # PenchantManufacture Glyph Map
 # Font: PenchantManufacture.otf
 # Units per em: 1000
-# Total glyphs: 215
-# Unicode mapped glyphs: 270
+# Total glyphs: 254
+# Unicode mapped glyphs: 309
 
 ## Unicode -> Glyph Name (AGL name)
 
@@ -242,6 +242,45 @@ U+0426  'Ц'    glyph=Tsecyrillic       agl=-
 U+0427  'Ч'    glyph=Checyrillic       agl=-
 U+0428  'Ш'    glyph=Shacyrillic       agl=-
 U+0429  'Щ'    glyph=Shchacyrillic     agl=-
+U+042A  'Ъ'    glyph=Hardsigncyrillic  agl=-
+U+042B  'Ы'    glyph=Yericyrillic      agl=-
+U+042C  'Ь'    glyph=Softsigncyrillic  agl=-
+U+042D  'Э'    glyph=Ereversedcyrillic  agl=-
+U+042E  'Ю'    glyph=IUcyrillic        agl=-
+U+042F  'Я'    glyph=IAcyrillic        agl=-
+U+0430  'а'    glyph=acyrillic         agl=-
+U+0431  'б'    glyph=becyrillic        agl=-
+U+0432  'в'    glyph=vecyrillic        agl=-
+U+0433  'г'    glyph=gecyrillic        agl=-
+U+0434  'д'    glyph=decyrillic        agl=-
+U+0435  'е'    glyph=iecyrillic        agl=-
+U+0436  'ж'    glyph=zhecyrillic       agl=-
+U+0437  'з'    glyph=zecyrillic        agl=-
+U+0438  'и'    glyph=iicyrillic        agl=-
+U+0439  'й'    glyph=iishortcyrillic   agl=-
+U+043A  'к'    glyph=kacyrillic        agl=-
+U+043B  'л'    glyph=elcyrillic        agl=-
+U+043C  'м'    glyph=emcyrillic        agl=-
+U+043D  'н'    glyph=encyrillic        agl=-
+U+043E  'о'    glyph=ocyrillic         agl=-
+U+043F  'п'    glyph=pecyrillic        agl=-
+U+0440  'р'    glyph=ercyrillic        agl=-
+U+0441  'с'    glyph=escyrillic        agl=-
+U+0442  'т'    glyph=tecyrillic        agl=-
+U+0443  'у'    glyph=ucyrillic         agl=-
+U+0444  'ф'    glyph=efcyrillic        agl=-
+U+0445  'х'    glyph=khacyrillic       agl=-
+U+0446  'ц'    glyph=tsecyrillic       agl=-
+U+0447  'ч'    glyph=checyrillic       agl=-
+U+0448  'ш'    glyph=shacyrillic       agl=-
+U+0449  'щ'    glyph=shchacyrillic     agl=-
+U+044A  'ъ'    glyph=hardsigncyrillic  agl=-
+U+044B  'ы'    glyph=yericyrillic      agl=-
+U+044C  'ь'    glyph=softsigncyrillic  agl=-
+U+044D  'э'    glyph=ereversedcyrillic  agl=-
+U+044E  'ю'    glyph=iucyrillic        agl=-
+U+044F  'я'    glyph=iacyrillic        agl=-
+U+0451  'ё'    glyph=iocyrillic        agl=-
 U+2018  '‘'    glyph=quoteleft         agl=quoteleft
 U+2019  '’'    glyph=quoteright        agl=quoteright
 U+201C  '“'    glyph=quotedblleft      agl=quotedblleft
@@ -300,6 +339,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   Encyrillic
   Epsilon
   Ercyrillic
+  Ereversedcyrillic
   Escyrillic
   Eta
   F
@@ -307,7 +347,10 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   Gamma
   Gecyrillic
   H
+  Hardsigncyrillic
   I
+  IAcyrillic
+  IUcyrillic
   Iecyrillic
   Iicyrillic
   Iishortcyrillic
@@ -340,6 +383,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   Shacyrillic
   Shchacyrillic
   Sigma
+  Softsigncyrillic
   T
   Tau
   Tecyrillic
@@ -354,11 +398,13 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   X
   Xi
   Y
+  Yericyrillic
   Z
   Zecyrillic
   Zeta
   Zhecyrillic
   a
+  acyrillic
   alpha
   ampersand
   asciicircum
@@ -367,27 +413,37 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   at
   b
   backslash
+  becyrillic
   beta
   braceleft
   braceright
   bracketleft
   bracketright
   c
+  checyrillic
   chi
   colon
   comma
   controlCR
   controlLF
   d
+  decyrillic
   delta
   dollar
   e
+  efcyrillic
   eight
   eightinferior
   eightsuperior
+  elcyrillic
+  emcyrillic
+  encyrillic
   epsilon
   equal
   equalsuperior
+  ercyrillic
+  ereversedcyrillic
+  escyrillic
   eta
   exclam
   f
@@ -399,16 +455,26 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   foursuperior
   g
   gamma
+  gecyrillic
   germandbls
   grave
   greater
   h
+  hardsigncyrillic
   hyphen
   i
+  iacyrillic
+  iecyrillic
+  iicyrillic
+  iishortcyrillic
+  iocyrillic
   iota
+  iucyrillic
   j
   k
+  kacyrillic
   kappa
+  khacyrillic
   l
   lambda
   less
@@ -423,6 +489,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   nu
   numbersign
   o
+  ocyrillic
   omega
   omicron
   one
@@ -435,6 +502,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   parenright
   parenrightinferior
   parenrightsuperior
+  pecyrillic
   percent
   period
   phi
@@ -457,6 +525,8 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   seven
   seveninferior
   sevensuperior
+  shacyrillic
+  shchacyrillic
   sigma
   sigmafinal
   six
@@ -464,17 +534,21 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   sixsuperior
   slash
   softhyphen
+  softsigncyrillic
   space
   t
   tau
+  tecyrillic
   theta
   three
   threeinferior
   threesuperior
+  tsecyrillic
   two
   twoinferior
   twosuperior
   u
+  ucyrillic
   underscore
   uni2071
   uni207b
@@ -484,13 +558,17 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   uni2099
   upsilon
   v
+  vecyrillic
   verticalbar
   w
   x
   xi
   y
+  yericyrillic
   z
+  zecyrillic
   zero
   zeroinferior
   zerosuperior
   zeta
+  zhecyrillic

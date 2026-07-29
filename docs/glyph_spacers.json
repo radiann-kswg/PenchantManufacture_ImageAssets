@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-29T01:32:13Z",
+  "generated": "2026-07-29T10:37:07Z",
   "note": "バリアント非依存の完全透過スペーサ。後置タグはプロジェクト印 p のみで、5バリアント共通の1組を Misskey 専用に登録する（Discord は正方形パディングで全スペーサが同一画像に潰れるため対象外）。",
   "suffix": "p",
   "reference_variant": "sumi",
@@ -23,12 +23,12 @@
       "sizes": {
         "512": {
           "file": "spacer_spc_512.png",
-          "width": 290,
+          "width": 253,
           "height": 512
         },
         "128": {
           "file": "spacer_spc_128.png",
-          "width": 73,
+          "width": 63,
           "height": 128
         }
       }
@@ -52,12 +52,12 @@
       "sizes": {
         "512": {
           "file": "spacer_gap_512.png",
-          "width": 141,
+          "width": 123,
           "height": 512
         },
         "128": {
           "file": "spacer_gap_128.png",
-          "width": 35,
+          "width": 31,
           "height": 128
         }
       }
