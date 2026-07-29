@@ -1,9 +1,15 @@
 {
   "font": "PenchantManufacture",
-  "generated": "2026-07-24T00:16:29Z",
-  "unique_glyphs": 148,
-  "cmap_mappings": 210,
+  "generated": "2026-07-29T01:25:00Z",
+  "unique_glyphs": 181,
+  "cmap_mappings": 270,
   "alias_count": 56,
+  "pending_skipped": {
+    "キリル文字（v3.1.0-develop で作字中）": {
+      "count": 27,
+      "chars": "ЁАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩ"
+    }
+  },
   "note": "異体字（アクセント付きラテン等）は基底グリフと同一アウトラインのため画像は 統合し、ここに検索エイリアスとして記録する。絵文字ビルダーが参照する。",
   "glyphs": {
     "char_A_0041": {
@@ -730,6 +736,20 @@
       "agl": "eight",
       "aliases": []
     },
+    "char_eightinferior_2088": {
+      "glyph": "eightinferior",
+      "codepoint": "U+2088",
+      "char": "₈",
+      "agl": "eightinferior",
+      "aliases": []
+    },
+    "char_eightsuperior_2078": {
+      "glyph": "eightsuperior",
+      "codepoint": "U+2078",
+      "char": "⁸",
+      "agl": "eightsuperior",
+      "aliases": []
+    },
     "char_epsilon_03B5": {
       "glyph": "epsilon",
       "codepoint": "U+03B5",
@@ -742,6 +762,20 @@
       "codepoint": "U+003D",
       "char": "=",
       "agl": "equal",
+      "aliases": []
+    },
+    "char_equalinferior_208C": {
+      "glyph": "uni208c",
+      "codepoint": "U+208C",
+      "char": "₌",
+      "agl": "equalinferior",
+      "aliases": []
+    },
+    "char_equalsuperior_207C": {
+      "glyph": "equalsuperior",
+      "codepoint": "U+207C",
+      "char": "⁼",
+      "agl": "equalsuperior",
       "aliases": []
     },
     "char_eta_03B7": {
@@ -772,11 +806,39 @@
       "agl": "five",
       "aliases": []
     },
+    "char_fiveinferior_2085": {
+      "glyph": "fiveinferior",
+      "codepoint": "U+2085",
+      "char": "₅",
+      "agl": "fiveinferior",
+      "aliases": []
+    },
+    "char_fivesuperior_2075": {
+      "glyph": "fivesuperior",
+      "codepoint": "U+2075",
+      "char": "⁵",
+      "agl": "fivesuperior",
+      "aliases": []
+    },
     "char_four_0034": {
       "glyph": "four",
       "codepoint": "U+0034",
       "char": "4",
       "agl": "four",
+      "aliases": []
+    },
+    "char_fourinferior_2084": {
+      "glyph": "fourinferior",
+      "codepoint": "U+2084",
+      "char": "₄",
+      "agl": "fourinferior",
+      "aliases": []
+    },
+    "char_foursuperior_2074": {
+      "glyph": "foursuperior",
+      "codepoint": "U+2074",
+      "char": "⁴",
+      "agl": "foursuperior",
       "aliases": []
     },
     "char_g_0067": {
@@ -863,6 +925,13 @@
       "agl": "iota",
       "aliases": []
     },
+    "char_isuperior_2071": {
+      "glyph": "uni2071",
+      "codepoint": "U+2071",
+      "char": "ⁱ",
+      "agl": "isuperior",
+      "aliases": []
+    },
     "char_j_006A": {
       "glyph": "j",
       "codepoint": "U+006A",
@@ -912,6 +981,20 @@
       "agl": "m",
       "aliases": []
     },
+    "char_minusinferior_208B": {
+      "glyph": "uni208b",
+      "codepoint": "U+208B",
+      "char": "₋",
+      "agl": "minusinferior",
+      "aliases": []
+    },
+    "char_minussuperior_207B": {
+      "glyph": "uni207b",
+      "codepoint": "U+207B",
+      "char": "⁻",
+      "agl": "minussuperior",
+      "aliases": []
+    },
     "char_mugreek_03BC": {
       "glyph": "mugreek",
       "codepoint": "U+03BC",
@@ -937,6 +1020,34 @@
       "codepoint": "U+0039",
       "char": "9",
       "agl": "nine",
+      "aliases": []
+    },
+    "char_nineinferior_2089": {
+      "glyph": "nineinferior",
+      "codepoint": "U+2089",
+      "char": "₉",
+      "agl": "nineinferior",
+      "aliases": []
+    },
+    "char_ninesuperior_2079": {
+      "glyph": "ninesuperior",
+      "codepoint": "U+2079",
+      "char": "⁹",
+      "agl": "ninesuperior",
+      "aliases": []
+    },
+    "char_ninferior_2099": {
+      "glyph": "uni2099",
+      "codepoint": "U+2099",
+      "char": "ₙ",
+      "agl": "ninferior",
+      "aliases": []
+    },
+    "char_nsuperior_207F": {
+      "glyph": "nsuperior",
+      "codepoint": "U+207F",
+      "char": "ⁿ",
+      "agl": "nsuperior",
       "aliases": []
     },
     "char_nu_03BD": {
@@ -1012,6 +1123,20 @@
       "agl": "one",
       "aliases": []
     },
+    "char_oneinferior_2081": {
+      "glyph": "oneinferior",
+      "codepoint": "U+2081",
+      "char": "₁",
+      "agl": "oneinferior",
+      "aliases": []
+    },
+    "char_onesuperior_00B9": {
+      "glyph": "onesuperior",
+      "codepoint": "U+00B9",
+      "char": "¹",
+      "agl": "onesuperior",
+      "aliases": []
+    },
     "char_p_0070": {
       "glyph": "p",
       "codepoint": "U+0070",
@@ -1026,11 +1151,39 @@
       "agl": "parenleft",
       "aliases": []
     },
+    "char_parenleftinferior_208D": {
+      "glyph": "parenleftinferior",
+      "codepoint": "U+208D",
+      "char": "₍",
+      "agl": "parenleftinferior",
+      "aliases": []
+    },
+    "char_parenleftsuperior_207D": {
+      "glyph": "parenleftsuperior",
+      "codepoint": "U+207D",
+      "char": "⁽",
+      "agl": "parenleftsuperior",
+      "aliases": []
+    },
     "char_parenright_0029": {
       "glyph": "parenright",
       "codepoint": "U+0029",
       "char": ")",
       "agl": "parenright",
+      "aliases": []
+    },
+    "char_parenrightinferior_208E": {
+      "glyph": "parenrightinferior",
+      "codepoint": "U+208E",
+      "char": "₎",
+      "agl": "parenrightinferior",
+      "aliases": []
+    },
+    "char_parenrightsuperior_207E": {
+      "glyph": "parenrightsuperior",
+      "codepoint": "U+207E",
+      "char": "⁾",
+      "agl": "parenrightsuperior",
       "aliases": []
     },
     "char_percent_0025": {
@@ -1066,6 +1219,20 @@
       "codepoint": "U+002B",
       "char": "+",
       "agl": "plus",
+      "aliases": []
+    },
+    "char_plusinferior_208A": {
+      "glyph": "uni208a",
+      "codepoint": "U+208A",
+      "char": "₊",
+      "agl": "plusinferior",
+      "aliases": []
+    },
+    "char_plussuperior_207A": {
+      "glyph": "plussuperior",
+      "codepoint": "U+207A",
+      "char": "⁺",
+      "agl": "plussuperior",
       "aliases": []
     },
     "char_psi_03C8": {
@@ -1166,6 +1333,20 @@
       "agl": "seven",
       "aliases": []
     },
+    "char_seveninferior_2087": {
+      "glyph": "seveninferior",
+      "codepoint": "U+2087",
+      "char": "₇",
+      "agl": "seveninferior",
+      "aliases": []
+    },
+    "char_sevensuperior_2077": {
+      "glyph": "sevensuperior",
+      "codepoint": "U+2077",
+      "char": "⁷",
+      "agl": "sevensuperior",
+      "aliases": []
+    },
     "char_sigma1_03C2": {
       "glyph": "sigmafinal",
       "codepoint": "U+03C2",
@@ -1185,6 +1366,20 @@
       "codepoint": "U+0036",
       "char": "6",
       "agl": "six",
+      "aliases": []
+    },
+    "char_sixinferior_2086": {
+      "glyph": "sixinferior",
+      "codepoint": "U+2086",
+      "char": "₆",
+      "agl": "sixinferior",
+      "aliases": []
+    },
+    "char_sixsuperior_2076": {
+      "glyph": "sixsuperior",
+      "codepoint": "U+2076",
+      "char": "⁶",
+      "agl": "sixsuperior",
       "aliases": []
     },
     "char_slash_002F": {
@@ -1222,11 +1417,39 @@
       "agl": "three",
       "aliases": []
     },
+    "char_threeinferior_2083": {
+      "glyph": "threeinferior",
+      "codepoint": "U+2083",
+      "char": "₃",
+      "agl": "threeinferior",
+      "aliases": []
+    },
+    "char_threesuperior_00B3": {
+      "glyph": "threesuperior",
+      "codepoint": "U+00B3",
+      "char": "³",
+      "agl": "threesuperior",
+      "aliases": []
+    },
     "char_two_0032": {
       "glyph": "two",
       "codepoint": "U+0032",
       "char": "2",
       "agl": "two",
+      "aliases": []
+    },
+    "char_twoinferior_2082": {
+      "glyph": "twoinferior",
+      "codepoint": "U+2082",
+      "char": "₂",
+      "agl": "twoinferior",
+      "aliases": []
+    },
+    "char_twosuperior_00B2": {
+      "glyph": "twosuperior",
+      "codepoint": "U+00B2",
+      "char": "²",
+      "agl": "twosuperior",
       "aliases": []
     },
     "char_u_0075": {
@@ -1329,6 +1552,20 @@
       "codepoint": "U+0030",
       "char": "0",
       "agl": "zero",
+      "aliases": []
+    },
+    "char_zeroinferior_2080": {
+      "glyph": "zeroinferior",
+      "codepoint": "U+2080",
+      "char": "₀",
+      "agl": "zeroinferior",
+      "aliases": []
+    },
+    "char_zerosuperior_2070": {
+      "glyph": "zerosuperior",
+      "codepoint": "U+2070",
+      "char": "⁰",
+      "agl": "zerosuperior",
       "aliases": []
     },
     "char_zeta_03B6": {

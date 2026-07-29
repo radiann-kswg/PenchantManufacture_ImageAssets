@@ -167,8 +167,8 @@ Misskey の補完 UI で数百字を 1 字ずつ選ぶのは非現実的。**名
 
 | # | 追加案 | 内容 | 用途 |
 | --- | --- | --- | --- |
-| A1 | 上付き数字/記号 | ⁰¹²³⁴⁵⁶⁷⁸⁹ ⁺⁻⁽⁾ ⁿ | 指数・単位（mc²、xⁿ、m²） |
-| A2 | 下付き数字/記号 | ₀₁₂₃₄₅₆₇₈₉ ₊₋₍₎ | 添字（H₂O、x₁、CO₂） |
+| A1 | 上付き数字/記号（**実装済**） | ⁰¹²³⁴⁵⁶⁷⁸⁹ ⁱⁿ ⁺⁻⁼⁽⁾（17字） | 指数・単位（mc²、xⁿ、m²） |
+| A2 | 下付き数字/記号（**実装済**） | ₀₁₂₃₄₅₆₇₈₉ ₙ ₊₋₌₍₎（16字） | 添字（H₂O、x₁、CO₂） |
 | A3 | スペーサ絵文字（**実装済**） | 完全透過の余白 2 種 `spcp`（全角=`m`幅）/ `gapp`（半角=`I`幅） | 語間・桁揃え（現行 space 非生成） |
 | A4 | 単位/型番 合字 | Hz kHz MHz GHz ns µs ms dB ／ No. Ver. Rev. S/N P/N | 「1絵文字＝1単位」→ 短縮入力 |
 
@@ -216,7 +216,9 @@ user 指定の将来追加方針:
 | --- | --- |
 | `scripts/generate_decal.py` | 新バリアント `sumi`（墨・二画面・近黒モノクロ）を SCHEME に追加。既存4種は温存 |
 | `scripts/generate_spacers.py` | 新規（済）。バリアント非依存スペーサ `spcp`/`gapp` の完全透過PNG＋`docs/glyph_spacers.json` を生成。依存は Pillow のみ |
-| `scripts/build_misskey_zip.py` | `_token`/命名を後置タグ方式（字体トークン＋`p`/`pr`/`ph`/`pt`/`pn`）へ刷新。大小保持。エイリアス生成を §2.6 に更新。スペーサをバリアントループ外で1組だけ収録 |
+| `scripts/glyph_tokens.py` | 上付き `sup*` / 下付き `sub*` トークン表（**文字キー**）、`glyph_subcategory`／`glyph_extra_aliases`、`uni*` グリフ名の可読名オーバーライドを追加（済） |
+| `scripts/extract_glyphs.py` | `PENDING_RANGES`（制作途中グリフの除外）と `--include-pending` を追加（済） |
+| `scripts/build_misskey_zip.py` | `_token`/命名を後置タグ方式（字体トークン＋`p`/`pr`/`ph`/`pt`/`pn`）へ刷新。大小保持。エイリアス生成を §2.6 に更新。スペーサをバリアントループ外で1組だけ収録。上付き/下付きカテゴリと統合済みグリフの消し残り除外を追加 |
 | `scripts/text_to_emoji.py` | 新規（§5）。字体トークン規則の単一の正として共通モジュール化 |
 | `scripts/build.py` | 変換ツール・チートシート生成をステップ統合 |
 | `docs/` | 本様式・チートシート・カテゴリ表を整備 |

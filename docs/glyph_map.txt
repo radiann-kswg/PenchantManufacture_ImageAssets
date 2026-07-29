@@ -1,8 +1,8 @@
 # PenchantManufacture Glyph Map
 # Font: PenchantManufacture.otf
 # Units per em: 1000
-# Total glyphs: 155
-# Unicode mapped glyphs: 210
+# Total glyphs: 215
+# Unicode mapped glyphs: 270
 
 ## Unicode -> Glyph Name (AGL name)
 
@@ -106,6 +106,9 @@ U+007D  '}'    glyph=braceright        agl=braceright
 U+007E  '~'    glyph=asciitilde        agl=asciitilde
 U+00A0  '.'    glyph=nonbreakingspace  agl=-
 U+00AD  '.'    glyph=softhyphen        agl=-
+U+00B2  '²'    glyph=twosuperior       agl=-
+U+00B3  '³'    glyph=threesuperior     agl=-
+U+00B9  '¹'    glyph=onesuperior       agl=-
 U+00C0  'À'    glyph=A                 agl=Agrave
 U+00C1  'Á'    glyph=A                 agl=Aacute
 U+00C2  'Â'    glyph=A                 agl=Acircumflex
@@ -212,35 +215,109 @@ U+03C6  'φ'    glyph=phi               agl=phi
 U+03C7  'χ'    glyph=chi               agl=chi
 U+03C8  'ψ'    glyph=psi               agl=psi
 U+03C9  'ω'    glyph=omega             agl=omega
+U+0401  'Ё'    glyph=Iocyrillic        agl=-
+U+0410  'А'    glyph=Acyrillic         agl=-
+U+0411  'Б'    glyph=Becyrillic        agl=-
+U+0412  'В'    glyph=Vecyrillic        agl=-
+U+0413  'Г'    glyph=Gecyrillic        agl=-
+U+0414  'Д'    glyph=Decyrillic        agl=-
+U+0415  'Е'    glyph=Iecyrillic        agl=-
+U+0416  'Ж'    glyph=Zhecyrillic       agl=-
+U+0417  'З'    glyph=Zecyrillic        agl=-
+U+0418  'И'    glyph=Iicyrillic        agl=-
+U+0419  'Й'    glyph=Iishortcyrillic   agl=-
+U+041A  'К'    glyph=Kacyrillic        agl=-
+U+041B  'Л'    glyph=Elcyrillic        agl=-
+U+041C  'М'    glyph=Emcyrillic        agl=-
+U+041D  'Н'    glyph=Encyrillic        agl=-
+U+041E  'О'    glyph=Ocyrillic         agl=-
+U+041F  'П'    glyph=Pecyrillic        agl=-
+U+0420  'Р'    glyph=Ercyrillic        agl=-
+U+0421  'С'    glyph=Escyrillic        agl=-
+U+0422  'Т'    glyph=Tecyrillic        agl=-
+U+0423  'У'    glyph=Ucyrillic         agl=-
+U+0424  'Ф'    glyph=Efcyrillic        agl=-
+U+0425  'Х'    glyph=Khacyrillic       agl=-
+U+0426  'Ц'    glyph=Tsecyrillic       agl=-
+U+0427  'Ч'    glyph=Checyrillic       agl=-
+U+0428  'Ш'    glyph=Shacyrillic       agl=-
+U+0429  'Щ'    glyph=Shchacyrillic     agl=-
 U+2018  '‘'    glyph=quoteleft         agl=quoteleft
 U+2019  '’'    glyph=quoteright        agl=quoteright
 U+201C  '“'    glyph=quotedblleft      agl=quotedblleft
 U+201D  '”'    glyph=quotedblright     agl=quotedblright
+U+2070  '⁰'    glyph=zerosuperior      agl=-
+U+2071  'ⁱ'    glyph=uni2071           agl=-
+U+2074  '⁴'    glyph=foursuperior      agl=-
+U+2075  '⁵'    glyph=fivesuperior      agl=-
+U+2076  '⁶'    glyph=sixsuperior       agl=-
+U+2077  '⁷'    glyph=sevensuperior     agl=-
+U+2078  '⁸'    glyph=eightsuperior     agl=-
+U+2079  '⁹'    glyph=ninesuperior      agl=-
+U+207A  '⁺'    glyph=plussuperior      agl=-
+U+207B  '⁻'    glyph=uni207b           agl=-
+U+207C  '⁼'    glyph=equalsuperior     agl=-
+U+207D  '⁽'    glyph=parenleftsuperior  agl=-
+U+207E  '⁾'    glyph=parenrightsuperior  agl=-
+U+207F  'ⁿ'    glyph=nsuperior         agl=-
+U+2080  '₀'    glyph=zeroinferior      agl=-
+U+2081  '₁'    glyph=oneinferior       agl=-
+U+2082  '₂'    glyph=twoinferior       agl=-
+U+2083  '₃'    glyph=threeinferior     agl=-
+U+2084  '₄'    glyph=fourinferior      agl=-
+U+2085  '₅'    glyph=fiveinferior      agl=-
+U+2086  '₆'    glyph=sixinferior       agl=-
+U+2087  '₇'    glyph=seveninferior     agl=-
+U+2088  '₈'    glyph=eightinferior     agl=-
+U+2089  '₉'    glyph=nineinferior      agl=-
+U+208A  '₊'    glyph=uni208a           agl=-
+U+208B  '₋'    glyph=uni208b           agl=-
+U+208C  '₌'    glyph=uni208c           agl=-
+U+208D  '₍'    glyph=parenleftinferior  agl=-
+U+208E  '₎'    glyph=parenrightinferior  agl=-
+U+2099  'ₙ'    glyph=uni2099           agl=-
 
 ## All Glyph Names
 
   .notdef
   .null
   A
+  Acyrillic
   Alpha
   B
+  Becyrillic
   Beta
   C
+  Checyrillic
   Chi
   D
+  Decyrillic
   Deltagreek
   E
+  Efcyrillic
+  Elcyrillic
+  Emcyrillic
+  Encyrillic
   Epsilon
+  Ercyrillic
+  Escyrillic
   Eta
   F
   G
   Gamma
+  Gecyrillic
   H
   I
+  Iecyrillic
+  Iicyrillic
+  Iishortcyrillic
+  Iocyrillic
   Iota
   J
   K
+  Kacyrillic
   Kappa
+  Khacyrillic
   L
   Lambda
   M
@@ -248,9 +325,11 @@ U+201D  '”'    glyph=quotedblright     agl=quotedblright
   N
   Nu
   O
+  Ocyrillic
   Omegagreek
   Omicron
   P
+  Pecyrillic
   Phi
   Pi
   Psi
@@ -258,19 +337,27 @@ U+201D  '”'    glyph=quotedblright     agl=quotedblright
   R
   Rho
   S
+  Shacyrillic
+  Shchacyrillic
   Sigma
   T
   Tau
+  Tecyrillic
   Theta
+  Tsecyrillic
   U
+  Ucyrillic
   Upsilon
   V
+  Vecyrillic
   W
   X
   Xi
   Y
   Z
+  Zecyrillic
   Zeta
+  Zhecyrillic
   a
   alpha
   ampersand
@@ -296,13 +383,20 @@ U+201D  '”'    glyph=quotedblright     agl=quotedblright
   dollar
   e
   eight
+  eightinferior
+  eightsuperior
   epsilon
   equal
+  equalsuperior
   eta
   exclam
   f
   five
+  fiveinferior
+  fivesuperior
   four
+  fourinferior
+  foursuperior
   g
   gamma
   germandbls
@@ -322,21 +416,31 @@ U+201D  '”'    glyph=quotedblright     agl=quotedblright
   mugreek
   n
   nine
+  nineinferior
+  ninesuperior
   nonbreakingspace
+  nsuperior
   nu
   numbersign
   o
   omega
   omicron
   one
+  oneinferior
+  onesuperior
   p
   parenleft
+  parenleftinferior
+  parenleftsuperior
   parenright
+  parenrightinferior
+  parenrightsuperior
   percent
   period
   phi
   pi
   plus
+  plussuperior
   psi
   q
   question
@@ -351,9 +455,13 @@ U+201D  '”'    glyph=quotedblright     agl=quotedblright
   s
   semicolon
   seven
+  seveninferior
+  sevensuperior
   sigma
   sigmafinal
   six
+  sixinferior
+  sixsuperior
   slash
   softhyphen
   space
@@ -361,9 +469,19 @@ U+201D  '”'    glyph=quotedblright     agl=quotedblright
   tau
   theta
   three
+  threeinferior
+  threesuperior
   two
+  twoinferior
+  twosuperior
   u
   underscore
+  uni2071
+  uni207b
+  uni208a
+  uni208b
+  uni208c
+  uni2099
   upsilon
   v
   verticalbar
@@ -373,4 +491,6 @@ U+201D  '”'    glyph=quotedblright     agl=quotedblright
   y
   z
   zero
+  zeroinferior
+  zerosuperior
   zeta

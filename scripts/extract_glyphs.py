@@ -16,6 +16,13 @@ src/glyphs/ に出力する。生成SVGは外部フォント参照を一切持�
 Misskey/Discord の絵文字ビルダー（build_misskey_zip.py 等）がこの対応表を読み、
 基底グリフの絵文字にアクセント付き文字の検索エイリアスを付与する。
 
+制作途中グリフの除外:
+    フォントに収録済みでも**作者がまだ調整中**の字は、絵文字として公開すると
+    差し替え時に登録済み絵文字を作り直す羽目になる。``PENDING_RANGES`` に挙げた
+    コードポイント範囲は既定でスキップし、``--include-pending`` で明示的に含める。
+    現在の対象はキリル文字（U+0400–U+04FF、v3.1.0-develop で大文字27字が着手済み・
+    残り39字は未着手）。完成したら ``PENDING_RANGES`` から外すだけで通常ビルドに乗る。
+
 ファイル名（case-insensitive な Windows でも衝突しない安全命名）:
     char_{AGL名}_{コードポイント16進}.svg
     例: char_A_0041.svg / char_a_0061.svg / char_zero_0030.svg
@@ -28,6 +35,8 @@ Misskey/Discord の絵文字ビルダー（build_misskey_zip.py 等）がこの�
     python scripts/extract_glyphs.py --out-dir src/glyphs
     python scripts/extract_glyphs.py --dry-run
     python scripts/extract_glyphs.py --no-prune   # 旧SVGを削除しない
+    python scripts/extract_glyphs.py --font "_original-fonts/.develop/penchant-manufacture_v3.1.0-develop/PenchantManufacture.otf"
+    python scripts/extract_glyphs.py --include-pending   # 制作途中グリフも抽出
 """
 from __future__ import annotations
 
@@ -41,6 +50,8 @@ import click
 from fontTools import agl, ttLib
 from fontTools.pens.svgPathPen import SVGPathPen
 
+from glyph_tokens import GLYPH_NAME_OVERRIDES
+
 FONT_PATH = Path(__file__).parent.parent / "assets" / "fonts" / "PenchantManufacture.otf"
 OUT_DIR = Path(__file__).parent.parent / "src" / "glyphs"
 ALIASES_PATH = Path(__file__).parent.parent / "docs" / "glyph_aliases.json"
@@ -48,12 +59,27 @@ VIEWBOX = 512
 
 FONT_TITLE = "PenchantManufacture"
 
+# ── 制作途中グリフ（既定で抽出対象外） ──
+# (開始CP, 終了CP, 説明) の閉区間。作者が調整中で絵文字化を保留する字を挙げる。
+# 完成したらこの表から外すだけで通常ビルドに乗る（他スクリプトの変更は不要）。
+PENDING_RANGES: tuple[tuple[int, int, str], ...] = (
+    (0x0400, 0x04FF, "キリル文字（v3.1.0-develop で作字中）"),
+)
+
 _SAFE_RE = re.compile(r"[^A-Za-z0-9]+")
 
 
+def is_pending(codepoint: int, ranges: tuple[tuple[int, int, str], ...] = PENDING_RANGES) -> str | None:
+    """制作途中の範囲に含まれるなら、その説明文を返す（含まれなければ None）。"""
+    for start, end, label in ranges:
+        if start <= codepoint <= end:
+            return label
+    return None
+
+
 def _agl_name(codepoint: int, glyph_name: str) -> str:
-    """コードポイントの AGL 名（無ければグリフ名 / uniXXXX）を返す。"""
-    base = agl.UV2AGL.get(codepoint)
+    """コードポイントの表示名（可読名 → AGL 名 → グリフ名 → uniXXXX）を返す。"""
+    base = GLYPH_NAME_OVERRIDES.get(codepoint) or agl.UV2AGL.get(codepoint)
     if not base:
         base = glyph_name or f"uni{codepoint:04X}"
     base = _SAFE_RE.sub("_", base).strip("_")
@@ -148,6 +174,7 @@ def extract_all(
     dry_run: bool = False,
     prune: bool = True,
     aliases_path: Path = ALIASES_PATH,
+    include_pending: bool = False,
 ) -> list[Path]:
     """cmap を走査し、**グリフ単位で重複排除した** アウトライン化SVGを出力する。
 
@@ -163,6 +190,7 @@ def extract_all(
         prune:       True の場合、今回生成対象でない既存 char_*.svg を削除する
                      （旧・重複SVGの掃除）
         aliases_path: 異体字→正規グリフ対応表(JSON)の出力先
+        include_pending: True の場合、``PENDING_RANGES``（制作途中グリフ）も抽出する
 
     Returns:
         生成した（または dry-run で生成予定の）正規SVGファイルのパスリスト
@@ -187,10 +215,18 @@ def extract_all(
     # glyph_name -> 正規グリフ情報 { "stem", "codepoint", "char", "agl", "aliases": [...] }
     canonical: dict[str, dict] = {}
     seen_stems: set[str] = set()
+    pending_skipped: dict[str, list[str]] = {}
 
     for codepoint in sorted(cmap.keys()):
         glyph_name = cmap[codepoint]
         agl_name = _agl_name(codepoint, glyph_name)
+
+        if not include_pending:
+            label = is_pending(codepoint)
+            if label:
+                # 制作途中。異体字エイリアスにも載せない（正規グリフが存在しないため）。
+                pending_skipped.setdefault(label, []).append(_printable(codepoint))
+                continue
 
         if glyph_name in canonical:
             # 既出グリフへの再マップ = 異体字。エイリアスとして記録し、SVGは作らない。
@@ -227,6 +263,13 @@ def extract_all(
             out_path.write_text(svg, encoding="utf-8")
             print(f"  OK: {out_path.name}  (glyph={glyph_name!r})")
 
+    if pending_skipped:
+        print()
+        for label, chars in pending_skipped.items():
+            print(f"  制作途中のためスキップ: {label}  {len(chars)}字  "
+                  f"{''.join(chars[:40])}{' ...' if len(chars) > 40 else ''}")
+        print("  （--include-pending で抽出対象に含められます）")
+
     # ── 旧・重複SVGの掃除 ──
     pruned: list[str] = []
     failed: list[str] = []
@@ -257,6 +300,10 @@ def extract_all(
         "unique_glyphs": len(canonical),
         "cmap_mappings": len(cmap),
         "alias_count": alias_total,
+        "pending_skipped": {
+            label: {"count": len(chars), "chars": "".join(chars)}
+            for label, chars in pending_skipped.items()
+        },
         "note": (
             "異体字（アクセント付きラテン等）は基底グリフと同一アウトラインのため画像は "
             "統合し、ここに検索エイリアスとして記録する。絵文字ビルダーが参照する。"
@@ -291,19 +338,25 @@ def extract_all(
 @click.option("--viewbox", default=VIEWBOX, show_default=True,
               help="SVG viewBoxサイズ（px、正方形）")
 @click.option("--no-prune", is_flag=True, help="今回生成対象でない既存SVGを削除しない")
+@click.option("--include-pending", is_flag=True,
+              help="制作途中グリフ（PENDING_RANGES）も抽出対象に含める")
 @click.option("--dry-run", is_flag=True, help="ファイルを生成せず対象を表示")
-def main(font_path: str, out_dir: str, viewbox: int, no_prune: bool, dry_run: bool) -> None:
+def main(font_path: str, out_dir: str, viewbox: int, no_prune: bool,
+         include_pending: bool, dry_run: bool) -> None:
     """PenchantManufacture フォントの cmap をグリフ単位で重複排除してSVG化します。"""
     fp = Path(font_path)
     od = Path(out_dir)
+    pending = ", ".join(label for _s, _e, label in PENDING_RANGES) or "なし"
 
     print(f"フォント : {fp}")
     print(f"出力先   : {od}")
     print(f"viewBox  : {viewbox}x{viewbox}")
     print(f"モード   : {'DRY-RUN' if dry_run else '書き出し'} / prune={'OFF' if no_prune else 'ON'}")
+    print(f"制作途中 : {pending} … {'含める' if include_pending else '除外'}")
     print()
 
-    paths = extract_all(fp, od, viewbox, dry_run=dry_run, prune=not no_prune)
+    paths = extract_all(fp, od, viewbox, dry_run=dry_run, prune=not no_prune,
+                        include_pending=include_pending)
 
     verb = "生成予定" if dry_run else "生成"
     print(f"\n完了: {len(paths)} 正規グリフを{verb}しました")

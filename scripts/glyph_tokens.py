@@ -5,7 +5,8 @@
 
 命名: ``{字体トークン}{後置タグ}``
 - 字体トークン: 数字 ``n``＋値 / 英小文字 ``l``＋値 / 英大文字 ``u``＋値 /
-  ギリシャ小文字は AGL / ギリシャ大文字は ``c``＋AGL / ASCII記号は2字略号。
+  ギリシャ小文字は AGL / ギリシャ大文字は ``c``＋AGL / ASCII記号は2字略号 /
+  上付きは ``sup``＋値 / 下付きは ``sub``＋値。
 - 後置タグ: プロジェクト印 ``p`` ＋バリアント記号。
   既定 ``sumi``（墨・二画面）= ``p``。工業4種 = ``pr``/``ph``/``pt``/``pn``。
 
@@ -56,6 +57,39 @@ SYMBOL_TOKENS: dict[str, str] = {
     "quotedblleft": "dql", "quotedblright": "dqr",
 }
 
+# ── 上付き／下付き（SPEC §4.1 A1 / A2） ──
+# v3.1.0 で作者が **実グリフとして作字** した（当初計画の「合成」ではない）。
+# フォントのグリフ名は `zerosuperior` / `uni207b` / `twoinferior` のように命名規則が
+# 揺れているため、トークン表は **文字そのものをキー** にしてグリフ名の揺れから独立させる。
+SUPERSCRIPT_TOKENS: dict[str, str] = {
+    "⁰": "sup0", "¹": "sup1", "²": "sup2", "³": "sup3", "⁴": "sup4",
+    "⁵": "sup5", "⁶": "sup6", "⁷": "sup7", "⁸": "sup8", "⁹": "sup9",
+    "⁺": "supplus", "⁻": "supminus", "⁼": "supeq",
+    "⁽": "suplp", "⁾": "suprp",
+    "ⁿ": "supn", "ⁱ": "supi",
+}
+
+SUBSCRIPT_TOKENS: dict[str, str] = {
+    "₀": "sub0", "₁": "sub1", "₂": "sub2", "₃": "sub3", "₄": "sub4",
+    "₅": "sub5", "₆": "sub6", "₇": "sub7", "₈": "sub8", "₉": "sub9",
+    "₊": "subplus", "₋": "subminus", "₌": "subeq",
+    "₍": "sublp", "₎": "subrp",
+    "ₙ": "subn",
+}
+
+# ── グリフ名の可読化オーバーライド（コードポイント → 表示名） ──
+# フォント側が `uni207b` のような機械名を持つグリフだけ、他の上付き／下付きと同じ
+# `{値}{superior|inferior}` 様式に揃える。SVG/PNG のステム（``char_{名}_{CP}``）が
+# 一貫し、フォント側でグリフ名が変わってもファイル名が動かない。
+GLYPH_NAME_OVERRIDES: dict[int, str] = {
+    0x2071: "isuperior",       # ⁱ  font: uni2071
+    0x207B: "minussuperior",   # ⁻  font: uni207b
+    0x208A: "plusinferior",    # ₊  font: uni208a
+    0x208B: "minusinferior",   # ₋  font: uni208b
+    0x208C: "equalinferior",   # ₌  font: uni208c
+    0x2099: "ninferior",       # ₙ  font: uni2099
+}
+
 # ── ギリシャ AGL 名の集合（stem 実測に一致） ──
 _GREEK_UPPER_AGL = {
     "Alpha", "Beta", "Gamma", "Delta", "Deltagreek", "Epsilon", "Zeta", "Eta",
@@ -88,7 +122,7 @@ def glyph_token(char: str, agl: str) -> str:
         agl:  グリフの AGL 名（例 'A' / 'two' / 'hyphen' / 'alpha' / 'Deltagreek'）。
 
     Returns:
-        字体トークン（例 'ua' / 'n2' / 'hy' / 'alpha' / 'cdelta'）。
+        字体トークン（例 'ua' / 'n2' / 'hy' / 'alpha' / 'cdelta' / 'sup2' / 'subn'）。
     """
     if len(char) == 1 and char.isascii():
         if char.isdigit():
@@ -97,6 +131,12 @@ def glyph_token(char: str, agl: str) -> str:
             return f"l{char}"
         if "A" <= char <= "Z":
             return f"u{char.lower()}"
+    # 上付き／下付きは非ASCII。'²'.isdigit() は True なので数字判定より後に置く必要は
+    # ないが、ASCII 分岐で弾かれるため誤って n2 にはならない。
+    if char in SUPERSCRIPT_TOKENS:
+        return SUPERSCRIPT_TOKENS[char]
+    if char in SUBSCRIPT_TOKENS:
+        return SUBSCRIPT_TOKENS[char]
     if agl in SYMBOL_TOKENS:
         return SYMBOL_TOKENS[agl]
     if agl in _GREEK_UPPER_AGL:
@@ -106,6 +146,58 @@ def glyph_token(char: str, agl: str) -> str:
     # フォールバック: AGL を小文字化し [a-z0-9_] 以外を除去
     safe = "".join(ch for ch in agl.lower() if ch.isalnum() or ch == "_")
     return safe or "x"
+
+
+def glyph_subcategory(char: str, agl: str) -> str:
+    """グリフ種別のサブカテゴリ名を返す（Misskey のカテゴリ末尾に使う）。
+
+    Args:
+        char: グリフの文字（例 'A' / '²' / 'α'）。
+        agl:  グリフの AGL 名（例 'A' / 'twosuperior' / 'alpha'）。
+
+    Returns:
+        '数字' / '英大文字' / '英小文字' / 'ギリシャ大文字' / 'ギリシャ小文字' /
+        '上付き' / '下付き' / '記号ほか' のいずれか。
+    """
+    if len(char) == 1 and char.isascii():
+        if char.isdigit():
+            return "数字"
+        if "A" <= char <= "Z":
+            return "英大文字"
+        if "a" <= char <= "z":
+            return "英小文字"
+    if char in SUPERSCRIPT_TOKENS:
+        return "上付き"
+    if char in SUBSCRIPT_TOKENS:
+        return "下付き"
+    if agl in _GREEK_UPPER_AGL:
+        return "ギリシャ大文字"
+    if agl in _GREEK_LOWER_AGL:
+        return "ギリシャ小文字"
+    return "記号ほか"
+
+
+def glyph_extra_aliases(char: str, agl: str) -> list[str]:
+    """字種に応じた追加検索エイリアスを返す（SPEC §4.1 / §2.6）。
+
+    上付き・下付きは字面が小さく、ピッカーのサムネイルでは数字・記号の判別が
+    難しい。字種名（``superscript`` / ``上付き``）と読み下し（``sup_2``）を
+    足しておくと、名前を覚えていなくても絞り込める。
+
+    Args:
+        char: グリフの文字。
+        agl:  グリフの AGL 名。
+
+    Returns:
+        追加エイリアスのリスト（該当しない字種では空）。
+    """
+    token = SUPERSCRIPT_TOKENS.get(char)
+    if token:
+        return ["superscript", "上付き", f"sup_{token[len('sup'):]}"]
+    token = SUBSCRIPT_TOKENS.get(char)
+    if token:
+        return ["subscript", "下付き", f"sub_{token[len('sub'):]}"]
+    return []
 
 
 def emoji_name(char: str, agl: str, variant: str) -> str:

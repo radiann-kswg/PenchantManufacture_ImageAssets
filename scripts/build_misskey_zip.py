@@ -34,7 +34,13 @@ from pathlib import Path
 
 import click
 
-from glyph_tokens import glyph_token, VARIANT_JP, VARIANT_SUFFIX
+from glyph_tokens import (
+    glyph_extra_aliases,
+    glyph_subcategory,
+    glyph_token,
+    VARIANT_JP,
+    VARIANT_SUFFIX,
+)
 
 ROOT = Path(__file__).parent.parent
 DIST = ROOT / "dist" / "glyphs_decal"          # 幅可変版（Misskey向け）
@@ -58,17 +64,8 @@ _LICENSE = (
 # スキーム → 和名ラベルは glyph_tokens.VARIANT_JP（命名様式のSSOT）を参照する。
 # 既定は sumi（墨・二画面）＝後置タグ p。工業4種は pr / ph / pt / pn。
 
-# ギリシャ大文字/小文字 AGL 名（カテゴリ分類・エイリアス用）
-_GREEK_UPPER = {
-    "Alpha", "Beta", "Gamma", "Delta", "Deltagreek", "Epsilon", "Zeta", "Eta",
-    "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron", "Pi", "Rho",
-    "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega", "Omegagreek",
-}
-_GREEK_LOWER = {
-    "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota",
-    "kappa", "lambda", "mu", "mugreek", "nu", "xi", "omicron", "pi", "rho",
-    "sigma", "sigma1", "sigmafinal", "tau", "upsilon", "phi", "chi", "psi", "omega",
-}
+# グリフ種別のサブカテゴリ判定（数字/英字/ギリシャ/上付き/下付き/記号ほか）は
+# glyph_tokens.glyph_subcategory（命名様式のSSOT）へ委譲する。
 
 
 def _load_aliases() -> dict[str, dict]:
@@ -77,6 +74,21 @@ def _load_aliases() -> dict[str, dict]:
         print(f"WARN: {ALIASES_PATH} がありません。extract_glyphs.py を先に実行してください。")
         return {}
     return json.loads(ALIASES_PATH.read_text(encoding="utf-8")).get("glyphs", {})
+
+
+def _merged_stems(render_merges: dict[str, list[dict]]) -> set[str]:
+    """統合された（＝収録しない）非正規グリフのステム集合を返す。
+
+    ``dedupe_renders`` は統合先の PNG を削除するが、読み取り専用マウントや
+    ファイルロックで削除に失敗することがある（その場合は WARN が出る）。
+    残骸を拾って同一画像を二重登録しないよう、対応表からも明示的に除外する。
+    """
+    return {
+        mg["stem"]
+        for merged in render_merges.values()
+        for mg in merged
+        if mg.get("stem")
+    }
 
 
 def _load_render_merges() -> dict[str, list[dict]]:
@@ -108,22 +120,6 @@ def _parse_stem(stem: str) -> tuple[str, str, str]:
     except ValueError:
         char = ""
     return agl, cp, char
-
-
-def _subcategory(agl: str, char: str) -> str:
-    """グリフ種別のサブカテゴリ名を返す。"""
-    if len(char) == 1 and char.isascii():
-        if char.isdigit():
-            return "数字"
-        if "A" <= char <= "Z":
-            return "英大文字"
-        if "a" <= char <= "z":
-            return "英小文字"
-    if agl in _GREEK_UPPER:
-        return "ギリシャ大文字"
-    if agl in _GREEK_LOWER:
-        return "ギリシャ小文字"
-    return "記号ほか"
 
 
 def _dedupe(seq: list[str]) -> list[str]:
@@ -197,8 +193,10 @@ def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
     """
     aliases_map = _load_aliases()
     render_merges = _load_render_merges()
+    skip_stems = _merged_stems(render_merges)
     variants = [variant] if variant else list(VARIANT_JP.keys())
     entries: list[tuple[Path, str, dict]] = []
+    skipped = 0
 
     for var in variants:
         var_dir = DIST / var
@@ -209,16 +207,21 @@ def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
 
         for png in sorted(var_dir.glob(f"char_*_{size}.png")):
             stem = png.stem[: -(len(str(size)) + 1)]  # char_A_0041_128 -> char_A_0041
+            if stem in skip_stems:
+                # 描画一致で正規側へ統合済み。PNG が消し残っていても収録しない。
+                skipped += 1
+                continue
             agl, _cp, char = _parse_stem(stem)
             token = glyph_token(char, agl)          # 字体トークン（例 ua / n2 / hy / cdelta）
             suffix = VARIANT_SUFFIX[var]            # 後置タグ（pr / ph / pt / pn、既定sumiはp）
 
             emoji_name = f"{token}{suffix}"         # 確定様式: {字体トークン}{後置タグ}
             zip_name = f"{emoji_name}.png"
-            category = f"PenchantManufacture/工業デカール_{vjp}/{_subcategory(agl, char)}"
+            category = f"PenchantManufacture/工業デカール_{vjp}/{glyph_subcategory(char, agl)}"
 
             # 名前は打鍵用に最短、エイリアスは検索・可読用に多めに（SPEC §2.6）
-            aliases = [token, agl, agl.lower(), var, vjp]
+            # 上付き・下付きは字面が小さく判別しづらいので字種名も足す。
+            aliases = [token, agl, agl.lower(), var, vjp, *glyph_extra_aliases(char, agl)]
             if char and char.isprintable() and len(char) == 1:
                 aliases.append(char)               # リテラル字（Misskeyは大文字/非ASCIIも別名可）
             # 統合した異体字（アクセント付き等）を検索エイリアスとして展開
@@ -244,6 +247,10 @@ def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
             entries.append(
                 (png, zip_name, _make_entry(zip_name, emoji_name, category, _dedupe(aliases)))
             )
+
+    if skipped:
+        print(f"  統合済みグリフの消し残り {skipped} 件を除外しました "
+              f"（generate_decal.py の dedupe で削除に失敗した残骸）")
 
     # スペーサはバリアント非依存。variant 指定の有無に関わらず 1 組だけ追加する。
     entries.extend(_collect_spacers(size))
