@@ -105,8 +105,9 @@ PenchantManufacture_ImageAssets/
 ├── dist/
 │   ├── glyphs/                 ← グリフ透過PNG（72px / 512px、装飾なし、export_png.py 出力）
 │   ├── glyphs_decal/{variant}/       ← 工業デカール 幅可変PNG（Misskey向け・マスター）
-│   └── glyphs_decal_square/{variant}/ ← 工業デカール 正方形PNG（Discord向け）
-│                                   variant = sumi（既定）/ rust / hazard / patina / nickel
+│   ├── glyphs_decal_square/{variant}/ ← 工業デカール 正方形PNG（Discord向け）
+│   │                               variant = sumi（既定）/ rust / hazard / patina / nickel
+│   └── glyphs_spacer/                ← スペーサ 完全透過PNG（バリアント非依存・Misskey専用）
 ├── svg2png/
 │   └── glyphs/                 ← SVG の単純PNG変換（装飾なし、ユーティリティ用途）
 ├── scripts/
@@ -114,12 +115,17 @@ PenchantManufacture_ImageAssets/
 │   ├── extract_glyphs.py       ← フォントアウトライン → src/glyphs/ SVG（重複排除＋エイリアス表）
 │   ├── export_png.py           ← SVG → PNG変換（dist/glyphs, svg2png/）
 │   ├── generate_decal.py       ← 工業デカール生成（幅可変＋正方形、描画一致統合）
+│   ├── generate_spacers.py     ← スペーサ透過PNG生成（バリアント非依存、Pillowのみ）
+│   ├── glyph_tokens.py         ← 字体トークン／後置タグ 命名様式のSSOT
 │   ├── build_misskey_zip.py    ← Misskey一括インポートzip生成 → _exported-dist/
 │   └── build.py                ← 全ステップ一括ビルド
 ├── docs/
 │   ├── glyph_map.txt           ← inspect_font.py が自動生成
 │   ├── glyph_aliases.json      ← 異体字→正規グリフ 対応表（extract_glyphs.py 生成）
 │   ├── glyph_render_merges.json ← 描画一致グリフ 統合表（generate_decal.py 生成）
+│   ├── glyph_spacers.json      ← スペーサ対応表（generate_spacers.py 生成）
+│   ├── EMOJI_TECHCODE_SPEC.md   ← 絵文字 命名様式（確定）
+│   ├── GLYPH_EXTENSION_PLAN.md  ← 追加グリフ計画
 │   └── DECAL_VARIANTS.md        ← 工業デカール バリアント仕様
 ├── _original-fonts/            ← 原本（読み取り専用、.gitignore対象）
 ├── _exported-dist/             ← エクスポートzip格納（.gitignore対象）
@@ -182,12 +188,16 @@ PenchantManufacture.otf
   │         ├─ dist/glyphs_decal_square/{variant}/{stem}_{512,128}.png （正方形・Discord）
   │         └─ docs/glyph_render_merges.json（描画一致グリフ 統合表）
   │
+  ├─ [スペーサ生成] scripts/generate_spacers.py  ※ decal の出力寸法を実測するため decal の後
+  │         ├─ dist/glyphs_spacer/spacer_{spc,gap}_{512,128}.png（完全透過・バリアント非依存）
+  │         └─ docs/glyph_spacers.json（スペーサ対応表）
+  │
   └─ [Misskey zip] scripts/build_misskey_zip.py
             └─ _exported-dist/penchant-misskey-{timestamp}.zip（meta.json付き）
 ```
 
 一括実行は `python scripts/build.py`（全ステップ）。`--step` で個別指定。
-ステップ順: inspect → extract → png → svg2png → decal → misskey_zip。
+ステップ順: inspect → extract → png → svg2png → decal → spacer → misskey_zip。
 
 ### ビルドコマンド早見表
 
@@ -199,6 +209,7 @@ python scripts/extract_glyphs.py         # グリフSVG抽出（重複排除）�
 python scripts/export_png.py             # src/glyphs/*.svg → dist/glyphs/, svg2png/
 python scripts/generate_decal.py         # 工業デカール（幅可変＋正方形）＋描画一致統合
 python scripts/generate_decal.py -v rust # 単一スキームのみ（統合はスキップ）
+python scripts/generate_spacers.py       # スペーサ透過PNG（decal の後に実行）
 python scripts/build_misskey_zip.py      # Misskey一括インポートzip → _exported-dist/
 python scripts/build.py                  # 全ステップ一括
 python scripts/build.py --dry-run        # 実行確認（ファイル生成なし）
@@ -211,9 +222,14 @@ python scripts/build.py --step decal     # 特定ステップのみ
   非正方形の絵文字をそのまま扱えるため **幅可変版**（字面本来の比率）を収録する。
   meta.json のカテゴリは `PenchantManufacture/工業デカール_{和名}/{字種}`、
   各絵文字に基底文字・異体字（アクセント付き／ギリシャ同形）・バリアント名を alias 付与。
+  収録点数は **143字 × 5バリアント ＋ スペーサ2 = 717点**。
 - **Discord**: 絵文字は正方形スロットで表示されるため **正方形版**
   （`dist/glyphs_decal_square/{variant}/*_128.png`）を個別アップロードする。
   1 ファイル 256KB 以下（本出力は全て充足）。
+- **スペーサ（`spcp` 全角 / `gapp` 半角）は Misskey 専用**。バリアント非依存の完全透過PNGで、
+  幅可変表示が効く Misskey でのみ余白幅の差が意味を持つ。Discord は正方形パディングで
+  両者が同一画像に潰れるため対象外（正方形版を生成しない）。詳細は
+  [GLYPH_EXTENSION_PLAN.md](docs/GLYPH_EXTENSION_PLAN.md) §3。
 
 ---
 

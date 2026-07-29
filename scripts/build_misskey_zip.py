@@ -9,6 +9,9 @@ meta.json 付き zip アーカイブを作成する。Misskey は非正方形の
 **基底グリフ絵文字の検索エイリアス**として付与する（é で検索すると e のデカールが出る）。
 これにより「同一画像を別名で二重登録しない」まま、異体字からの検索性を確保する。
 
+バリアント非依存のスペーサ（``dist/glyphs_spacer/``、``generate_spacers.py`` 出力）は、
+スキームごとに複製せず **1 組だけ** 収録する（後置タグはプロジェクト印 ``p`` のみ）。
+
 Discord 向けには正方形版（``dist/glyphs_decal_square/{variant}/``）の PNG を
 個別アップロードする運用のため、本スクリプトの一括zipは Misskey 専用。
 
@@ -35,9 +38,13 @@ from glyph_tokens import glyph_token, VARIANT_JP, VARIANT_SUFFIX
 
 ROOT = Path(__file__).parent.parent
 DIST = ROOT / "dist" / "glyphs_decal"          # 幅可変版（Misskey向け）
+SPACER_DIST = ROOT / "dist" / "glyphs_spacer"  # バリアント非依存スペーサ（Misskey専用）
 ALIASES_PATH = ROOT / "docs" / "glyph_aliases.json"        # 異体字（cmap再マップ）統合表
 MERGES_PATH = ROOT / "docs" / "glyph_render_merges.json"   # 描画一致グリフ統合表
+SPACERS_PATH = ROOT / "docs" / "glyph_spacers.json"        # スペーサ対応表
 OUTPUT_DIR = ROOT / "_exported-dist"
+
+SPACER_CATEGORY = "PenchantManufacture/共通/スペーサ"
 
 HOST = "radiann6631.net"
 
@@ -82,6 +89,13 @@ def _load_render_merges() -> dict[str, list[dict]]:
         return {}
     doc = json.loads(MERGES_PATH.read_text(encoding="utf-8")).get("merges", {})
     return {canon: entry.get("merged", []) for canon, entry in doc.items()}
+
+
+def _load_spacers() -> list[dict]:
+    """docs/glyph_spacers.json の spacers 配列を返す（未生成なら空）。"""
+    if not SPACERS_PATH.exists():
+        return []
+    return json.loads(SPACERS_PATH.read_text(encoding="utf-8")).get("spacers", [])
 
 
 def _parse_stem(stem: str) -> tuple[str, str, str]:
@@ -147,6 +161,30 @@ def _make_entry(file_name: str, name: str, category: str, aliases: list[str]) ->
     }
 
 
+def _collect_spacers(size: int) -> list[tuple[Path, str, dict]]:
+    """バリアント非依存スペーサのエントリを収集する（変種ループの外で1回だけ）。
+
+    スペーサは 5 スキームで見た目が変わらない完全透過PNGのため、バリアント別に
+    登録せず 1 組のみ収録する（後置タグはプロジェクト印 ``p`` のみ）。Discord は
+    正方形パディングで全スペーサが同一画像に潰れるため Misskey 専用。
+    """
+    entries: list[tuple[Path, str, dict]] = []
+    for sp in _load_spacers():
+        info = sp.get("sizes", {}).get(str(size))
+        if not info:
+            print(f"  skip: スペーサ {sp.get('name')} に {size}px 版がありません")
+            continue
+        src = SPACER_DIST / info["file"]
+        if not src.exists():
+            print(f"  skip: {src} がありません（generate_spacers.py を実行してください）")
+            continue
+        name = sp["name"]
+        zip_name = f"{name}.png"
+        aliases = _dedupe([sp.get("token", ""), *sp.get("aliases", [])])
+        entries.append((src, zip_name, _make_entry(zip_name, name, SPACER_CATEGORY, aliases)))
+    return entries
+
+
 def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
     """dist/glyphs_decal/{variant}/*_{size}.png のエントリを収集する。
 
@@ -154,6 +192,8 @@ def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
       - cmap 再マップ異体字（アクセント付き等）… glyph_aliases.json
       - 描画完全一致グリフ（ギリシャ同形など）… glyph_render_merges.json
     統合された非正規グリフの PNG は生成されないため、エントリ自体は正規グリフのみ。
+
+    末尾にバリアント非依存のスペーサ（glyph_spacers.json）を 1 組だけ追加する。
     """
     aliases_map = _load_aliases()
     render_merges = _load_render_merges()
@@ -204,6 +244,9 @@ def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
             entries.append(
                 (png, zip_name, _make_entry(zip_name, emoji_name, category, _dedupe(aliases)))
             )
+
+    # スペーサはバリアント非依存。variant 指定の有無に関わらず 1 組だけ追加する。
+    entries.extend(_collect_spacers(size))
 
     return entries
 

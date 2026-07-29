@@ -4,13 +4,13 @@
 PNG変換（dist/ と svg2png/）を順に行う。
 
 ステップ: inspect → extract（重複排除）→ png → svg2png → decal（幅可変＋正方形）
-→ misskey_zip（一括インポートzip）
+→ spacer（バリアント非依存の透過スペーサ）→ misskey_zip（一括インポートzip）
 
 使い方:
   python scripts/build.py                 # 全ステップ実行
   python scripts/build.py --dry-run       # 実行内容の確認のみ（生成なし）
   python scripts/build.py --step extract  # 特定ステップのみ
-                                          # inspect/extract/png/svg2png/decal/misskey_zip
+                                          # inspect/extract/png/svg2png/decal/spacer/misskey_zip
 """
 from __future__ import annotations
 
@@ -27,9 +27,10 @@ from export_png import export_category, svg2png_category
 from extract_glyphs import extract_all
 from generate_decal import SCHEMES as DECAL_SCHEMES
 from generate_decal import build as build_decal
+from generate_spacers import build as build_spacers
 from inspect_font import inspect_font
 
-STEPS = ["inspect", "extract", "png", "svg2png", "decal", "misskey_zip"]
+STEPS = ["inspect", "extract", "png", "svg2png", "decal", "spacer", "misskey_zip"]
 
 
 def run_step(step: str, dry_run: bool) -> None:
@@ -59,6 +60,8 @@ def run_step(step: str, dry_run: bool) -> None:
                   f"dist/glyphs_decal_square/{{{keys}}}/ (正方形・Discord) に *_512/*_128.png を生成予定")
         else:
             build_decal()
+    elif step == "spacer":
+        build_spacers(dry_run=dry_run)
     elif step == "misskey_zip":
         if dry_run:
             print("  DRY-RUN: _exported-dist/penchant-misskey-{timestamp}.zip を生成予定")

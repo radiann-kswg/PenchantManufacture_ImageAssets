@@ -34,6 +34,13 @@ VARIANT_JP: dict[str, str] = {
     "nickel": "白銅燐光",
 }
 
+# ── バリアント非依存アセットの後置タグ ──
+# スペーサ（完全透過の余白絵文字）のように 5 バリアントで見た目が変わらないアセットは
+# 1 組のみ生成し、後置タグは **プロジェクト印 `p` のみ**（バリアント記号を持たない）。
+# 既定 sumi の後置タグと同形になるが、既定字と混在させても `:upp::ump::spcp::n3p:` と
+# 打鍵リズムが崩れない利点を優先する（SPEC §2.4 注記）。
+NEUTRAL_SUFFIX = "p"
+
 # ── ASCII 記号 → 2字略号（AGL名キー。SPEC §2.3 と一致） ──
 SYMBOL_TOKENS: dict[str, str] = {
     "hyphen": "hy", "period": "dt", "colon": "co", "slash": "sl",
