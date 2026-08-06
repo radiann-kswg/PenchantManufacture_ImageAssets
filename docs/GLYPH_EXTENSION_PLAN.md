@@ -14,8 +14,12 @@
 | 経路 | 意味 | 対象 | 前提 |
 | --- | --- | --- | --- |
 | **合成**（pipeline） | 既存グリフの縮小・配置・合字で `generate_decal.py` が生成 | A1 上付き / A2 下付き / スペーサ / 単位・型番合字 | 新規作字ほぼ不要 |
-| **作字**（font） | 作者がフォントに新規グリフを描き、`_original-fonts/` 更新 → `assets/fonts/*.otf` 差し替え | C1 キリル / C2 大型演算子 / C3 科学単位 / B1–B9 | 作者作業が前提 |
-| **別名のみ**（alias） | 既存グリフと同一字面 → 新規画像を作らず検索エイリアスに展開 | ギリシャ⇔ラテン同形、µ⇔μ、Ω⇔Ω、∆⇔Δ、Å⇔Å(Aring) | 描画一致統合の踏襲 |
+| **作字**（font） | 作者がフォントに新規グリフを描き、`_original-fonts/` 更新 → `assets/fonts/*.otf` 差し替え | C1 キリル / C2 大型演算子 / C3 科学単位 / B1–B9 / D ラテン拡張 | 作者作業が前提 |
+| **別名のみ**（alias） | 既存グリフと同一字面 → 新規画像を作らず検索エイリアスに展開 | ギリシャ⇔ラテン同形、µ⇔μ、Ω⇔Ω、∆⇔Δ、Å⇔Å(Aring)、∅⇔Ø | 描画一致統合の踏襲 |
+
+> **アクセント記号付きラテン（Tier A/B 計72字）は v3.2-beta で実装済み。**
+> 収録判断・言語別要件・分音記号の配置帯規格は [DIACRITIC_EXTENSION_PLAN.md] を正とする。
+> 本書は数式・記号・単位系の拡張を扱う。
 
 ### トークン導出規則（[SPEC §2.3] の非ASCII拡張）
 
@@ -169,10 +173,13 @@
 
 | トークン | 名前 | 内容 | 参照グリフ | 512px | 128px | 主なエイリアス |
 | --- | --- | --- | --- | --- | --- | --- |
-| `spc` | `spcp` | 全角スペース | `m` (U+006D) | 290×512 | 73×128 | space, emsp, zenkaku, 全角, スペース, spacer |
-| `gap` | `gapp` | 半角スペース | `I` (U+0049) | 141×512 | 35×128 | ensp, halfspace, hankaku, 半角, スペース, spacer |
+| `spc` | `spcp` | 全角スペース | `m` (U+006D) | 253×512 | 63×128 | space, emsp, zenkaku, 全角, スペース, spacer |
+| `gap` | `gapp` | 半角スペース | `I` (U+0049) | 123×512 | 31×128 | ensp, halfspace, hankaku, 半角, スペース, spacer |
 
-- `m` は全148グリフ中の**最大幅**（w/ψ/φ/ω/# と同値）＝ em 幅。`I` はその **48.6%** ＝ ほぼ半角。
+- `m` は全321グリフ中の**最大幅**（w/ψ/φ/ω/# と同値）＝ em 幅。`I` はその **48.6%** ＝ ほぼ半角。
+  > 寸法は v3.2-beta のフルビルド実測値。旧記載（290×512 / 141×512）は縦バンドが
+  > 440px だった v3.0 期の値で、v3.1 の縦バンド拡張（→508px）後に更新されていなかった。
+  > 幅は参照グリフのデカール PNG 実測なので、フォント更新のたびに自動追従する。
 - 生成: `scripts/generate_spacers.py` → `dist/glyphs_spacer/spacer_{token}_{512,128}.png`
   ＋ `docs/glyph_spacers.json`（対応表）。
 - **Misskey 専用**。Discord は絵文字を正方形スロットで表示するため、正方形パディング後は
@@ -309,24 +316,39 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | `⋀` | U+22C0 | E2 8B 80 | `bigwedge` | `bigwedgep` | nary_and |
 
 ### C3 科学単位 特殊字
-µ/Ω/Å は既存グリフ（μ / Ω / Aring）と同形の別名運用も可（§1「別名のみ」）。ℓ/℧/ℏ は新規作字。
+µ/Ω/Å/∅ は既存グリフ（μ / Ω / Å(Aring) / Ø(Oslash)）と同形の別名運用（§1「別名のみ」）。
+ℓ/℧/ℏ/℮ は新規作字。
 
-| 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
-| --- | --- | --- | --- | --- | --- |
-| `ℓ` | U+2113 | E2 84 93 | `ell` | `ellp` | liter, litre, scriptl |
-| `℧` | U+2127 | E2 84 A7 | `mho` | `mhop` | invohm, conductance |
-| `Å` | U+00C5 | C3 85 | `angst` | `angstp` | angstrom, aring |
-| `ℏ` | U+210F | E2 84 8F | `hbar` | `hbarp` | planck, hslash |
-| `Ω` | U+03A9 | CE A9 | `ohm` | `ohmp` | omega_unit, resistance |
-| `µ` | U+00B5 | C2 B5 | `micro` | `microp` | mu_unit, u_prefix |
-| `∅` | U+2205 | E2 88 85 | `empty` | `emptyp` | emptyset, null |
-| `℮` | U+212E | E2 84 AE | `estd` | `estdp` | estimated |
+| 字 | U+ | UTF-8 | トークン | 既定名(墨) | 実装方針 | 主なエイリアス |
+| --- | --- | --- | --- | --- | --- | --- |
+| `ℓ` | U+2113 | E2 84 93 | `ell` | `ellp` | 作字 | liter, litre, scriptl |
+| `℧` | U+2127 | E2 84 A7 | `mho` | `mhop` | 作字 | invohm, conductance |
+| `ℏ` | U+210F | E2 84 8F | `hbar` | `hbarp` | 作字 | planck, hslash |
+| `℮` | U+212E | E2 84 AE | `estd` | `estdp` | 作字 | estimated |
+| `Å` | U+212B | E2 84 AB | — | — | **別名**→`uarg`(Å) | angstrom, angst, オングストローム |
+| `∅` | U+2205 | E2 88 85 | — | — | **別名**→`uosk`(Ø) | emptyset, empty, null, 空集合 |
+| `Ω` | U+03A9 | CE A9 | — | — | **別名**→`comega`(Ω) | ohm, omega_unit, resistance, オーム |
+| `µ` | U+00B5 | C2 B5 | — | — | **別名**→`mu`(μ) | micro, mu_unit, u_prefix, マイクロ |
+
+> **別名運用の確定（v3.2-beta）**
+> `Å`(U+00C5 LATIN CAPITAL A WITH RING) は v3.2-beta で作字され、トークン `uarg` を持つ。
+> 単位のオングストローム記号 `Å`(U+212B) は Unicode 正規化（NFC）で U+00C5 へ合成されるため、
+> **独立グリフを作らず `uarg` の検索エイリアス**（`angstrom` `angst` `オングストローム`）とする。
+> 同様に `Ø`(U+00D8, トークン `uosk`) と空集合 `∅`(U+2205) は字面が同一のため、
+> `∅` は **`uosk` のエイリアス**とする（数式用途で必要になったら独立作字へ格上げする）。
+> `Ω`/`µ` は従来どおりギリシャ側 `comega`/`mu` のエイリアス。
+> いずれも新規 PNG を作らないので絵文字点数は増えない。
 
 ### B1 数式演算子（通常サイズ）
+
+> `×`(U+00D7) と `÷`(U+00F7) は **v3.2-beta で作字済み**。実装は
+> `scripts/glyph_tokens.py` の `MATH_SYMBOL_TOKENS`。サブカテゴリは `記号ほか`。
+> 残りは未実装。
+
 | 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
 | --- | --- | --- | --- | --- | --- |
-| `×` | U+00D7 | C3 97 | `times` | `timesp` | multiply, mul |
-| `÷` | U+00F7 | C3 B7 | `div` | `divp` | divide |
+| `×` | U+00D7 | C3 97 | `times` | `timesp` | multiply, mul — **実装済み(v3.2-beta)** |
+| `÷` | U+00F7 | C3 B7 | `div` | `divp` | divide — **実装済み(v3.2-beta)** |
 | `±` | U+00B1 | C2 B1 | `pm` | `pmp` | plusminus |
 | `∓` | U+2213 | E2 88 93 | `mp` | `mpp` | minusplus |
 | `≈` | U+2248 | E2 89 88 | `approx` | `approxp` | almosteq |
@@ -489,9 +511,11 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | P2b | A1 上付き 17字 / A2 下付き 16字（**済**） | 作字（v3.1.0） | P1 |
 | P2c | 単位・型番合字 | 合成 | P1 |
 | P3 | `text_to_emoji.py`＋チートシート | tool | P1,P2 |
-| P4 | C2 大型演算子・B1 演算子・B2 矢印・B3 度/プライム・B5 状態 | 作字 | 作者作字 |
-| P5 | C1 キリル 66字（**済**）／ C3 単位特殊字 | 作字 | 作者作字 |
+| P4 | C2 大型演算子・B1 演算子（`×` `÷` は**済**）・B2 矢印・B3 度/プライム・B5 状態 | 作字 | 作者作字 |
+| P5 | C1 キリル 66字（**済**）／ C3 単位特殊字（`Å` `∅` は別名で**済**） | 作字 | 作者作字 |
 | P6 | B4 参照 / B6 通貨 / B7 補助 / B8 括弧 / B9 分数 / 特殊合字 | 作字 | 作者作字 |
+| **P7a** | **ラテン拡張 Tier A/B 計72字（v3.2-beta で済）** | 作字 | [DIACRITIC_EXTENSION_PLAN.md] |
+| P7b | ギリシャ アクセント（モノトニック20字） | 作字 | 同上 §4 |
 
 ---
 

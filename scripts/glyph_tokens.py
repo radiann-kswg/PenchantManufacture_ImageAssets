@@ -112,6 +112,71 @@ GLYPH_NAME_OVERRIDES: dict[int, str] = {
     0x208B: "minusinferior",   # ₋  font: uni208b
     0x208C: "equalinferior",   # ₌  font: uni208c
     0x2099: "ninferior",       # ₙ  font: uni2099
+    0x1E9E: "Germandbls",      # ẞ  font: uni1e9e（AGL 名なし。ß=germandbls と対にする）
+}
+
+# ── ラテン拡張（アクセント付き・合字）→ 字体トークン ──
+# [SPEC §2.3] の `u`/`l` マーカー方式を分音記号付き字へ拡張する。
+#
+#     {u|l}{基底ラテン字}{記号2字コード}   → 固定 4 字（例 Ä=uadi / ä=ladi）
+#
+# **AGL 名フォールバックは使えない**。フォールバックは AGL を小文字化するため
+# `Adieresis`(Ä) と `adieresis`(ä) が同一トークンへ潰れ、絵文字名が衝突する
+# （v3.2-beta 追加分で 35 組が該当した）。マーカーで大小を分けて回避する。
+ACCENT_CODES: dict[str, str] = {
+    "grave": "gr", "acute": "ac", "circumflex": "cf", "dieresis": "di",
+    "tilde": "tl", "macron": "mc", "ring": "rg", "cedilla": "cd",
+    "slash": "sk",   # `sl`（solidus/slash 記号）と衝突するため sk
+}
+
+# (大文字, 小文字, 基底ラテン字, 記号名)
+_LATIN_EXT_SPEC: tuple[tuple[str, str, str, str], ...] = (
+    ("À", "à", "a", "grave"),      ("Á", "á", "a", "acute"),
+    ("Â", "â", "a", "circumflex"), ("Ã", "ã", "a", "tilde"),
+    ("Ä", "ä", "a", "dieresis"),   ("Å", "å", "a", "ring"),
+    ("Ā", "ā", "a", "macron"),
+    ("Ç", "ç", "c", "cedilla"),
+    ("È", "è", "e", "grave"),      ("É", "é", "e", "acute"),
+    ("Ê", "ê", "e", "circumflex"), ("Ë", "ë", "e", "dieresis"),
+    ("Ē", "ē", "e", "macron"),
+    ("Ì", "ì", "i", "grave"),      ("Í", "í", "i", "acute"),
+    ("Î", "î", "i", "circumflex"), ("Ï", "ï", "i", "dieresis"),
+    ("Ī", "ī", "i", "macron"),
+    ("Ñ", "ñ", "n", "tilde"),
+    ("Ò", "ò", "o", "grave"),      ("Ó", "ó", "o", "acute"),
+    ("Ô", "ô", "o", "circumflex"), ("Õ", "õ", "o", "tilde"),
+    ("Ö", "ö", "o", "dieresis"),   ("Ø", "ø", "o", "slash"),
+    ("Ō", "ō", "o", "macron"),
+    ("Ù", "ù", "u", "grave"),      ("Ú", "ú", "u", "acute"),
+    ("Û", "û", "u", "circumflex"), ("Ü", "ü", "u", "dieresis"),
+    ("Ū", "ū", "u", "macron"),
+    ("Ý", "ý", "y", "acute"),      ("Ÿ", "ÿ", "y", "dieresis"),
+)
+
+LATIN_EXT_TOKENS: dict[str, str] = {}
+LATIN_EXT_ACCENT: dict[str, str] = {}   # 字 → 記号名（エイリアス用）
+for _up, _lo, _base, _mark in _LATIN_EXT_SPEC:
+    _code = ACCENT_CODES[_mark]
+    LATIN_EXT_TOKENS[_up] = f"u{_base}{_code}"
+    LATIN_EXT_TOKENS[_lo] = f"l{_base}{_code}"
+    LATIN_EXT_ACCENT[_up] = _mark
+    LATIN_EXT_ACCENT[_lo] = _mark
+
+# 合字・特殊字（分音記号ではないラテン拡張）。同じく大小をマーカーで分ける。
+# `ß` は v3.0 以来 AGL 名フォールバックで `germandbls` だったが、大文字 `ẞ` の追加に
+# 伴い `lss`/`uss` の対へ揃える。v3.2-beta で `ß` の字形自体が変わり再登録が必要な
+# ため、改名の追加コストは発生しない（旧名は検索エイリアスに残す）。
+LATIN_LIGATURE_TOKENS: dict[str, str] = {
+    "Œ": "uoe", "œ": "loe",
+    "Æ": "uae", "æ": "lae",
+    "ẞ": "uss", "ß": "lss",
+    "ı": "lidl",   # dotless i
+}
+
+# 算術記号（[GLYPH_EXTENSION_PLAN] B1）。AGL 名キー。
+MATH_SYMBOL_TOKENS: dict[str, str] = {
+    "multiply": "times",
+    "divide": "div",
 }
 
 # ── ギリシャ AGL 名の集合（stem 実測に一致） ──
@@ -165,6 +230,13 @@ def glyph_token(char: str, agl: str) -> str:
         return CYRILLIC_UPPER_TOKENS[char]
     if char in CYRILLIC_LOWER_TOKENS:
         return CYRILLIC_LOWER_TOKENS[char]
+    # ラテン拡張は AGL 判定より先に置く。AGL フォールバックでは大小が潰れる。
+    if char in LATIN_EXT_TOKENS:
+        return LATIN_EXT_TOKENS[char]
+    if char in LATIN_LIGATURE_TOKENS:
+        return LATIN_LIGATURE_TOKENS[char]
+    if agl in MATH_SYMBOL_TOKENS:
+        return MATH_SYMBOL_TOKENS[agl]
     if agl in SYMBOL_TOKENS:
         return SYMBOL_TOKENS[agl]
     if agl in _GREEK_UPPER_AGL:
@@ -202,6 +274,9 @@ def glyph_subcategory(char: str, agl: str) -> str:
         return "キリル大文字"
     if char in CYRILLIC_LOWER_TOKENS:
         return "キリル小文字"
+    if char in LATIN_EXT_TOKENS or char in LATIN_LIGATURE_TOKENS:
+        return ("ラテン拡張大文字"
+                if glyph_token(char, agl).startswith("u") else "ラテン拡張小文字")
     if agl in _GREEK_UPPER_AGL:
         return "ギリシャ大文字"
     if agl in _GREEK_LOWER_AGL:
@@ -236,6 +311,21 @@ def glyph_extra_aliases(char: str, agl: str) -> list[str]:
     token = CYRILLIC_LOWER_TOKENS.get(char)
     if token:
         return ["cyrillic", "キリル", token[len("yl"):]]
+    # ラテン拡張は「基底字＋記号名」で引けるようにする。café の é を `acute` や
+    # `e_acute` で探せるほうが、AGL 名 `eacute` を覚えているより実用的。
+    mark = LATIN_EXT_ACCENT.get(char)
+    if mark:
+        base = LATIN_EXT_TOKENS[char][1]
+        return ["latin", "ラテン拡張", mark, f"{base}_{mark}"]
+    if char in LATIN_LIGATURE_TOKENS:
+        extra = ["latin", "ラテン拡張"]
+        if char in ("Œ", "œ", "Æ", "æ"):
+            extra += ["ligature", "合字"]
+        if char in ("ẞ", "ß"):
+            extra += ["germandbls", "eszett", "sharps"]   # 旧名 germandbls を温存
+        if char == "ı":
+            extra += ["dotlessi", "dotless"]
+        return extra
     return []
 
 

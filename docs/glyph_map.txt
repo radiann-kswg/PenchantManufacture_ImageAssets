@@ -1,8 +1,8 @@
 # PenchantManufacture Glyph Map
 # Font: PenchantManufacture.otf
 # Units per em: 1000
-# Total glyphs: 254
-# Unicode mapped glyphs: 309
+# Total glyphs: 328
+# Unicode mapped glyphs: 327
 
 ## Unicode -> Glyph Name (AGL name)
 
@@ -109,63 +109,80 @@ U+00AD  '.'    glyph=softhyphen        agl=-
 U+00B2  '²'    glyph=twosuperior       agl=-
 U+00B3  '³'    glyph=threesuperior     agl=-
 U+00B9  '¹'    glyph=onesuperior       agl=-
-U+00C0  'À'    glyph=A                 agl=Agrave
-U+00C1  'Á'    glyph=A                 agl=Aacute
-U+00C2  'Â'    glyph=A                 agl=Acircumflex
-U+00C3  'Ã'    glyph=A                 agl=Atilde
-U+00C4  'Ä'    glyph=A                 agl=Adieresis
-U+00C5  'Å'    glyph=A                 agl=Aring
-U+00C7  'Ç'    glyph=C                 agl=Ccedilla
-U+00C8  'È'    glyph=E                 agl=Egrave
-U+00C9  'É'    glyph=E                 agl=Eacute
-U+00CA  'Ê'    glyph=E                 agl=Ecircumflex
-U+00CB  'Ë'    glyph=E                 agl=Edieresis
-U+00CC  'Ì'    glyph=I                 agl=Igrave
-U+00CD  'Í'    glyph=I                 agl=Iacute
-U+00CE  'Î'    glyph=I                 agl=Icircumflex
-U+00CF  'Ï'    glyph=I                 agl=Idieresis
-U+00D1  'Ñ'    glyph=N                 agl=Ntilde
-U+00D2  'Ò'    glyph=O                 agl=Ograve
-U+00D3  'Ó'    glyph=O                 agl=Oacute
-U+00D4  'Ô'    glyph=O                 agl=Ocircumflex
-U+00D5  'Õ'    glyph=O                 agl=Otilde
-U+00D6  'Ö'    glyph=O                 agl=Odieresis
-U+00D8  'Ø'    glyph=O                 agl=Oslash
-U+00D9  'Ù'    glyph=U                 agl=Ugrave
-U+00DA  'Ú'    glyph=U                 agl=Uacute
-U+00DB  'Û'    glyph=U                 agl=Ucircumflex
-U+00DC  'Ü'    glyph=U                 agl=Udieresis
-U+00DD  'Ý'    glyph=Y                 agl=Yacute
+U+00C0  'À'    glyph=Agrave            agl=Agrave
+U+00C1  'Á'    glyph=Aacute            agl=Aacute
+U+00C2  'Â'    glyph=Acircumflex       agl=Acircumflex
+U+00C3  'Ã'    glyph=Atilde            agl=Atilde
+U+00C4  'Ä'    glyph=Adieresis         agl=Adieresis
+U+00C5  'Å'    glyph=Aring             agl=Aring
+U+00C6  'Æ'    glyph=AE                agl=AE
+U+00C7  'Ç'    glyph=Ccedilla          agl=Ccedilla
+U+00C8  'È'    glyph=Egrave            agl=Egrave
+U+00C9  'É'    glyph=Eacute            agl=Eacute
+U+00CA  'Ê'    glyph=Ecircumflex       agl=Ecircumflex
+U+00CB  'Ë'    glyph=Edieresis         agl=Edieresis
+U+00CC  'Ì'    glyph=Igrave            agl=Igrave
+U+00CD  'Í'    glyph=Iacute            agl=Iacute
+U+00CE  'Î'    glyph=Icircumflex       agl=Icircumflex
+U+00CF  'Ï'    glyph=Idieresis         agl=Idieresis
+U+00D1  'Ñ'    glyph=Ntilde            agl=Ntilde
+U+00D2  'Ò'    glyph=Ograve            agl=Ograve
+U+00D3  'Ó'    glyph=Oacute            agl=Oacute
+U+00D4  'Ô'    glyph=Ocircumflex       agl=Ocircumflex
+U+00D5  'Õ'    glyph=Otilde            agl=Otilde
+U+00D6  'Ö'    glyph=Odieresis         agl=Odieresis
+U+00D7  '×'    glyph=multiply          agl=multiply
+U+00D8  'Ø'    glyph=Oslash            agl=Oslash
+U+00D9  'Ù'    glyph=Ugrave            agl=Ugrave
+U+00DA  'Ú'    glyph=Uacute            agl=Uacute
+U+00DB  'Û'    glyph=Ucircumflex       agl=Ucircumflex
+U+00DC  'Ü'    glyph=Udieresis         agl=Udieresis
+U+00DD  'Ý'    glyph=Yacute            agl=Yacute
 U+00DF  'ß'    glyph=germandbls        agl=germandbls
-U+00E0  'à'    glyph=a                 agl=agrave
-U+00E1  'á'    glyph=a                 agl=aacute
-U+00E2  'â'    glyph=a                 agl=acircumflex
-U+00E3  'ã'    glyph=a                 agl=atilde
-U+00E4  'ä'    glyph=a                 agl=adieresis
-U+00E5  'å'    glyph=a                 agl=aring
-U+00E7  'ç'    glyph=c                 agl=ccedilla
-U+00E8  'è'    glyph=e                 agl=egrave
-U+00E9  'é'    glyph=e                 agl=eacute
-U+00EA  'ê'    glyph=e                 agl=ecircumflex
-U+00EB  'ë'    glyph=e                 agl=edieresis
-U+00EC  'ì'    glyph=i                 agl=igrave
-U+00ED  'í'    glyph=i                 agl=iacute
-U+00EE  'î'    glyph=i                 agl=icircumflex
-U+00EF  'ï'    glyph=i                 agl=idieresis
-U+00F1  'ñ'    glyph=n                 agl=ntilde
-U+00F2  'ò'    glyph=o                 agl=ograve
-U+00F3  'ó'    glyph=o                 agl=oacute
-U+00F4  'ô'    glyph=o                 agl=ocircumflex
-U+00F5  'õ'    glyph=o                 agl=otilde
-U+00F6  'ö'    glyph=o                 agl=odieresis
-U+00F8  'ø'    glyph=o                 agl=oslash
-U+00F9  'ù'    glyph=u                 agl=ugrave
-U+00FA  'ú'    glyph=u                 agl=uacute
-U+00FB  'û'    glyph=u                 agl=ucircumflex
-U+00FC  'ü'    glyph=u                 agl=udieresis
-U+00FD  'ý'    glyph=y                 agl=yacute
-U+00FF  'ÿ'    glyph=y                 agl=ydieresis
-U+0178  'Ÿ'    glyph=Y                 agl=Ydieresis
+U+00E0  'à'    glyph=agrave            agl=agrave
+U+00E1  'á'    glyph=aacute            agl=aacute
+U+00E2  'â'    glyph=acircumflex       agl=acircumflex
+U+00E3  'ã'    glyph=atilde            agl=atilde
+U+00E4  'ä'    glyph=adieresis         agl=adieresis
+U+00E5  'å'    glyph=aring             agl=aring
+U+00E6  'æ'    glyph=ae                agl=ae
+U+00E7  'ç'    glyph=ccedilla          agl=ccedilla
+U+00E8  'è'    glyph=egrave            agl=egrave
+U+00E9  'é'    glyph=eacute            agl=eacute
+U+00EA  'ê'    glyph=ecircumflex       agl=ecircumflex
+U+00EB  'ë'    glyph=edieresis         agl=edieresis
+U+00EC  'ì'    glyph=igrave            agl=igrave
+U+00ED  'í'    glyph=iacute            agl=iacute
+U+00EE  'î'    glyph=icircumflex       agl=icircumflex
+U+00EF  'ï'    glyph=idieresis         agl=idieresis
+U+00F1  'ñ'    glyph=ntilde            agl=ntilde
+U+00F2  'ò'    glyph=ograve            agl=ograve
+U+00F3  'ó'    glyph=oacute            agl=oacute
+U+00F4  'ô'    glyph=ocircumflex       agl=ocircumflex
+U+00F5  'õ'    glyph=otilde            agl=otilde
+U+00F6  'ö'    glyph=odieresis         agl=odieresis
+U+00F7  '÷'    glyph=divide            agl=divide
+U+00F8  'ø'    glyph=oslash            agl=oslash
+U+00F9  'ù'    glyph=ugrave            agl=ugrave
+U+00FA  'ú'    glyph=uacute            agl=uacute
+U+00FB  'û'    glyph=ucircumflex       agl=ucircumflex
+U+00FC  'ü'    glyph=udieresis         agl=udieresis
+U+00FD  'ý'    glyph=yacute            agl=yacute
+U+00FF  'ÿ'    glyph=ydieresis         agl=ydieresis
+U+0100  'Ā'    glyph=Amacron           agl=Amacron
+U+0101  'ā'    glyph=amacron           agl=amacron
+U+0112  'Ē'    glyph=Emacron           agl=Emacron
+U+0113  'ē'    glyph=emacron           agl=emacron
+U+012A  'Ī'    glyph=Imacron           agl=Imacron
+U+012B  'ī'    glyph=imacron           agl=imacron
+U+0131  'ı'    glyph=dotlessi          agl=dotlessi
+U+014C  'Ō'    glyph=Omacron           agl=Omacron
+U+014D  'ō'    glyph=omacron           agl=omacron
+U+0152  'Œ'    glyph=OE                agl=OE
+U+0153  'œ'    glyph=oe                agl=oe
+U+016A  'Ū'    glyph=Umacron           agl=Umacron
+U+016B  'ū'    glyph=umacron           agl=umacron
+U+0178  'Ÿ'    glyph=Ydieresis         agl=Ydieresis
 U+0391  'Α'    glyph=Alpha             agl=Alpha
 U+0392  'Β'    glyph=Beta              agl=Beta
 U+0393  'Γ'    glyph=Gamma             agl=Gamma
@@ -281,6 +298,7 @@ U+044D  'э'    glyph=ereversedcyrillic  agl=-
 U+044E  'ю'    glyph=iucyrillic        agl=-
 U+044F  'я'    glyph=iacyrillic        agl=-
 U+0451  'ё'    glyph=iocyrillic        agl=-
+U+1E9E  'ẞ'    glyph=uni1e9e           agl=-
 U+2018  '‘'    glyph=quoteleft         agl=quoteleft
 U+2019  '’'    glyph=quoteright        agl=quoteright
 U+201C  '“'    glyph=quotedblleft      agl=quotedblleft
@@ -321,20 +339,34 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   .notdef
   .null
   A
+  AE
+  Aacute
+  Acircumflex
   Acyrillic
+  Adieresis
+  Agrave
   Alpha
+  Amacron
+  Aring
+  Atilde
   B
   Becyrillic
   Beta
   C
+  Ccedilla
   Checyrillic
   Chi
   D
   Decyrillic
   Deltagreek
   E
+  Eacute
+  Ecircumflex
+  Edieresis
   Efcyrillic
+  Egrave
   Elcyrillic
+  Emacron
   Emcyrillic
   Encyrillic
   Epsilon
@@ -351,9 +383,14 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   I
   IAcyrillic
   IUcyrillic
+  Iacute
+  Icircumflex
+  Idieresis
   Iecyrillic
+  Igrave
   Iicyrillic
   Iishortcyrillic
+  Imacron
   Iocyrillic
   Iota
   J
@@ -366,11 +403,20 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   M
   Mu
   N
+  Ntilde
   Nu
   O
+  OE
+  Oacute
+  Ocircumflex
   Ocyrillic
+  Odieresis
+  Ograve
+  Omacron
   Omegagreek
   Omicron
+  Oslash
+  Otilde
   P
   Pecyrillic
   Phi
@@ -390,7 +436,12 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   Theta
   Tsecyrillic
   U
+  Uacute
+  Ucircumflex
   Ucyrillic
+  Udieresis
+  Ugrave
+  Umacron
   Upsilon
   V
   Vecyrillic
@@ -398,19 +449,29 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   X
   Xi
   Y
+  Yacute
+  Ydieresis
   Yericyrillic
   Z
   Zecyrillic
   Zeta
   Zhecyrillic
   a
+  aacute
+  acircumflex
   acyrillic
+  adieresis
+  ae
+  agrave
   alpha
+  amacron
   ampersand
+  aring
   asciicircum
   asciitilde
   asterisk
   at
+  atilde
   b
   backslash
   becyrillic
@@ -420,6 +481,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   bracketleft
   bracketright
   c
+  ccedilla
   checyrillic
   chi
   colon
@@ -429,13 +491,20 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   d
   decyrillic
   delta
+  divide
   dollar
+  dotlessi
   e
+  eacute
+  ecircumflex
+  edieresis
   efcyrillic
+  egrave
   eight
   eightinferior
   eightsuperior
   elcyrillic
+  emacron
   emcyrillic
   encyrillic
   epsilon
@@ -463,10 +532,15 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   hardsigncyrillic
   hyphen
   i
+  iacute
   iacyrillic
+  icircumflex
+  idieresis
   iecyrillic
+  igrave
   iicyrillic
   iishortcyrillic
+  imacron
   iocyrillic
   iota
   iucyrillic
@@ -480,21 +554,31 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   less
   m
   mugreek
+  multiply
   n
   nine
   nineinferior
   ninesuperior
   nonbreakingspace
   nsuperior
+  ntilde
   nu
   numbersign
   o
+  oacute
+  ocircumflex
   ocyrillic
+  odieresis
+  oe
+  ograve
+  omacron
   omega
   omicron
   one
   oneinferior
   onesuperior
+  oslash
+  otilde
   p
   parenleft
   parenleftinferior
@@ -548,8 +632,14 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   twoinferior
   twosuperior
   u
+  uacute
+  ucircumflex
   ucyrillic
+  udieresis
+  ugrave
+  umacron
   underscore
+  uni1e9e
   uni2071
   uni207b
   uni208a
@@ -564,6 +654,8 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   x
   xi
   y
+  yacute
+  ydieresis
   yericyrillic
   z
   zecyrillic

@@ -1,49 +1,39 @@
 {
   "font": "PenchantManufacture",
-  "generated": "2026-07-29T10:27:36Z",
-  "unique_glyphs": 247,
-  "cmap_mappings": 309,
-  "alias_count": 56,
+  "generated": "2026-08-06T04:47:27Z",
+  "unique_glyphs": 321,
+  "cmap_mappings": 327,
+  "alias_count": 0,
   "pending_skipped": {},
   "note": "異体字（アクセント付きラテン等）は基底グリフと同一アウトラインのため画像は 統合し、ここに検索エイリアスとして記録する。絵文字ビルダーが参照する。",
   "glyphs": {
+    "char_AE_00C6": {
+      "glyph": "AE",
+      "codepoint": "U+00C6",
+      "char": "Æ",
+      "agl": "AE",
+      "aliases": []
+    },
     "char_A_0041": {
       "glyph": "A",
       "codepoint": "U+0041",
       "char": "A",
       "agl": "A",
-      "aliases": [
-        {
-          "codepoint": "U+00C0",
-          "char": "À",
-          "agl": "Agrave"
-        },
-        {
-          "codepoint": "U+00C1",
-          "char": "Á",
-          "agl": "Aacute"
-        },
-        {
-          "codepoint": "U+00C2",
-          "char": "Â",
-          "agl": "Acircumflex"
-        },
-        {
-          "codepoint": "U+00C3",
-          "char": "Ã",
-          "agl": "Atilde"
-        },
-        {
-          "codepoint": "U+00C4",
-          "char": "Ä",
-          "agl": "Adieresis"
-        },
-        {
-          "codepoint": "U+00C5",
-          "char": "Å",
-          "agl": "Aring"
-        }
-      ]
+      "aliases": []
+    },
+    "char_Aacute_00C1": {
+      "glyph": "Aacute",
+      "codepoint": "U+00C1",
+      "char": "Á",
+      "agl": "Aacute",
+      "aliases": []
+    },
+    "char_Acircumflex_00C2": {
+      "glyph": "Acircumflex",
+      "codepoint": "U+00C2",
+      "char": "Â",
+      "agl": "Acircumflex",
+      "aliases": []
     },
     "char_Acyrillic_0410": {
       "glyph": "Acyrillic",
@@ -52,11 +42,46 @@
       "agl": "Acyrillic",
       "aliases": []
     },
+    "char_Adieresis_00C4": {
+      "glyph": "Adieresis",
+      "codepoint": "U+00C4",
+      "char": "Ä",
+      "agl": "Adieresis",
+      "aliases": []
+    },
+    "char_Agrave_00C0": {
+      "glyph": "Agrave",
+      "codepoint": "U+00C0",
+      "char": "À",
+      "agl": "Agrave",
+      "aliases": []
+    },
     "char_Alpha_0391": {
       "glyph": "Alpha",
       "codepoint": "U+0391",
       "char": "Α",
       "agl": "Alpha",
+      "aliases": []
+    },
+    "char_Amacron_0100": {
+      "glyph": "Amacron",
+      "codepoint": "U+0100",
+      "char": "Ā",
+      "agl": "Amacron",
+      "aliases": []
+    },
+    "char_Aring_00C5": {
+      "glyph": "Aring",
+      "codepoint": "U+00C5",
+      "char": "Å",
+      "agl": "Aring",
+      "aliases": []
+    },
+    "char_Atilde_00C3": {
+      "glyph": "Atilde",
+      "codepoint": "U+00C3",
+      "char": "Ã",
+      "agl": "Atilde",
       "aliases": []
     },
     "char_B_0042": {
@@ -85,13 +110,14 @@
       "codepoint": "U+0043",
       "char": "C",
       "agl": "C",
-      "aliases": [
-        {
-          "codepoint": "U+00C7",
-          "char": "Ç",
-          "agl": "Ccedilla"
-        }
-      ]
+      "aliases": []
+    },
+    "char_Ccedilla_00C7": {
+      "glyph": "Ccedilla",
+      "codepoint": "U+00C7",
+      "char": "Ç",
+      "agl": "Ccedilla",
+      "aliases": []
     },
     "char_Checyrillic_0427": {
       "glyph": "Checyrillic",
@@ -133,28 +159,28 @@
       "codepoint": "U+0045",
       "char": "E",
       "agl": "E",
-      "aliases": [
-        {
-          "codepoint": "U+00C8",
-          "char": "È",
-          "agl": "Egrave"
-        },
-        {
-          "codepoint": "U+00C9",
-          "char": "É",
-          "agl": "Eacute"
-        },
-        {
-          "codepoint": "U+00CA",
-          "char": "Ê",
-          "agl": "Ecircumflex"
-        },
-        {
-          "codepoint": "U+00CB",
-          "char": "Ë",
-          "agl": "Edieresis"
-        }
-      ]
+      "aliases": []
+    },
+    "char_Eacute_00C9": {
+      "glyph": "Eacute",
+      "codepoint": "U+00C9",
+      "char": "É",
+      "agl": "Eacute",
+      "aliases": []
+    },
+    "char_Ecircumflex_00CA": {
+      "glyph": "Ecircumflex",
+      "codepoint": "U+00CA",
+      "char": "Ê",
+      "agl": "Ecircumflex",
+      "aliases": []
+    },
+    "char_Edieresis_00CB": {
+      "glyph": "Edieresis",
+      "codepoint": "U+00CB",
+      "char": "Ë",
+      "agl": "Edieresis",
+      "aliases": []
     },
     "char_Efcyrillic_0424": {
       "glyph": "Efcyrillic",
@@ -163,11 +189,25 @@
       "agl": "Efcyrillic",
       "aliases": []
     },
+    "char_Egrave_00C8": {
+      "glyph": "Egrave",
+      "codepoint": "U+00C8",
+      "char": "È",
+      "agl": "Egrave",
+      "aliases": []
+    },
     "char_Elcyrillic_041B": {
       "glyph": "Elcyrillic",
       "codepoint": "U+041B",
       "char": "Л",
       "agl": "Elcyrillic",
+      "aliases": []
+    },
+    "char_Emacron_0112": {
+      "glyph": "Emacron",
+      "codepoint": "U+0112",
+      "char": "Ē",
+      "agl": "Emacron",
       "aliases": []
     },
     "char_Emcyrillic_041C": {
@@ -247,6 +287,13 @@
       "agl": "Gecyrillic",
       "aliases": []
     },
+    "char_Germandbls_1E9E": {
+      "glyph": "uni1e9e",
+      "codepoint": "U+1E9E",
+      "char": "ẞ",
+      "agl": "Germandbls",
+      "aliases": []
+    },
     "char_H_0048": {
       "glyph": "H",
       "codepoint": "U+0048",
@@ -280,34 +327,41 @@
       "codepoint": "U+0049",
       "char": "I",
       "agl": "I",
-      "aliases": [
-        {
-          "codepoint": "U+00CC",
-          "char": "Ì",
-          "agl": "Igrave"
-        },
-        {
-          "codepoint": "U+00CD",
-          "char": "Í",
-          "agl": "Iacute"
-        },
-        {
-          "codepoint": "U+00CE",
-          "char": "Î",
-          "agl": "Icircumflex"
-        },
-        {
-          "codepoint": "U+00CF",
-          "char": "Ï",
-          "agl": "Idieresis"
-        }
-      ]
+      "aliases": []
+    },
+    "char_Iacute_00CD": {
+      "glyph": "Iacute",
+      "codepoint": "U+00CD",
+      "char": "Í",
+      "agl": "Iacute",
+      "aliases": []
+    },
+    "char_Icircumflex_00CE": {
+      "glyph": "Icircumflex",
+      "codepoint": "U+00CE",
+      "char": "Î",
+      "agl": "Icircumflex",
+      "aliases": []
+    },
+    "char_Idieresis_00CF": {
+      "glyph": "Idieresis",
+      "codepoint": "U+00CF",
+      "char": "Ï",
+      "agl": "Idieresis",
+      "aliases": []
     },
     "char_Iecyrillic_0415": {
       "glyph": "Iecyrillic",
       "codepoint": "U+0415",
       "char": "Е",
       "agl": "Iecyrillic",
+      "aliases": []
+    },
+    "char_Igrave_00CC": {
+      "glyph": "Igrave",
+      "codepoint": "U+00CC",
+      "char": "Ì",
+      "agl": "Igrave",
       "aliases": []
     },
     "char_Iicyrillic_0418": {
@@ -322,6 +376,13 @@
       "codepoint": "U+0419",
       "char": "Й",
       "agl": "Iishortcyrillic",
+      "aliases": []
+    },
+    "char_Imacron_012A": {
+      "glyph": "Imacron",
+      "codepoint": "U+012A",
+      "char": "Ī",
+      "agl": "Imacron",
       "aliases": []
     },
     "char_Iocyrillic_0401": {
@@ -406,13 +467,14 @@
       "codepoint": "U+004E",
       "char": "N",
       "agl": "N",
-      "aliases": [
-        {
-          "codepoint": "U+00D1",
-          "char": "Ñ",
-          "agl": "Ntilde"
-        }
-      ]
+      "aliases": []
+    },
+    "char_Ntilde_00D1": {
+      "glyph": "Ntilde",
+      "codepoint": "U+00D1",
+      "char": "Ñ",
+      "agl": "Ntilde",
+      "aliases": []
     },
     "char_Nu_039D": {
       "glyph": "Nu",
@@ -421,49 +483,60 @@
       "agl": "Nu",
       "aliases": []
     },
+    "char_OE_0152": {
+      "glyph": "OE",
+      "codepoint": "U+0152",
+      "char": "Œ",
+      "agl": "OE",
+      "aliases": []
+    },
     "char_O_004F": {
       "glyph": "O",
       "codepoint": "U+004F",
       "char": "O",
       "agl": "O",
-      "aliases": [
-        {
-          "codepoint": "U+00D2",
-          "char": "Ò",
-          "agl": "Ograve"
-        },
-        {
-          "codepoint": "U+00D3",
-          "char": "Ó",
-          "agl": "Oacute"
-        },
-        {
-          "codepoint": "U+00D4",
-          "char": "Ô",
-          "agl": "Ocircumflex"
-        },
-        {
-          "codepoint": "U+00D5",
-          "char": "Õ",
-          "agl": "Otilde"
-        },
-        {
-          "codepoint": "U+00D6",
-          "char": "Ö",
-          "agl": "Odieresis"
-        },
-        {
-          "codepoint": "U+00D8",
-          "char": "Ø",
-          "agl": "Oslash"
-        }
-      ]
+      "aliases": []
+    },
+    "char_Oacute_00D3": {
+      "glyph": "Oacute",
+      "codepoint": "U+00D3",
+      "char": "Ó",
+      "agl": "Oacute",
+      "aliases": []
+    },
+    "char_Ocircumflex_00D4": {
+      "glyph": "Ocircumflex",
+      "codepoint": "U+00D4",
+      "char": "Ô",
+      "agl": "Ocircumflex",
+      "aliases": []
     },
     "char_Ocyrillic_041E": {
       "glyph": "Ocyrillic",
       "codepoint": "U+041E",
       "char": "О",
       "agl": "Ocyrillic",
+      "aliases": []
+    },
+    "char_Odieresis_00D6": {
+      "glyph": "Odieresis",
+      "codepoint": "U+00D6",
+      "char": "Ö",
+      "agl": "Odieresis",
+      "aliases": []
+    },
+    "char_Ograve_00D2": {
+      "glyph": "Ograve",
+      "codepoint": "U+00D2",
+      "char": "Ò",
+      "agl": "Ograve",
+      "aliases": []
+    },
+    "char_Omacron_014C": {
+      "glyph": "Omacron",
+      "codepoint": "U+014C",
+      "char": "Ō",
+      "agl": "Omacron",
       "aliases": []
     },
     "char_Omegagreek_03A9": {
@@ -478,6 +551,20 @@
       "codepoint": "U+039F",
       "char": "Ο",
       "agl": "Omicron",
+      "aliases": []
+    },
+    "char_Oslash_00D8": {
+      "glyph": "Oslash",
+      "codepoint": "U+00D8",
+      "char": "Ø",
+      "agl": "Oslash",
+      "aliases": []
+    },
+    "char_Otilde_00D5": {
+      "glyph": "Otilde",
+      "codepoint": "U+00D5",
+      "char": "Õ",
+      "agl": "Otilde",
       "aliases": []
     },
     "char_P_0050": {
@@ -611,34 +698,48 @@
       "codepoint": "U+0055",
       "char": "U",
       "agl": "U",
-      "aliases": [
-        {
-          "codepoint": "U+00D9",
-          "char": "Ù",
-          "agl": "Ugrave"
-        },
-        {
-          "codepoint": "U+00DA",
-          "char": "Ú",
-          "agl": "Uacute"
-        },
-        {
-          "codepoint": "U+00DB",
-          "char": "Û",
-          "agl": "Ucircumflex"
-        },
-        {
-          "codepoint": "U+00DC",
-          "char": "Ü",
-          "agl": "Udieresis"
-        }
-      ]
+      "aliases": []
+    },
+    "char_Uacute_00DA": {
+      "glyph": "Uacute",
+      "codepoint": "U+00DA",
+      "char": "Ú",
+      "agl": "Uacute",
+      "aliases": []
+    },
+    "char_Ucircumflex_00DB": {
+      "glyph": "Ucircumflex",
+      "codepoint": "U+00DB",
+      "char": "Û",
+      "agl": "Ucircumflex",
+      "aliases": []
     },
     "char_Ucyrillic_0423": {
       "glyph": "Ucyrillic",
       "codepoint": "U+0423",
       "char": "У",
       "agl": "Ucyrillic",
+      "aliases": []
+    },
+    "char_Udieresis_00DC": {
+      "glyph": "Udieresis",
+      "codepoint": "U+00DC",
+      "char": "Ü",
+      "agl": "Udieresis",
+      "aliases": []
+    },
+    "char_Ugrave_00D9": {
+      "glyph": "Ugrave",
+      "codepoint": "U+00D9",
+      "char": "Ù",
+      "agl": "Ugrave",
+      "aliases": []
+    },
+    "char_Umacron_016A": {
+      "glyph": "Umacron",
+      "codepoint": "U+016A",
+      "char": "Ū",
+      "agl": "Umacron",
       "aliases": []
     },
     "char_Upsilon_03A5": {
@@ -688,18 +789,21 @@
       "codepoint": "U+0059",
       "char": "Y",
       "agl": "Y",
-      "aliases": [
-        {
-          "codepoint": "U+00DD",
-          "char": "Ý",
-          "agl": "Yacute"
-        },
-        {
-          "codepoint": "U+0178",
-          "char": "Ÿ",
-          "agl": "Ydieresis"
-        }
-      ]
+      "aliases": []
+    },
+    "char_Yacute_00DD": {
+      "glyph": "Yacute",
+      "codepoint": "U+00DD",
+      "char": "Ý",
+      "agl": "Yacute",
+      "aliases": []
+    },
+    "char_Ydieresis_0178": {
+      "glyph": "Ydieresis",
+      "codepoint": "U+0178",
+      "char": "Ÿ",
+      "agl": "Ydieresis",
+      "aliases": []
     },
     "char_Yericyrillic_042B": {
       "glyph": "Yericyrillic",
@@ -741,44 +845,48 @@
       "codepoint": "U+0061",
       "char": "a",
       "agl": "a",
-      "aliases": [
-        {
-          "codepoint": "U+00E0",
-          "char": "à",
-          "agl": "agrave"
-        },
-        {
-          "codepoint": "U+00E1",
-          "char": "á",
-          "agl": "aacute"
-        },
-        {
-          "codepoint": "U+00E2",
-          "char": "â",
-          "agl": "acircumflex"
-        },
-        {
-          "codepoint": "U+00E3",
-          "char": "ã",
-          "agl": "atilde"
-        },
-        {
-          "codepoint": "U+00E4",
-          "char": "ä",
-          "agl": "adieresis"
-        },
-        {
-          "codepoint": "U+00E5",
-          "char": "å",
-          "agl": "aring"
-        }
-      ]
+      "aliases": []
+    },
+    "char_aacute_00E1": {
+      "glyph": "aacute",
+      "codepoint": "U+00E1",
+      "char": "á",
+      "agl": "aacute",
+      "aliases": []
+    },
+    "char_acircumflex_00E2": {
+      "glyph": "acircumflex",
+      "codepoint": "U+00E2",
+      "char": "â",
+      "agl": "acircumflex",
+      "aliases": []
     },
     "char_acyrillic_0430": {
       "glyph": "acyrillic",
       "codepoint": "U+0430",
       "char": "а",
       "agl": "acyrillic",
+      "aliases": []
+    },
+    "char_adieresis_00E4": {
+      "glyph": "adieresis",
+      "codepoint": "U+00E4",
+      "char": "ä",
+      "agl": "adieresis",
+      "aliases": []
+    },
+    "char_ae_00E6": {
+      "glyph": "ae",
+      "codepoint": "U+00E6",
+      "char": "æ",
+      "agl": "ae",
+      "aliases": []
+    },
+    "char_agrave_00E0": {
+      "glyph": "agrave",
+      "codepoint": "U+00E0",
+      "char": "à",
+      "agl": "agrave",
       "aliases": []
     },
     "char_alpha_03B1": {
@@ -788,11 +896,25 @@
       "agl": "alpha",
       "aliases": []
     },
+    "char_amacron_0101": {
+      "glyph": "amacron",
+      "codepoint": "U+0101",
+      "char": "ā",
+      "agl": "amacron",
+      "aliases": []
+    },
     "char_ampersand_0026": {
       "glyph": "ampersand",
       "codepoint": "U+0026",
       "char": "&",
       "agl": "ampersand",
+      "aliases": []
+    },
+    "char_aring_00E5": {
+      "glyph": "aring",
+      "codepoint": "U+00E5",
+      "char": "å",
+      "agl": "aring",
       "aliases": []
     },
     "char_asciicircum_005E": {
@@ -821,6 +943,13 @@
       "codepoint": "U+0040",
       "char": "@",
       "agl": "at",
+      "aliases": []
+    },
+    "char_atilde_00E3": {
+      "glyph": "atilde",
+      "codepoint": "U+00E3",
+      "char": "ã",
+      "agl": "atilde",
       "aliases": []
     },
     "char_b_0062": {
@@ -891,13 +1020,14 @@
       "codepoint": "U+0063",
       "char": "c",
       "agl": "c",
-      "aliases": [
-        {
-          "codepoint": "U+00E7",
-          "char": "ç",
-          "agl": "ccedilla"
-        }
-      ]
+      "aliases": []
+    },
+    "char_ccedilla_00E7": {
+      "glyph": "ccedilla",
+      "codepoint": "U+00E7",
+      "char": "ç",
+      "agl": "ccedilla",
+      "aliases": []
     },
     "char_checyrillic_0447": {
       "glyph": "checyrillic",
@@ -948,6 +1078,13 @@
       "agl": "delta",
       "aliases": []
     },
+    "char_divide_00F7": {
+      "glyph": "divide",
+      "codepoint": "U+00F7",
+      "char": "÷",
+      "agl": "divide",
+      "aliases": []
+    },
     "char_dollar_0024": {
       "glyph": "dollar",
       "codepoint": "U+0024",
@@ -955,39 +1092,53 @@
       "agl": "dollar",
       "aliases": []
     },
+    "char_dotlessi_0131": {
+      "glyph": "dotlessi",
+      "codepoint": "U+0131",
+      "char": "ı",
+      "agl": "dotlessi",
+      "aliases": []
+    },
     "char_e_0065": {
       "glyph": "e",
       "codepoint": "U+0065",
       "char": "e",
       "agl": "e",
-      "aliases": [
-        {
-          "codepoint": "U+00E8",
-          "char": "è",
-          "agl": "egrave"
-        },
-        {
-          "codepoint": "U+00E9",
-          "char": "é",
-          "agl": "eacute"
-        },
-        {
-          "codepoint": "U+00EA",
-          "char": "ê",
-          "agl": "ecircumflex"
-        },
-        {
-          "codepoint": "U+00EB",
-          "char": "ë",
-          "agl": "edieresis"
-        }
-      ]
+      "aliases": []
+    },
+    "char_eacute_00E9": {
+      "glyph": "eacute",
+      "codepoint": "U+00E9",
+      "char": "é",
+      "agl": "eacute",
+      "aliases": []
+    },
+    "char_ecircumflex_00EA": {
+      "glyph": "ecircumflex",
+      "codepoint": "U+00EA",
+      "char": "ê",
+      "agl": "ecircumflex",
+      "aliases": []
+    },
+    "char_edieresis_00EB": {
+      "glyph": "edieresis",
+      "codepoint": "U+00EB",
+      "char": "ë",
+      "agl": "edieresis",
+      "aliases": []
     },
     "char_efcyrillic_0444": {
       "glyph": "efcyrillic",
       "codepoint": "U+0444",
       "char": "ф",
       "agl": "efcyrillic",
+      "aliases": []
+    },
+    "char_egrave_00E8": {
+      "glyph": "egrave",
+      "codepoint": "U+00E8",
+      "char": "è",
+      "agl": "egrave",
       "aliases": []
     },
     "char_eight_0038": {
@@ -1016,6 +1167,13 @@
       "codepoint": "U+043B",
       "char": "л",
       "agl": "elcyrillic",
+      "aliases": []
+    },
+    "char_emacron_0113": {
+      "glyph": "emacron",
+      "codepoint": "U+0113",
+      "char": "ē",
+      "agl": "emacron",
       "aliases": []
     },
     "char_emcyrillic_043C": {
@@ -1212,28 +1370,14 @@
       "codepoint": "U+0069",
       "char": "i",
       "agl": "i",
-      "aliases": [
-        {
-          "codepoint": "U+00EC",
-          "char": "ì",
-          "agl": "igrave"
-        },
-        {
-          "codepoint": "U+00ED",
-          "char": "í",
-          "agl": "iacute"
-        },
-        {
-          "codepoint": "U+00EE",
-          "char": "î",
-          "agl": "icircumflex"
-        },
-        {
-          "codepoint": "U+00EF",
-          "char": "ï",
-          "agl": "idieresis"
-        }
-      ]
+      "aliases": []
+    },
+    "char_iacute_00ED": {
+      "glyph": "iacute",
+      "codepoint": "U+00ED",
+      "char": "í",
+      "agl": "iacute",
+      "aliases": []
     },
     "char_iacyrillic_044F": {
       "glyph": "iacyrillic",
@@ -1242,11 +1386,32 @@
       "agl": "iacyrillic",
       "aliases": []
     },
+    "char_icircumflex_00EE": {
+      "glyph": "icircumflex",
+      "codepoint": "U+00EE",
+      "char": "î",
+      "agl": "icircumflex",
+      "aliases": []
+    },
+    "char_idieresis_00EF": {
+      "glyph": "idieresis",
+      "codepoint": "U+00EF",
+      "char": "ï",
+      "agl": "idieresis",
+      "aliases": []
+    },
     "char_iecyrillic_0435": {
       "glyph": "iecyrillic",
       "codepoint": "U+0435",
       "char": "е",
       "agl": "iecyrillic",
+      "aliases": []
+    },
+    "char_igrave_00EC": {
+      "glyph": "igrave",
+      "codepoint": "U+00EC",
+      "char": "ì",
+      "agl": "igrave",
       "aliases": []
     },
     "char_iicyrillic_0438": {
@@ -1261,6 +1426,13 @@
       "codepoint": "U+0439",
       "char": "й",
       "agl": "iishortcyrillic",
+      "aliases": []
+    },
+    "char_imacron_012B": {
+      "glyph": "imacron",
+      "codepoint": "U+012B",
+      "char": "ī",
+      "agl": "imacron",
       "aliases": []
     },
     "char_iocyrillic_0451": {
@@ -1375,18 +1547,19 @@
       "agl": "mugreek",
       "aliases": []
     },
+    "char_multiply_00D7": {
+      "glyph": "multiply",
+      "codepoint": "U+00D7",
+      "char": "×",
+      "agl": "multiply",
+      "aliases": []
+    },
     "char_n_006E": {
       "glyph": "n",
       "codepoint": "U+006E",
       "char": "n",
       "agl": "n",
-      "aliases": [
-        {
-          "codepoint": "U+00F1",
-          "char": "ñ",
-          "agl": "ntilde"
-        }
-      ]
+      "aliases": []
     },
     "char_nine_0039": {
       "glyph": "nine",
@@ -1423,6 +1596,13 @@
       "agl": "nsuperior",
       "aliases": []
     },
+    "char_ntilde_00F1": {
+      "glyph": "ntilde",
+      "codepoint": "U+00F1",
+      "char": "ñ",
+      "agl": "ntilde",
+      "aliases": []
+    },
     "char_nu_03BD": {
       "glyph": "nu",
       "codepoint": "U+03BD",
@@ -1442,44 +1622,55 @@
       "codepoint": "U+006F",
       "char": "o",
       "agl": "o",
-      "aliases": [
-        {
-          "codepoint": "U+00F2",
-          "char": "ò",
-          "agl": "ograve"
-        },
-        {
-          "codepoint": "U+00F3",
-          "char": "ó",
-          "agl": "oacute"
-        },
-        {
-          "codepoint": "U+00F4",
-          "char": "ô",
-          "agl": "ocircumflex"
-        },
-        {
-          "codepoint": "U+00F5",
-          "char": "õ",
-          "agl": "otilde"
-        },
-        {
-          "codepoint": "U+00F6",
-          "char": "ö",
-          "agl": "odieresis"
-        },
-        {
-          "codepoint": "U+00F8",
-          "char": "ø",
-          "agl": "oslash"
-        }
-      ]
+      "aliases": []
+    },
+    "char_oacute_00F3": {
+      "glyph": "oacute",
+      "codepoint": "U+00F3",
+      "char": "ó",
+      "agl": "oacute",
+      "aliases": []
+    },
+    "char_ocircumflex_00F4": {
+      "glyph": "ocircumflex",
+      "codepoint": "U+00F4",
+      "char": "ô",
+      "agl": "ocircumflex",
+      "aliases": []
     },
     "char_ocyrillic_043E": {
       "glyph": "ocyrillic",
       "codepoint": "U+043E",
       "char": "о",
       "agl": "ocyrillic",
+      "aliases": []
+    },
+    "char_odieresis_00F6": {
+      "glyph": "odieresis",
+      "codepoint": "U+00F6",
+      "char": "ö",
+      "agl": "odieresis",
+      "aliases": []
+    },
+    "char_oe_0153": {
+      "glyph": "oe",
+      "codepoint": "U+0153",
+      "char": "œ",
+      "agl": "oe",
+      "aliases": []
+    },
+    "char_ograve_00F2": {
+      "glyph": "ograve",
+      "codepoint": "U+00F2",
+      "char": "ò",
+      "agl": "ograve",
+      "aliases": []
+    },
+    "char_omacron_014D": {
+      "glyph": "omacron",
+      "codepoint": "U+014D",
+      "char": "ō",
+      "agl": "omacron",
       "aliases": []
     },
     "char_omega_03C9": {
@@ -1515,6 +1706,20 @@
       "codepoint": "U+00B9",
       "char": "¹",
       "agl": "onesuperior",
+      "aliases": []
+    },
+    "char_oslash_00F8": {
+      "glyph": "oslash",
+      "codepoint": "U+00F8",
+      "char": "ø",
+      "agl": "oslash",
+      "aliases": []
+    },
+    "char_otilde_00F5": {
+      "glyph": "otilde",
+      "codepoint": "U+00F5",
+      "char": "õ",
+      "agl": "otilde",
       "aliases": []
     },
     "char_p_0070": {
@@ -1879,34 +2084,48 @@
       "codepoint": "U+0075",
       "char": "u",
       "agl": "u",
-      "aliases": [
-        {
-          "codepoint": "U+00F9",
-          "char": "ù",
-          "agl": "ugrave"
-        },
-        {
-          "codepoint": "U+00FA",
-          "char": "ú",
-          "agl": "uacute"
-        },
-        {
-          "codepoint": "U+00FB",
-          "char": "û",
-          "agl": "ucircumflex"
-        },
-        {
-          "codepoint": "U+00FC",
-          "char": "ü",
-          "agl": "udieresis"
-        }
-      ]
+      "aliases": []
+    },
+    "char_uacute_00FA": {
+      "glyph": "uacute",
+      "codepoint": "U+00FA",
+      "char": "ú",
+      "agl": "uacute",
+      "aliases": []
+    },
+    "char_ucircumflex_00FB": {
+      "glyph": "ucircumflex",
+      "codepoint": "U+00FB",
+      "char": "û",
+      "agl": "ucircumflex",
+      "aliases": []
     },
     "char_ucyrillic_0443": {
       "glyph": "ucyrillic",
       "codepoint": "U+0443",
       "char": "у",
       "agl": "ucyrillic",
+      "aliases": []
+    },
+    "char_udieresis_00FC": {
+      "glyph": "udieresis",
+      "codepoint": "U+00FC",
+      "char": "ü",
+      "agl": "udieresis",
+      "aliases": []
+    },
+    "char_ugrave_00F9": {
+      "glyph": "ugrave",
+      "codepoint": "U+00F9",
+      "char": "ù",
+      "agl": "ugrave",
+      "aliases": []
+    },
+    "char_umacron_016B": {
+      "glyph": "umacron",
+      "codepoint": "U+016B",
+      "char": "ū",
+      "agl": "umacron",
       "aliases": []
     },
     "char_underscore_005F": {
@@ -1963,18 +2182,21 @@
       "codepoint": "U+0079",
       "char": "y",
       "agl": "y",
-      "aliases": [
-        {
-          "codepoint": "U+00FD",
-          "char": "ý",
-          "agl": "yacute"
-        },
-        {
-          "codepoint": "U+00FF",
-          "char": "ÿ",
-          "agl": "ydieresis"
-        }
-      ]
+      "aliases": []
+    },
+    "char_yacute_00FD": {
+      "glyph": "yacute",
+      "codepoint": "U+00FD",
+      "char": "ý",
+      "agl": "yacute",
+      "aliases": []
+    },
+    "char_ydieresis_00FF": {
+      "glyph": "ydieresis",
+      "codepoint": "U+00FF",
+      "char": "ÿ",
+      "agl": "ydieresis",
+      "aliases": []
     },
     "char_yericyrillic_044B": {
       "glyph": "yericyrillic",
