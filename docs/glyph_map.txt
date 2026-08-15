@@ -1,8 +1,8 @@
 # PenchantManufacture Glyph Map
 # Font: PenchantManufacture.otf
 # Units per em: 1000
-# Total glyphs: 328
-# Unicode mapped glyphs: 327
+# Total glyphs: 341
+# Unicode mapped glyphs: 340
 
 ## Unicode -> Glyph Name (AGL name)
 
@@ -106,6 +106,7 @@ U+007D  '}'    glyph=braceright        agl=braceright
 U+007E  '~'    glyph=asciitilde        agl=asciitilde
 U+00A0  '.'    glyph=nonbreakingspace  agl=-
 U+00AD  '.'    glyph=softhyphen        agl=-
+U+00B1  '±'    glyph=plusminus         agl=plusminus
 U+00B2  '²'    glyph=twosuperior       agl=-
 U+00B3  '³'    glyph=threesuperior     agl=-
 U+00B9  '¹'    glyph=onesuperior       agl=-
@@ -333,6 +334,18 @@ U+208C  '₌'    glyph=uni208c           agl=-
 U+208D  '₍'    glyph=parenleftinferior  agl=-
 U+208E  '₎'    glyph=parenrightinferior  agl=-
 U+2099  'ₙ'    glyph=uni2099           agl=-
+U+210F  'ℏ'    glyph=uni210f           agl=-
+U+2113  'ℓ'    glyph=lsquare           agl=-
+U+2127  '℧'    glyph=uni2127           agl=-
+U+212E  '℮'    glyph=estimated         agl=estimated
+U+2213  '∓'    glyph=minusplus         agl=-
+U+221A  '√'    glyph=radical           agl=radical
+U+221B  '∛'    glyph=uni221b           agl=-
+U+221C  '∜'    glyph=uni221c           agl=-
+U+2248  '≈'    glyph=approxequal       agl=approxequal
+U+2260  '≠'    glyph=notequal          agl=notequal
+U+2264  '≤'    glyph=lessequal         agl=lessequal
+U+2265  '≥'    glyph=greaterequal      agl=greaterequal
 
 ## All Glyph Names
 
@@ -466,6 +479,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   alpha
   amacron
   ampersand
+  approxequal
   aring
   asciicircum
   asciitilde
@@ -513,6 +527,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   ercyrillic
   ereversedcyrillic
   escyrillic
+  estimated
   eta
   exclam
   f
@@ -528,6 +543,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   germandbls
   grave
   greater
+  greaterequal
   h
   hardsigncyrillic
   hyphen
@@ -552,7 +568,10 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   l
   lambda
   less
+  lessequal
+  lsquare
   m
+  minusplus
   mugreek
   multiply
   n
@@ -560,6 +579,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   nineinferior
   ninesuperior
   nonbreakingspace
+  notequal
   nsuperior
   ntilde
   nu
@@ -592,6 +612,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   phi
   pi
   plus
+  plusminus
   plussuperior
   psi
   q
@@ -603,6 +624,7 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   quoteright
   quotesingle
   r
+  radical
   rho
   s
   semicolon
@@ -646,6 +668,10 @@ U+2099  'ₙ'    glyph=uni2099           agl=-
   uni208b
   uni208c
   uni2099
+  uni210f
+  uni2127
+  uni221b
+  uni221c
   upsilon
   v
   vecyrillic

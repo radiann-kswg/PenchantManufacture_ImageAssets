@@ -1,8 +1,8 @@
 {
   "font": "PenchantManufacture",
-  "generated": "2026-08-06T04:47:27Z",
-  "unique_glyphs": 321,
-  "cmap_mappings": 327,
+  "generated": "2026-08-15T05:06:28Z",
+  "unique_glyphs": 334,
+  "cmap_mappings": 340,
   "alias_count": 0,
   "pending_skipped": {},
   "note": "異体字（アクセント付きラテン等）は基底グリフと同一アウトラインのため画像は 統合し、ここに検索エイリアスとして記録する。絵文字ビルダーが参照する。",
@@ -910,6 +910,13 @@
       "agl": "ampersand",
       "aliases": []
     },
+    "char_approxequal_2248": {
+      "glyph": "approxequal",
+      "codepoint": "U+2248",
+      "char": "≈",
+      "agl": "approxequal",
+      "aliases": []
+    },
     "char_aring_00E5": {
       "glyph": "aring",
       "codepoint": "U+00E5",
@@ -1057,6 +1064,13 @@
       "agl": "comma",
       "aliases": []
     },
+    "char_cuberoot_221B": {
+      "glyph": "uni221b",
+      "codepoint": "U+221B",
+      "char": "∛",
+      "agl": "cuberoot",
+      "aliases": []
+    },
     "char_d_0064": {
       "glyph": "d",
       "codepoint": "U+0064",
@@ -1169,6 +1183,13 @@
       "agl": "elcyrillic",
       "aliases": []
     },
+    "char_ell_2113": {
+      "glyph": "lsquare",
+      "codepoint": "U+2113",
+      "char": "ℓ",
+      "agl": "ell",
+      "aliases": []
+    },
     "char_emacron_0113": {
       "glyph": "emacron",
       "codepoint": "U+0113",
@@ -1239,6 +1260,13 @@
       "agl": "escyrillic",
       "aliases": []
     },
+    "char_estimated_212E": {
+      "glyph": "estimated",
+      "codepoint": "U+212E",
+      "char": "℮",
+      "agl": "estimated",
+      "aliases": []
+    },
     "char_eta_03B7": {
       "glyph": "eta",
       "codepoint": "U+03B7",
@@ -1302,6 +1330,13 @@
       "agl": "foursuperior",
       "aliases": []
     },
+    "char_fourthroot_221C": {
+      "glyph": "uni221c",
+      "codepoint": "U+221C",
+      "char": "∜",
+      "agl": "fourthroot",
+      "aliases": []
+    },
     "char_g_0067": {
       "glyph": "g",
       "codepoint": "U+0067",
@@ -1344,6 +1379,13 @@
       "agl": "greater",
       "aliases": []
     },
+    "char_greaterequal_2265": {
+      "glyph": "greaterequal",
+      "codepoint": "U+2265",
+      "char": "≥",
+      "agl": "greaterequal",
+      "aliases": []
+    },
     "char_h_0068": {
       "glyph": "h",
       "codepoint": "U+0068",
@@ -1356,6 +1398,13 @@
       "codepoint": "U+044A",
       "char": "ъ",
       "agl": "hardsigncyrillic",
+      "aliases": []
+    },
+    "char_hbar_210F": {
+      "glyph": "uni210f",
+      "codepoint": "U+210F",
+      "char": "ℏ",
+      "agl": "hbar",
       "aliases": []
     },
     "char_hyphen_002D": {
@@ -1519,6 +1568,13 @@
       "agl": "less",
       "aliases": []
     },
+    "char_lessequal_2264": {
+      "glyph": "lessequal",
+      "codepoint": "U+2264",
+      "char": "≤",
+      "agl": "lessequal",
+      "aliases": []
+    },
     "char_m_006D": {
       "glyph": "m",
       "codepoint": "U+006D",
@@ -1526,11 +1582,25 @@
       "agl": "m",
       "aliases": []
     },
+    "char_mho_2127": {
+      "glyph": "uni2127",
+      "codepoint": "U+2127",
+      "char": "℧",
+      "agl": "mho",
+      "aliases": []
+    },
     "char_minusinferior_208B": {
       "glyph": "uni208b",
       "codepoint": "U+208B",
       "char": "₋",
       "agl": "minusinferior",
+      "aliases": []
+    },
+    "char_minusplus_2213": {
+      "glyph": "minusplus",
+      "codepoint": "U+2213",
+      "char": "∓",
+      "agl": "minusplus",
       "aliases": []
     },
     "char_minussuperior_207B": {
@@ -1587,6 +1657,13 @@
       "codepoint": "U+2099",
       "char": "ₙ",
       "agl": "ninferior",
+      "aliases": []
+    },
+    "char_notequal_2260": {
+      "glyph": "notequal",
+      "codepoint": "U+2260",
+      "char": "≠",
+      "agl": "notequal",
       "aliases": []
     },
     "char_nsuperior_207F": {
@@ -1820,6 +1897,13 @@
       "agl": "plusinferior",
       "aliases": []
     },
+    "char_plusminus_00B1": {
+      "glyph": "plusminus",
+      "codepoint": "U+00B1",
+      "char": "±",
+      "agl": "plusminus",
+      "aliases": []
+    },
     "char_plussuperior_207A": {
       "glyph": "plussuperior",
       "codepoint": "U+207A",
@@ -1895,6 +1979,13 @@
       "codepoint": "U+0072",
       "char": "r",
       "agl": "r",
+      "aliases": []
+    },
+    "char_radical_221A": {
+      "glyph": "radical",
+      "codepoint": "U+221A",
+      "char": "√",
+      "agl": "radical",
       "aliases": []
     },
     "char_rho_03C1": {

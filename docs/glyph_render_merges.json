@@ -1,7 +1,7 @@
 {
-  "generated": "2026-08-06T04:43:54Z",
+  "generated": "2026-08-15T05:27:55Z",
   "note": "絵文字サイズで描画が完全一致する別グリフの統合表。ソースSVGは温存し、出力PNGは正規側1枚に統合、非正規側は絵文字のエイリアスとして扱う。",
-  "merge_count": 17,
+  "merge_count": 14,
   "merges": {
     "char_A_0041": {
       "canonical": {
@@ -16,12 +16,6 @@
           "glyph": "Acyrillic",
           "char": "А",
           "agl": "Acyrillic"
-        },
-        {
-          "stem": "char_Alpha_0391",
-          "glyph": "Alpha",
-          "char": "Α",
-          "agl": "Alpha"
         }
       ]
     },
@@ -34,48 +28,10 @@
       },
       "merged": [
         {
-          "stem": "char_Beta_0392",
-          "glyph": "Beta",
-          "char": "Β",
-          "agl": "Beta"
-        },
-        {
           "stem": "char_Vecyrillic_0412",
           "glyph": "Vecyrillic",
           "char": "В",
           "agl": "Vecyrillic"
-        }
-      ]
-    },
-    "char_C_0043": {
-      "canonical": {
-        "stem": "char_C_0043",
-        "glyph": "C",
-        "char": "C",
-        "agl": "C"
-      },
-      "merged": [
-        {
-          "stem": "char_Escyrillic_0421",
-          "glyph": "Escyrillic",
-          "char": "С",
-          "agl": "Escyrillic"
-        }
-      ]
-    },
-    "char_Chi_03A7": {
-      "canonical": {
-        "stem": "char_Chi_03A7",
-        "glyph": "Chi",
-        "char": "Χ",
-        "agl": "Chi"
-      },
-      "merged": [
-        {
-          "stem": "char_Khacyrillic_0425",
-          "glyph": "Khacyrillic",
-          "char": "Х",
-          "agl": "Khacyrillic"
         }
       ]
     },
@@ -200,6 +156,22 @@
           "glyph": "escyrillic",
           "char": "с",
           "agl": "escyrillic"
+        }
+      ]
+    },
+    "char_khacyrillic_0445": {
+      "canonical": {
+        "stem": "char_khacyrillic_0445",
+        "glyph": "khacyrillic",
+        "char": "х",
+        "agl": "khacyrillic"
+      },
+      "merged": [
+        {
+          "stem": "char_x_0078",
+          "glyph": "x",
+          "char": "x",
+          "agl": "x"
         }
       ]
     },

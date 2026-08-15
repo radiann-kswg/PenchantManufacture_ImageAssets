@@ -113,6 +113,12 @@ GLYPH_NAME_OVERRIDES: dict[int, str] = {
     0x208C: "equalinferior",   # ₌  font: uni208c
     0x2099: "ninferior",       # ₙ  font: uni2099
     0x1E9E: "Germandbls",      # ẞ  font: uni1e9e（AGL 名なし。ß=germandbls と対にする）
+    # v3.3-beta 科学・数式記号（AGLFN に無い／フォント名が機械名のもの）
+    0x2113: "ell",             # ℓ  font: lsquare
+    0x210F: "hbar",            # ℏ  font: uni210f
+    0x2127: "mho",             # ℧  font: uni2127
+    0x221B: "cuberoot",        # ∛  font: uni221b
+    0x221C: "fourthroot",      # ∜  font: uni221c
 }
 
 # ── ラテン拡張（アクセント付き・合字）→ 字体トークン ──
@@ -179,6 +185,33 @@ MATH_SYMBOL_TOKENS: dict[str, str] = {
     "divide": "div",
 }
 
+# ── 科学・数式記号（v3.3-beta で追加の13字） ──
+# フォント側グリフ名が `uni210f` / `lsquare` 等で揺れるため、上付き・下付き・キリルと
+# 同じく **文字キー** に統一してグリフ名から独立させる。
+SCIENCE_SYMBOL_TOKENS: dict[str, str] = {
+    "±": "pm", "∓": "mp",
+    "ℓ": "ell", "℧": "mho", "ℏ": "hbar", "℮": "estd",
+    "√": "sqrt", "∛": "cbrt", "∜": "rt4",
+    "≈": "approx", "≠": "neq", "≤": "leq", "≥": "geq",
+}
+
+# 科学・数式記号の追加検索エイリアス（英語名＋和名。glyph_extra_aliases が使う）
+SCIENCE_SYMBOL_ALIASES: dict[str, list[str]] = {
+    "±": ["plus_minus", "プラスマイナス"],
+    "∓": ["minus_plus", "マイナスプラス"],
+    "ℓ": ["liter", "リットル", "script_l"],
+    "℧": ["inverted_ohm", "モー"],
+    "ℏ": ["planck", "hbar", "ディラック定数"],
+    "℮": ["estimated", "estd", "推定記号"],
+    "√": ["root", "square_root", "ルート", "平方根"],
+    "∛": ["cube_root", "立方根"],
+    "∜": ["fourth_root", "四乗根"],
+    "≈": ["almost_equal", "almosteq", "aeq", "ニアリーイコール"],
+    "≠": ["not_equal", "ノットイコール"],
+    "≤": ["less_or_equal", "以下"],
+    "≥": ["greater_or_equal", "以上"],
+}
+
 # ── ギリシャ AGL 名の集合（stem 実測に一致） ──
 _GREEK_UPPER_AGL = {
     "Alpha", "Beta", "Gamma", "Delta", "Deltagreek", "Epsilon", "Zeta", "Eta",
@@ -235,6 +268,8 @@ def glyph_token(char: str, agl: str) -> str:
         return LATIN_EXT_TOKENS[char]
     if char in LATIN_LIGATURE_TOKENS:
         return LATIN_LIGATURE_TOKENS[char]
+    if char in SCIENCE_SYMBOL_TOKENS:
+        return SCIENCE_SYMBOL_TOKENS[char]
     if agl in MATH_SYMBOL_TOKENS:
         return MATH_SYMBOL_TOKENS[agl]
     if agl in SYMBOL_TOKENS:
@@ -257,7 +292,7 @@ def glyph_subcategory(char: str, agl: str) -> str:
 
     Returns:
         '数字' / '英大文字' / '英小文字' / 'ギリシャ大文字' / 'ギリシャ小文字' /
-        '上付き' / '下付き' / '記号ほか' のいずれか。
+        '上付き' / '下付き' / '数式記号' / '記号ほか' などのいずれか。
     """
     if len(char) == 1 and char.isascii():
         if char.isdigit():
@@ -281,6 +316,10 @@ def glyph_subcategory(char: str, agl: str) -> str:
         return "ギリシャ大文字"
     if agl in _GREEK_LOWER_AGL:
         return "ギリシャ小文字"
+    # 算術記号 ×÷（v3.2）も科学・数式記号（v3.3）と同じサブカテゴリへまとめる。
+    # Misskey のカテゴリは一括インポートで全点更新されるため移動コストは無い。
+    if char in SCIENCE_SYMBOL_TOKENS or agl in MATH_SYMBOL_TOKENS:
+        return "数式記号"
     return "記号ほか"
 
 
@@ -326,6 +365,10 @@ def glyph_extra_aliases(char: str, agl: str) -> list[str]:
         if char == "ı":
             extra += ["dotlessi", "dotless"]
         return extra
+    if char in SCIENCE_SYMBOL_TOKENS:
+        return ["math", "数式記号", *SCIENCE_SYMBOL_ALIASES.get(char, [])]
+    if agl in MATH_SYMBOL_TOKENS:
+        return ["math", "数式記号"]
     return []
 
 
