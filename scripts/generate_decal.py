@@ -42,7 +42,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from datetime import datetime, timezone
+from functools import lru_cache
 from io import BytesIO
 from pathlib import Path
 from typing import NamedTuple
@@ -71,22 +73,13 @@ W_HALO = 10               # 外ハロー幅（px, 512基準）
 W_KEY = 6                 # 内キーライン幅（px, 512基準）
 AA = 1.1                  # 境界アンチエイリアス幅
 
-# ── トリミング（文字形状に合わせた余白除去） ──
-# 横幅はグリフごとにタイト、高さは全グリフ共通の固定バンドで揃える。
-#   - 縦: 全グリフのインク union から算出した「単一の固定バンド」を、全グリフに
-#         同一の top/bottom で適用する。全グリフのクロップ高さが揃うため、高さ基準の
-#         リサイズ後もベースラインが常に同じ出力行に来る（＝ベースライン整合）。
-#         小文字の下ぶくれ（g/j/p/q/y のディセンダ）やアクセント付き文字の頭も、
-#         union バンドが端から端まで含むためクリップされない。
-#   - 横: 各グリフ自身のインク幅で個別クロップ（左右の余白を除去）
+# ── トリミング（フォント登録メトリクス基準・v3.3 で変更） ──
+# extract_glyphs.py が SVG に埋め込む「配置フレーム」をそのまま使う:
+#   - 横: advance 幅 ∪ インク（正のサイドベアリング保持、負側のインクは切らない）
+#   - 縦: win 帯（全グリフ共通の固定バンド。上下位置はビルド側で動かさない）
+# CROP_MARGIN は全グリフ一律に付くため、相対的な幅・上下位置関係は保たれる。
 # 出力は正方形ではなく「高さ=SIZES / 幅=可変」の透過PNGになる。
-# NOTE: 以前は主要グリフ(A–Z/0–9)基準のバンドをグリフごとに上下拡張していたため、
-#       ディセンダを持つ小文字だけスケールが縮みベースライン行がずれていた。v2.2 で
-#       小文字が実装されたのに合わせ、全グリフ一律の固定バンドへ変更した。
-INK_THRESH = 0.05         # インクとみなす被覆率しきい値
 CROP_MARGIN = W_HALO + 3  # クロップ余白（ハロー＋αを切り落とさないための保険, px）
-BOUNDS_CACHE = ROOT / ".build_cache" / "decal_bounds.json"
-BOUNDS_VERSION = "4"      # 境界算出ロジックのバージョン（変更でキャッシュ無効化）
 
 
 class Scheme(NamedTuple):
@@ -246,85 +239,30 @@ _STRIPE = stripe_field()
 
 
 # ────────────────────────────────────────────────────────────────
-# トリミング境界（横=グリフ個別 / 縦=全グリフ一律の固定バンド）
+# トリミング境界（extract_glyphs.py 埋め込みの配置フレームを使用）
 # ────────────────────────────────────────────────────────────────
-def ink_bbox(mask: np.ndarray) -> tuple[int, int, int, int] | None:
-    """マスクのインク境界 (x0, y0, x1, y1) を返す。空なら None。"""
-    cols = np.where(mask.max(axis=0) > INK_THRESH)[0]
-    rows = np.where(mask.max(axis=1) > INK_THRESH)[0]
-    if len(cols) == 0 or len(rows) == 0:
-        return None
-    return int(cols.min()), int(rows.min()), int(cols.max()) + 1, int(rows.max()) + 1
+_FRAME_RE = re.compile(r"<!-- frame x=([-\d.]+),([-\d.]+) y=([-\d.]+),([-\d.]+) -->")
 
 
-def compute_bounds(sources: list[Path]) -> tuple[dict[str, list[int]], tuple[int, int]]:
-    """全ソースのインク境界と、全グリフ共通の縦バンド (top, bottom) を算出する。
+@lru_cache(maxsize=None)
+def frame_box(svg_path: Path) -> tuple[int, int, int, int]:
+    """SVG 埋め込みの配置フレームからクロップ矩形 (left, top, right, bottom) を返す。
 
-    縦バンドは全グリフのインク union（最上端〜最下端）とする。文字セット中で
-    最も背の高い字面（アクセント付き大文字の頭）から最も低い字面（小文字の
-    ディセンダ）までを 1 本の帯に含めるため、全グリフをこの同一 top/bottom で
-    クロップしてもインクがクリップされない。かつ全グリフのクロップ高さが揃うので、
-    高さ基準リサイズ後のベースライン行が全グリフで一致する（ベースライン整合）。
+    フレームは extract_glyphs.py がフォント登録メトリクスから書き込む:
+      横 = advance 幅 ∪ インク / 縦 = win 帯（全グリフ共通）。
+    ビルド側でインク実測から配置をやり直さない（作字側の契約を信頼する）。
+    CROP_MARGIN 分を全グリフ一律に外側へ確保するため、ハローを切り落とさず、
+    相対的な幅・上下位置関係も保たれる。
     """
-    bounds: dict[str, list[int]] = {}
-    tops: list[int] = []
-    bottoms: list[int] = []
-    for svg in sources:
-        bb = ink_bbox(load_mask(svg))
-        if bb is None:
-            continue
-        bounds[svg.stem] = list(bb)
-        tops.append(bb[1])
-        bottoms.append(bb[3])
-    vband = (min(tops), max(bottoms)) if tops else (0, RES)
-    return bounds, vband
-
-
-def _sig(sources: list[Path]) -> str:
-    """ソース集合の署名（ファイル名＋サイズ）。変化時にキャッシュを無効化する。"""
-    h = hashlib.md5()
-    h.update(BOUNDS_VERSION.encode("utf-8"))
-    for svg in sources:
-        h.update(svg.name.encode("utf-8"))
-        h.update(str(svg.stat().st_size).encode("utf-8"))
-    return h.hexdigest()
-
-
-def ensure_bounds(sources: list[Path]) -> tuple[dict[str, list[int]], tuple[int, int]]:
-    """トリミング境界をキャッシュ経由で取得（無ければ算出して保存）。"""
-    sig = _sig(sources)
-    if BOUNDS_CACHE.exists():
-        try:
-            data = json.loads(BOUNDS_CACHE.read_text(encoding="utf-8"))
-            if data.get("sig") == sig:
-                return data["bounds"], tuple(data["vband"])
-        except (json.JSONDecodeError, KeyError):
-            pass
-    print("  トリミング境界を算出中（全グリフをスキャン）...")
-    bounds, vband = compute_bounds(sources)
-    BOUNDS_CACHE.parent.mkdir(parents=True, exist_ok=True)
-    BOUNDS_CACHE.write_text(
-        json.dumps({"sig": sig, "vband": list(vband), "bounds": bounds}),
-        encoding="utf-8",
-    )
-    return bounds, vband
-
-
-def crop_box_for(stem: str, bounds: dict[str, list[int]], vband: tuple[int, int]) -> tuple[int, int, int, int]:
-    """グリフのクロップ矩形 (left, top, right, bottom) を返す。
-
-    横 = 当該グリフのインク幅（左右余白を除去）。
-    縦 = 全グリフ共通の固定バンド（vband）。当該グリフの背丈に依らず top/bottom は
-    常に同じなので、全グリフのクロップ高さが一致し、高さ基準リサイズ後もベースライン
-    行が全グリフで揃う。union バンドなのでディセンダ・アクセントもクリップされない。
-    いずれも CROP_MARGIN 分を外側に確保し、ハローや燐光の滲みを切り落とさない。
-    """
-    x0, _y0, x1, _y1 = bounds[stem]
-    left = max(0, x0 - CROP_MARGIN)
-    right = min(WORK, x1 + CROP_MARGIN)
-    t = max(0, vband[0] - CROP_MARGIN)
-    b = min(WORK, vband[1] + CROP_MARGIN)
-    return left, t, right, b
+    m = _FRAME_RE.search(svg_path.read_text(encoding="utf-8"))
+    if m is None:
+        raise SystemExit(f"{svg_path.name} に配置フレームがありません。"
+                         "scripts/extract_glyphs.py を再実行してください。")
+    x0, x1, y0, y1 = map(float, m.groups())
+    return (max(0, round(PAD + x0 - CROP_MARGIN)),
+            max(0, round(PAD + y0 - CROP_MARGIN)),
+            min(WORK, round(PAD + x1 + CROP_MARGIN)),
+            min(WORK, round(PAD + y1 + CROP_MARGIN)))
 
 
 # ────────────────────────────────────────────────────────────────
@@ -536,9 +474,6 @@ def build(variant: str | None = None, limit: int | None = None, square: bool = T
         print(f"WARN: {SRC} にSVGがありません。先に extract_glyphs.py を実行してください。")
         return 0
 
-    # トリミング境界は全グリフから算出する（--limit でも共通バンドは全体基準）。
-    bounds, vband = ensure_bounds(sources)
-
     if limit:
         sources = sources[:limit]
 
@@ -550,12 +485,9 @@ def build(variant: str | None = None, limit: int | None = None, square: bool = T
         arrow = f"{out_dir}" + (f" + {sq_dir}" if square else "")
         print(f"[{key}] {scheme.label}（{scheme.finish}）→ {arrow}")
         for svg in sources:
-            if svg.stem not in bounds:   # 空インク（通常発生しない）
-                continue
             mask = load_mask(svg)
             img = render(mask, scheme, _seed_for(svg.stem + key))
-            _save_all_sizes(img, out_dir, svg.stem, crop_box_for(svg.stem, bounds, vband),
-                            square_dir=sq_dir)
+            _save_all_sizes(img, out_dir, svg.stem, frame_box(svg), square_dir=sq_dir)
             count += 1
 
     # 描画完全一致グリフの統合は全スキーム分が揃っている時のみ実施

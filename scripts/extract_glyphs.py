@@ -121,60 +121,29 @@ class VerticalFit(NamedTuple):
     bottom: float
 
 
-def compute_vertical_fit(
-    glyph_set: object,
-    glyph_names: set[str],
-    ascender: int,
-    upm: int,
-    viewbox: int,
-) -> VerticalFit:
-    """全グリフの字面が viewBox に収まる共通のスケールとベースライン位置を返す。
+def metrics_fit(os2: object, upm: int, viewbox: int) -> VerticalFit:
+    """フォント登録メトリクス（OS/2 win 帯）による固定の縦配置を返す。
 
-    以前はベースラインを ``ascender`` 固定で置いていたため、**アセンダーを超える
-    字面を持つグリフの頭が viewBox 外に出て切り落とされていた**（v3.1 のキリル
-    ``Ё``/``Й`` は分音記号が y=792.5 まで伸び、アセンダー 660 を大きく超える。
-    その結果 ``Ё`` が ``Е`` と 1px も違わない画像になっていた）。
-
-    実際のインク上端・下端を走査し、``max(ascender, インク上端)`` を SVG の y=0 に
-    合わせる。スケールは従来どおり ``viewbox / upm`` を保ち、**字面の総高が em を
-    超える場合に限り**縮小する。字面がアセンダー内に収まっているフォントでは
-    従来と完全に同じ結果になる（後方互換）。
-
-    NOTE: 基準にするのは **実インクの上下端だけ** で、``sTypoDescender`` のような
-    メトリクス値は使わない。v3.1 の descender は −400 だが実インクは −198 までしか
-    無く、メトリクスを基準にすると不要な縮小（−16%）が入ってしまう。
+    v3.2 以前はインク実測からベースラインを動的に算出していたが、v3.3-beta で
+    作者が **usWinAscent / usWinDescent をインク帯に一致するよう登録**し、
+    「登録されている上下位置のままビルドしてよい」契約になった。以後ビルド側では
+    グリフの上下位置を動かさない（フォント更新で実測が変わっても配置が揺れない）。
+    帯を逸脱するインクは抽出時に WARN で検出する（``extract_glyph_svg``）。
 
     Args:
-        glyph_set:   fontTools glyphSet オブジェクト
-        glyph_names: 対象グリフ名の集合
-        ascender:    フォントのアセンダー高さ（フォントユニット）
-        upm:         Units Per Em
-        viewbox:     出力SVGのviewBoxサイズ（正方形）
+        os2:     fontTools の OS/2 テーブル
+        upm:     Units Per Em
+        viewbox: 出力SVGのviewBoxサイズ（正方形）
 
     Returns:
-        全グリフ共通の ``VerticalFit``。
+        全グリフ共通の ``VerticalFit``（win 帯上端が SVG の y=0 に来る）。
     """
-    ink_top: float | None = None
-    ink_bottom: float | None = None
-    for name in glyph_names:
-        pen = BoundsPen(glyph_set)
-        try:
-            glyph_set[name].draw(pen)
-        except KeyError:
-            continue
-        if pen.bounds is None:
-            continue
-        ink_top = pen.bounds[3] if ink_top is None else max(ink_top, pen.bounds[3])
-        ink_bottom = pen.bounds[1] if ink_bottom is None else min(ink_bottom, pen.bounds[1])
-
-    top = max(float(ascender), ink_top if ink_top is not None else float(ascender))
-    bottom = ink_bottom if ink_bottom is not None else top - upm
-
+    top = float(os2.usWinAscent)
+    bottom = -float(os2.usWinDescent)
     scale = viewbox / upm
-    span = top - bottom
-    if span > upm:
-        # 字面の総高が em を超える。全グリフを一律に縮めて収める（比率は保つ）。
-        scale = viewbox / span
+    if top - bottom > upm:
+        # 万一 win 帯が em を超えて登録されたら一律に縮めて収める（現行 991 < 1000）
+        scale = viewbox / (top - bottom)
     return VerticalFit(scale=scale, ty=top * scale, top=top, bottom=bottom)
 
 
@@ -210,6 +179,14 @@ def extract_glyph_svg(
 
     advance_width, _ = hmtx_metrics.get(glyph_name, (upm, 0))
 
+    # インク境界（win 帯逸脱の警告と、配置フレームの横方向 union に使う）
+    bpen = BoundsPen(glyph_set)
+    glyph_set[glyph_name].draw(bpen)
+    ink_x0, ink_y0, ink_x1, ink_y1 = bpen.bounds
+    if ink_y1 > fit.top + 0.5 or ink_y0 < fit.bottom - 0.5:
+        print(f"  WARN: {glyph_name} のインク y[{ink_y0:.1f}, {ink_y1:.1f}] が "
+              f"win 帯 [{fit.bottom:.0f}, {fit.top:.0f}] を逸脱（クリップの恐れ。作者へ確認）")
+
     # フォント座標系（Y上方向）→ SVG座標系（Y下方向）の変換
     # 変換行列: matrix(sx, 0, 0, -sx, tx, ty)
     #   sx = fit.scale  （全グリフ共通のスケール）
@@ -222,12 +199,22 @@ def extract_glyph_svg(
 
     transform = f"matrix({scale:.6f},0,0,{-scale:.6f},{tx:.3f},{ty:.3f})"
 
+    # 配置フレーム（generate_decal.py がクロップに使う）:
+    #   x = advance 幅 ∪ インク（SVG px）。正のサイドベアリングは保持し、
+    #       負のサイドベアリング（√ の笠、j の尾など）のインクは切らない。
+    #   y = win 帯（全グリフ共通。上端が y=0）。
+    fx0 = min(0.0, ink_x0) * scale + tx
+    fx1 = max(float(advance_width), ink_x1) * scale + tx
+    fy1 = (fit.top - fit.bottom) * scale
+    frame = f"  <!-- frame x={fx0:.3f},{fx1:.3f} y=0.000,{fy1:.3f} -->\n"
+
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<svg xmlns="http://www.w3.org/2000/svg"\n'
         f'     viewBox="0 0 {viewbox} {viewbox}"\n'
         f'     width="{viewbox}" height="{viewbox}">\n'
         f"  <title>{escape(title)}</title>\n"
+        f"{frame}"
         f'  <g transform="{transform}">\n'
         f'    <path d="{path_data}" fill="#000000"/>\n'
         "  </g>\n"
@@ -275,25 +262,11 @@ def extract_all(
     hmtx_metrics: dict[str, tuple[int, int]] = tt["hmtx"].metrics
     upm: int = tt["head"].unitsPerEm
 
-    # アセンダー取得（OS/2 優先、なければ hhea）
-    try:
-        ascender: int = tt["OS/2"].sTypoAscender
-    except (KeyError, AttributeError):
-        ascender = tt["hhea"].ascender
-
-    # 縦方向の配置は **抽出対象グリフ全体** から一度だけ決める（グリフごとに変えると
-    # ベースラインが揃わなくなる）。制作途中で除外する字は基準に含めない。
-    target_glyphs = {
-        name for cp, name in cmap.items()
-        if include_pending or not is_pending(cp)
-    }
-    fit = compute_vertical_fit(glyph_set, target_glyphs, ascender, upm, viewbox)
-    if fit.top > ascender:
-        print(f"  字面上端 {fit.top:.1f} がアセンダー {ascender} を超えるため、"
-              f"ベースラインを {(fit.top - ascender) * fit.scale:.1f}px 下げて全グリフを収めます")
-    if fit.scale < viewbox / upm:
-        print(f"  字面の総高 {fit.top - fit.bottom:.1f} が em({upm}) を超えるため、"
-              f"全グリフを {fit.scale / (viewbox / upm) * 100:.1f}% に縮小します")
+    # 縦配置はフォント登録メトリクス（OS/2 win 帯）を全グリフ共通で使う。
+    # ビルド側でインク実測から配置をやり直さない（作字側の契約を信頼する）。
+    fit = metrics_fit(tt["OS/2"], upm, viewbox)
+    print(f"  縦配置: win 帯 [{fit.bottom:.0f}, {fit.top:.0f}]"
+          f"（{fit.top - fit.bottom:.0f} units）をそのまま使用")
 
     if not dry_run:
         out_dir.mkdir(parents=True, exist_ok=True)
