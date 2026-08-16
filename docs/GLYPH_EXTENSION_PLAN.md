@@ -14,7 +14,7 @@
 | 経路 | 意味 | 対象 | 前提 |
 | --- | --- | --- | --- |
 | **合成**（pipeline） | 既存グリフの縮小・配置・合字で `generate_decal.py` が生成 | A1 上付き / A2 下付き / スペーサ / 単位・型番合字 | 新規作字ほぼ不要 |
-| **作字**（font） | 作者がフォントに新規グリフを描き、`_original-fonts/` 更新 → `assets/fonts/*.otf` 差し替え | C1 キリル / C2 大型演算子 / C3 科学単位 / B1–B9 / D ラテン拡張 | 作者作業が前提 |
+| **作字**（font） | 作者がフォントに新規グリフを描き、`_original-fonts/` 更新 → `assets/fonts/*.otf` 差し替え | C1 キリル / C2 大型演算子 / C3 科学単位 / B枠（B5 等の保留分は §4Z Z枠） / D ラテン拡張 | 作者作業が前提 |
 | **別名のみ**（alias） | 既存グリフと同一字面 → 新規画像を作らず検索エイリアスに展開 | ギリシャ⇔ラテン同形、µ⇔μ、Ω⇔Ω、∆⇔Δ、Å⇔Å(Aring)、∅⇔Ø | 描画一致統合の踏襲 |
 
 > **アクセント記号付きラテン（Tier A/B 計72字）は v3.2-beta で実装済み。**
@@ -382,7 +382,7 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | `∝` | U+221D | E2 88 9D | `propto` | `proptop` | proportional |
 | `≡` | U+2261 | E2 89 A1 | `equiv` | `equivp` | identical |
 | `≅` | U+2245 | E2 89 85 | `cong` | `congp` | congruent |
-| `⊕` | U+2295 | E2 8A 95 | `oplus` | `oplusp` | circleplus |
+| `⊕` | U+2295 | E2 8A 95 | `oplus` | `oplusp` | circleplus, xor |
 | `⊗` | U+2297 | E2 8A 97 | `otimes` | `otimesp` | circletimes |
 | `∘` | U+2218 | E2 88 98 | `ring` | `ringp` | compose |
 
@@ -424,27 +424,7 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | `™` | U+2122 | E2 84 A2 | `tm` | `tmp` | trademark |
 | `©` | U+00A9 | C2 A9 | `copy` | `copyp` | copyright |
 
-### B5 状態・チェック・図形
-| 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
-| --- | --- | --- | --- | --- | --- |
-| `✓` | U+2713 | E2 9C 93 | `check` | `checkp` | ok, pass, tick |
-| `✔` | U+2714 | E2 9C 94 | `hcheck` | `hcheckp` | heavycheck |
-| `✗` | U+2717 | E2 9C 97 | `cross` | `crossp` | ng, fail |
-| `✘` | U+2718 | E2 9C 98 | `hcross` | `hcrossp` | heavycross |
-| `●` | U+25CF | E2 97 8F | `bcirc` | `bcircp` | blackcircle, dot |
-| `○` | U+25CB | E2 97 8B | `wcirc` | `wcircp` | whitecircle |
-| `◆` | U+25C6 | E2 97 86 | `bdia` | `bdiap` | blackdiamond |
-| `◇` | U+25C7 | E2 97 87 | `wdia` | `wdiap` | whitediamond |
-| `■` | U+25A0 | E2 96 A0 | `bsq` | `bsqp` | blacksquare |
-| `□` | U+25A1 | E2 96 A1 | `wsq` | `wsqp` | whitesquare |
-| `▲` | U+25B2 | E2 96 B2 | `btriup` | `btriupp` | blacktriup |
-| `△` | U+25B3 | E2 96 B3 | `wtriup` | `wtriupp` | whitetriup |
-| `▶` | U+25B6 | E2 96 B6 | `btrir` | `btrirp` | play, blacktriright |
-| `◀` | U+25C0 | E2 97 80 | `btril` | `btrilp` | blacktrileft |
-| `▼` | U+25BC | E2 96 BC | `btrid` | `btridp` | blacktridown |
-| `★` | U+2605 | E2 98 85 | `bstar` | `bstarp` | blackstar |
-| `☆` | U+2606 | E2 98 86 | `wstar` | `wstarp` | whitestar |
-| `⚠` | U+26A0 | E2 9A A0 | `warn` | `warnp` | warning, caution |
+### B5 状態・チェック・図形 → **保留（§4Z Z1 へ移動、2026-08-16）**
 
 ### B6 通貨
 | 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
@@ -476,12 +456,13 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | `»` | U+00BB | C2 BB | `rdaquo` | `rdaquop` | guillemet_r |
 | `‹` | U+2039 | E2 80 B9 | `lsaquo` | `lsaquop` | sguillemet_l |
 | `›` | U+203A | E2 80 BA | `rsaquo` | `rsaquop` | sguillemet_r |
-| `【` | U+3010 | E3 80 90 | `jlbk` | `jlbkp` | lenticular_l |
-| `】` | U+3011 | E3 80 91 | `jrbk` | `jrbkp` | lenticular_r |
-| `「` | U+300C | E3 80 8C | `jlcb` | `jlcbp` | kagi_l |
-| `」` | U+300D | E3 80 8D | `jrcb` | `jrcbp` | kagi_r |
-| `『` | U+300E | E3 80 8E | `jldb` | `jldbp` | dblkagi_l |
-| `』` | U+300F | E3 80 8F | `jrdb` | `jrdbp` | dblkagi_r |
+
+> **和文括弧（「」『』【】）は CJK 系列へ移管（2026-08-16）**
+> 和文括弧は全角メトリクス（等幅・全角の em 設計）が前提となるため、本家（半角系
+> プロポーショナル）では扱わず、**PenchantManufacture-CJK の
+> `docs/GLYPH_EXTENSION_PLAN.md`** で計画する。旧割当トークン
+> `jlbk` `jrbk` `jlcb` `jrcb` `jldb` `jrdb` は CJK 側へ引き継ぎ、
+> 本家では**予約済み（再利用禁止）**とする。
 
 ### B9 分数（優先度低）
 | 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
@@ -492,6 +473,170 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | `⅓` | U+2153 | E2 85 93 | `third` | `thirdp` | onethird |
 | `⅔` | U+2154 | E2 85 94 | `twthrd` | `twthrdp` | twothirds |
 | `⅛` | U+215B | E2 85 9B | `eighth` | `eighthp` | oneeighth |
+
+### B10 製図・GD&T 記号（工業図面）— **新規提案（2026-08-16）**
+
+図面注記・公差表記をそのままチャットへ持ち込むための記号群。工業デカールという
+コンセプトの中核（型番・仕様・図面のコミュニケーション）に最も近い拡張。
+
+| 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
+| --- | --- | --- | --- | --- | --- |
+| `⌀` | U+2300 | E2 8C 80 | `dia` | `diap` | diameter, 直径, ファイ |
+| `∠` | U+2220 | E2 88 A0 | `ang` | `angp` | angle, 角度 |
+| `⊥` | U+22A5 | E2 8A A5 | `perp` | `perpp` | perpendicular, 直角度, bottom, falsum, 恒偽（B15 と兼用） |
+| `∥` | U+2225 | E2 88 A5 | `parl` | `parlp` | parallel, 平行度 |
+| `⌒` | U+2312 | E2 8C 92 | `arc` | `arcp` | arc, 円弧, 線の輪郭度 |
+| `⌖` | U+2316 | E2 8C 96 | `pos` | `posp` | position, 位置度, target |
+| `⌭` | U+232D | E2 8C AD | `cyl` | `cylp` | cylindricity, 円筒度 |
+| `⌯` | U+232F | E2 8C AF | `symm` | `symmp` | symmetry, 対称度 |
+| `⏤` | U+23E4 | E2 8F A4 | `strt` | `strtp` | straightness, 真直度 |
+| `⏥` | U+23E5 | E2 8F A5 | `flatn` | `flatnp` | flatness, 平面度 |
+| `⌴` | U+2334 | E2 8C B4 | `cbore` | `cborep` | counterbore, ざぐり |
+| `⌵` | U+2335 | E2 8C B5 | `csink` | `csinkp` | countersink, 皿ざぐり |
+
+> `⌀`(U+2300) は `Ø`(`uosk`) と字面が近い。作字で図面流儀（細身・45°斜線貫通）に
+> 描き分けるのが本命だが、描画一致に収まるなら `∅` と同じく **`uosk` の別名運用**へ
+> 降格してよい（§1「別名のみ」の判定に従う）。
+
+### B11 電気・電子記号 → **保留（§4Z Z2 へ移動、2026-08-16）**
+
+### B12 ローマ数字（型番・版数）— **新規提案（2026-08-16）**
+
+Mk.Ⅱ / Type Ⅲ / 弐号機的な版数表記の定番。型番検索（キリルと同じ動機）向け。
+大文字 Ⅰ–Ⅻ のみ（小文字 ⅰ–ⅻ は需要が出たら追補）。
+
+| 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
+| --- | --- | --- | --- | --- | --- |
+| `Ⅰ` | U+2160 | E2 85 A0 | `rom1` | `rom1p` | roman, 1 |
+| `Ⅱ` | U+2161 | E2 85 A1 | `rom2` | `rom2p` | roman, 2, mk2 |
+| `Ⅲ` | U+2162 | E2 85 A2 | `rom3` | `rom3p` | roman, 3 |
+| `Ⅳ` | U+2163 | E2 85 A3 | `rom4` | `rom4p` | roman, 4 |
+| `Ⅴ` | U+2164 | E2 85 A4 | `rom5` | `rom5p` | roman, 5 |
+| `Ⅵ` | U+2165 | E2 85 A5 | `rom6` | `rom6p` | roman, 6 |
+| `Ⅶ` | U+2166 | E2 85 A6 | `rom7` | `rom7p` | roman, 7 |
+| `Ⅷ` | U+2167 | E2 85 A7 | `rom8` | `rom8p` | roman, 8 |
+| `Ⅸ` | U+2168 | E2 85 A8 | `rom9` | `rom9p` | roman, 9 |
+| `Ⅹ` | U+2169 | E2 85 A9 | `rom10` | `rom10p` | roman, 10 |
+| `Ⅺ` | U+216A | E2 85 AA | `rom11` | `rom11p` | roman, 11 |
+| `Ⅻ` | U+216B | E2 85 AB | `rom12` | `rom12p` | roman, 12 |
+
+> `Ⅰ Ⅴ Ⅹ` はラテン `I V X` と描画一致になりやすい。**独立作字（セリフ付き等）で
+> 描き分けない場合は `dedupe_renders` によりラテン側へ統合**され、`rom1` 等は
+> エイリアスとして残る（キリル同形と同じ扱い）。`Ⅱ`–`Ⅳ` 等の合成字は独立が確定。
+
+### B13 キーボード・操作記号 → **保留（§4Z Z3 へ移動、2026-08-16）**
+
+### B14 安全・設備標識 → **保留（§4Z Z4 へ移動、2026-08-16）**
+
+### B15 論理・証明記号 — **新規提案（2026-08-16）**
+
+数式系（B1・C2）の欠落を埋める述語論理・命題論理の記号群。`∈ ∉ ∴ ∵ ⊂ ⊆ ∩ ∪`（B1）
+と組み合わせて論理式・証明をひと通り書けるようにする。
+
+| 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
+| --- | --- | --- | --- | --- | --- |
+| `∀` | U+2200 | E2 88 80 | `forall` | `forallp` | for_all, 全称, すべて |
+| `∃` | U+2203 | E2 88 83 | `exist` | `existp` | exists, 存在 |
+| `∄` | U+2204 | E2 88 84 | `nexist` | `nexistp` | not_exists, 非存在 |
+| `¬` | U+00AC | C2 AC | `neg` | `negp` | not, lnot, 否定 |
+| `∧` | U+2227 | E2 88 A7 | `wedge` | `wedgep` | and, land, 論理積 |
+| `∨` | U+2228 | E2 88 A8 | `vee` | `veep` | or, lor, 論理和 |
+| `⊻` | U+22BB | E2 8A BB | `veebar` | `veebarp` | xor, 排他的論理和 |
+| `⊤` | U+22A4 | E2 8A A4 | `top` | `topp` | verum, 恒真 |
+| `⊢` | U+22A2 | E2 8A A2 | `vdash` | `vdashp` | proves, turnstile |
+| `⊨` | U+22A8 | E2 8A A8 | `models` | `modelsp` | entails, dbl_turnstile |
+| `∎` | U+220E | E2 88 8E | `qed` | `qedp` | tombstone, 証明終 |
+
+> - **`⊥`(U+22A5) は B10 `perp` と同一コードポイント**（垂直記号 ⊥ falsum の Unicode 統合）。
+>   独立作字せず、`perp` へ論理側エイリアス `falsum` `bottom` `恒偽` を追加して兼用する。
+> - `∧∨` と大型 `⋀⋁`（C2 `bigwedge`/`bigvee`）、`⊻` と `⊕`（B1 `oplus`。XOR 用途の
+>   別名 `xor` を `oplus` にも追加）は別字として区別する。
+> - `¬` は Latin-1 域で IME からも入れやすく、優先度は B15 内で最上位。
+
+---
+
+## 4Z. 保留枠（Z1–Z4）— 作字凍結・再開判断待ち
+
+B 枠から格下げした保留カテゴリ（2026-08-16）。トークン・名前は**予約済みのまま凍結**し、
+他カテゴリで再利用しない。再開時は元の B 番号へ戻さず本枠のまま実装してよい。
+
+**保留理由**: これらは文字（字形）というより**図形・ピクトグラム的**であり、
+フォントの作字コスト（グリフとして描き起こす手間）に対して、
+作字する必要性・容易性が釣り合っていない。字形としての一貫性（線幅・縦帯・
+サイドベアリングの契約）が効く文字系カテゴリと違い、図形系は汎用の
+図版制作でも代替できるため、フォント収録の優先度を下げる。
+再開判断の目安: 文字系カテゴリ（B枠・C枠）が出揃い、かつ図形系にも
+デカール質感での需要（Misskey での利用実績等）が確認できたとき。
+
+### Z1 状態・チェック・図形（旧 B5）
+
+| 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
+| --- | --- | --- | --- | --- | --- |
+| `✓` | U+2713 | E2 9C 93 | `check` | `checkp` | ok, pass, tick |
+| `✔` | U+2714 | E2 9C 94 | `hcheck` | `hcheckp` | heavycheck |
+| `✗` | U+2717 | E2 9C 97 | `cross` | `crossp` | ng, fail |
+| `✘` | U+2718 | E2 9C 98 | `hcross` | `hcrossp` | heavycross |
+| `●` | U+25CF | E2 97 8F | `bcirc` | `bcircp` | blackcircle, dot |
+| `○` | U+25CB | E2 97 8B | `wcirc` | `wcircp` | whitecircle |
+| `◆` | U+25C6 | E2 97 86 | `bdia` | `bdiap` | blackdiamond |
+| `◇` | U+25C7 | E2 97 87 | `wdia` | `wdiap` | whitediamond |
+| `■` | U+25A0 | E2 96 A0 | `bsq` | `bsqp` | blacksquare |
+| `□` | U+25A1 | E2 96 A1 | `wsq` | `wsqp` | whitesquare |
+| `▲` | U+25B2 | E2 96 B2 | `btriup` | `btriupp` | blacktriup |
+| `△` | U+25B3 | E2 96 B3 | `wtriup` | `wtriupp` | whitetriup |
+| `▶` | U+25B6 | E2 96 B6 | `btrir` | `btrirp` | play, blacktriright |
+| `◀` | U+25C0 | E2 97 80 | `btril` | `btrilp` | blacktrileft |
+| `▼` | U+25BC | E2 96 BC | `btrid` | `btridp` | blacktridown |
+| `★` | U+2605 | E2 98 85 | `bstar` | `bstarp` | blackstar |
+| `☆` | U+2606 | E2 98 86 | `wstar` | `wstarp` | whitestar |
+| `⚠` | U+26A0 | E2 9A A0 | `warn` | `warnp` | warning, caution |
+
+### Z2 電気・電子記号（旧 B11）
+
+銘板・端子表示・電源まわりの記号。単位系（C3）や `Ω` 別名運用と対をなす。
+
+| 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
+| --- | --- | --- | --- | --- | --- |
+| `⏚` | U+23DA | E2 8F 9A | `gnd` | `gndp` | ground, earth, 接地, アース |
+| `⏛` | U+23DB | E2 8F 9B | `fuse` | `fusep` | fuse, ヒューズ |
+| `⎓` | U+2393 | E2 8E 93 | `dc` | `dcp` | direct_current, 直流 |
+| `⏦` | U+23E6 | E2 8F A6 | `ac` | `acp` | sine_wave, alternating, 交流 |
+| `⏻` | U+23FB | E2 8F BB | `pwr` | `pwrp` | power, 電源 |
+| `⚡` | U+26A1 | E2 9A A1 | `bolt` | `boltp` | high_voltage, 高電圧 |
+
+### Z3 キーボード・操作記号（旧 B13）
+
+技術チャットで頻出の操作説明（「⌘+C で」「⏎ を押す」）を1絵文字で。ISO 9995 系。
+
+| 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
+| --- | --- | --- | --- | --- | --- |
+| `⌘` | U+2318 | E2 8C 98 | `cmd` | `cmdp` | command, コマンド |
+| `⌥` | U+2325 | E2 8C A5 | `opt` | `optp` | option, alt |
+| `⇧` | U+21E7 | E2 87 A7 | `shift` | `shiftp` | shift, シフト |
+| `⇥` | U+21E5 | E2 87 A5 | `tab` | `tabp` | tab, タブ |
+| `⏎` | U+23CE | E2 8F 8E | `ret` | `retp` | return, enter, 改行 |
+| `⌫` | U+232B | E2 8C AB | `bksp` | `bkspp` | backspace, 後退 |
+| `⌦` | U+2326 | E2 8C A6 | `fwdel` | `fwdelp` | forward_delete |
+| `⎋` | U+238B | E2 8E 8B | `esc` | `escp` | escape |
+| `⏏` | U+23CF | E2 8F 8F | `eject` | `ejectp` | イジェクト |
+
+### Z4 安全・設備標識（旧 B14）
+
+`hazard` バリアント（危険表示テープ質感）と最も相性の良い記号群。Z1 の `⚠` の系列。
+
+| 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
+| --- | --- | --- | --- | --- | --- |
+| `☠` | U+2620 | E2 98 A0 | `skull` | `skullp` | poison, どくろ |
+| `☢` | U+2622 | E2 98 A2 | `rad` | `radp` | radioactive, 放射能 |
+| `☣` | U+2623 | E2 98 A3 | `bio` | `biop` | biohazard |
+| `⚙` | U+2699 | E2 9A 99 | `gear` | `gearp` | settings, 歯車 |
+| `⚛` | U+269B | E2 9A 9B | `atom` | `atomp` | atomic, 原子 |
+| `♻` | U+267B | E2 99 BB | `recyc` | `recycp` | recycle, リサイクル |
+
+> **標準絵文字との衝突注意**: `⚡ ☠ ☢ ☣ ⚙ ♻` 等は Unicode 絵文字（VS16 でカラー表示）
+> を持つ。**リテラル字のエイリアス付与は Misskey の標準絵文字検索と競合しうる**ため、
+> Z2/Z4 に限りリテラル別名は付与せず、語トークン＋日本語別名のみとする。
+> デカール質感（単色・工業テクスチャ）であることが標準絵文字との差別化点。
 
 ---
 
@@ -520,11 +665,13 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | P2b | A1 上付き 17字 / A2 下付き 16字（**済**） | 作字（v3.1.0） | P1 |
 | P2c | 単位・型番合字 | 合成 | P1 |
 | P3 | `text_to_emoji.py`＋チートシート | tool | P1,P2 |
-| P4 | C2 大型演算子・B1 演算子（`×` `÷` v3.2、`± ∓ ≈ ≠ ≤ ≥ √ ∛ ∜` v3.3 で**済**）・B2 矢印・B3 度/プライム・B5 状態 | 作字 | 作者作字 |
+| P4 | C2 大型演算子・B1 演算子（`×` `÷` v3.2、`± ∓ ≈ ≠ ≤ ≥ √ ∛ ∜` v3.3 で**済**）・B2 矢印・B3 度/プライム | 作字 | 作者作字（B5 状態は Z1 へ保留） |
 | P5 | C1 キリル 66字（**済**）／ C3 単位特殊字（`ℓ ℧ ℏ ℮` v3.3 で**済**、`Å` `∅` は別名で**済**） | 作字 | 作者作字 |
-| P6 | B4 参照 / B6 通貨 / B7 補助 / B8 括弧 / B9 分数 / 特殊合字 | 作字 | 作者作字 |
+| P6 | B4 参照 / B6 通貨 / B7 補助 / B8 括弧（和文括弧は CJK 側へ移管） / B9 分数 / 特殊合字 | 作字 | 作者作字 |
 | **P7a** | **ラテン拡張 Tier A/B 計72字（v3.2-beta で済）** | 作字 | [DIACRITIC_EXTENSION_PLAN.md] |
 | P7b | ギリシャ アクセント（モノトニック20字） | 作字 | 同上 §4 |
+| P8 | B10 製図・GD&T / B12 ローマ数字 / B15 論理・証明 | 作字 | 作者作字（B10→B15→B12 の優先順を推奨。B15 は B1 残り実装と同時が効率的） |
+| — | Z1–Z4 保留枠（旧 B5/B11/B13/B14） | 作字 | **凍結**。再開判断まで実装フェーズに含めない |
 
 ---
 
