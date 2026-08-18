@@ -119,6 +119,15 @@ GLYPH_NAME_OVERRIDES: dict[int, str] = {
     0x2127: "mho",             # ℧  font: uni2127
     0x221B: "cuberoot",        # ∛  font: uni221b
     0x221C: "fourthroot",      # ∜  font: uni221c
+    # v3.4-release 拡張記号（フォント名が uniXXXX の機械名のもの）
+    0x2031: "pertenthousand",  # ‱  font: uni2031
+    0x20BD: "ruble",           # ₽  font: uni20bd
+    0x2204: "notexists",       # ∄  font: uni2204
+    0x220E: "qed",             # ∎  font: uni220e
+    0x2286: "subsetorequal",   # ⊆  font: uni2286（⊇=supersetorequal と対にする）
+    0x22A2: "turnstile",       # ⊢  font: uni22a2
+    0x22A8: "models",          # ⊨  font: uni22a8
+    0x22BB: "veebar",          # ⊻  font: uni22bb
 }
 
 # ── ラテン拡張（アクセント付き・合字）→ 字体トークン ──
@@ -212,6 +221,74 @@ SCIENCE_SYMBOL_ALIASES: dict[str, list[str]] = {
     "≥": ["greater_or_equal", "以上"],
 }
 
+# ── v3.4-release 拡張記号（GLYPH_EXTENSION_PLAN の予約トークン） ──
+# フォント側グリフ名の揺れ（uni22bb 等）から独立させるため **文字キー** に統一。
+# サブカテゴリ対応: B1→数式記号 / B15→論理記号 / B4→参照記号 / B6→通貨 /
+# B7（可読補助）→記号ほか（既定フォールバック）。
+
+# B1 数式演算子の残り（v3.4-release で作字）＋ ∅（別名運用から独立作字へ格上げ）
+MATH_EXT_TOKENS: dict[str, str] = {
+    "∞": "inf", "∂": "del", "∇": "nabla",
+    "∈": "isin", "∉": "notin", "∋": "sthat",
+    "⊂": "subset", "⊃": "supset", "⊆": "sube", "⊇": "supe",
+    "∩": "cap", "∪": "cup",
+    "∴": "there4", "∵": "becoz",
+    "∝": "propto", "≡": "equiv", "≅": "cong",
+    "∅": "eset",   # 計画では uosk(Ø) の別名だったが v3.4 で独立グリフ化（幅・字形とも別）
+}
+
+# B15 論理・証明記号
+LOGIC_SYMBOL_TOKENS: dict[str, str] = {
+    "∀": "forall", "∃": "exist", "∄": "nexist", "¬": "neg",
+    "∧": "wedge", "∨": "vee", "⊻": "veebar",
+    "⊤": "top", "⊢": "vdash", "⊨": "models", "∎": "qed",
+}
+
+# B4 参照・校正記号
+REF_SYMBOL_TOKENS: dict[str, str] = {
+    "№": "numero", "§": "sect", "¶": "para",
+    "†": "dagger", "‡": "ddagger", "※": "refmark",
+    "®": "reg", "™": "tm", "©": "copy",
+}
+
+# B6 通貨
+CURRENCY_TOKENS: dict[str, str] = {
+    "¥": "yen", "€": "euro", "£": "gbp", "¢": "cent",
+    "₩": "won", "₽": "rub", "¤": "curr",
+}
+
+# B7 可読補助（サブカテゴリは「記号ほか」のまま）
+READABILITY_TOKENS: dict[str, str] = {
+    "·": "mdot", "…": "hellip", "‰": "permil", "‱": "pertt",
+    "–": "ndash", "—": "mdash",
+}
+
+# v3.4 拡張記号の追加検索エイリアス（GLYPH_EXTENSION_PLAN の「主なエイリアス」列）
+EXT_SYMBOL_ALIASES: dict[str, list[str]] = {
+    "∞": ["infinity"], "∂": ["partial"], "∇": ["gradient"],
+    "∈": ["element", "in"], "∉": ["notelement"], "∋": ["suchthat", "owns"],
+    "⊂": ["propersubset"], "⊃": ["propersuperset"],
+    "⊆": ["subseteq"], "⊇": ["supseteq"],
+    "∩": ["intersection"], "∪": ["union"],
+    "∴": ["therefore"], "∵": ["because"],
+    "∝": ["proportional"], "≡": ["identical"], "≅": ["congruent"],
+    "∅": ["emptyset", "empty", "null", "空集合"],
+    "∀": ["for_all", "全称", "すべて"], "∃": ["exists", "存在"],
+    "∄": ["not_exists", "非存在"], "¬": ["not", "lnot", "否定"],
+    "∧": ["and", "land", "論理積"], "∨": ["or", "lor", "論理和"],
+    "⊻": ["xor", "排他的論理和"], "⊤": ["verum", "恒真"],
+    "⊢": ["proves", "turnstile"], "⊨": ["entails", "dbl_turnstile"],
+    "∎": ["tombstone", "証明終"],
+    "№": ["numbersign_no", "no"], "§": ["section"], "¶": ["pilcrow", "paragraph"],
+    "†": ["obelisk"], "‡": ["dbldagger"], "※": ["komejirushi", "reference"],
+    "®": ["registered"], "™": ["trademark"], "©": ["copyright"],
+    "¥": ["jpy", "yensign"], "€": ["eur"], "£": ["sterling", "pound"],
+    "¢": ["centsign"], "₩": ["krw"], "₽": ["ruble"], "¤": ["currency"],
+    "·": ["middot", "centerdot"], "…": ["ellipsis", "dots"],
+    "‰": ["perthousand"], "‱": ["pertenk"],
+    "–": ["endash"], "—": ["emdash"],
+}
+
 # ── ギリシャ AGL 名の集合（stem 実測に一致） ──
 _GREEK_UPPER_AGL = {
     "Alpha", "Beta", "Gamma", "Delta", "Deltagreek", "Epsilon", "Zeta", "Eta",
@@ -270,6 +347,10 @@ def glyph_token(char: str, agl: str) -> str:
         return LATIN_LIGATURE_TOKENS[char]
     if char in SCIENCE_SYMBOL_TOKENS:
         return SCIENCE_SYMBOL_TOKENS[char]
+    for table in (MATH_EXT_TOKENS, LOGIC_SYMBOL_TOKENS, REF_SYMBOL_TOKENS,
+                  CURRENCY_TOKENS, READABILITY_TOKENS):
+        if char in table:
+            return table[char]
     if agl in MATH_SYMBOL_TOKENS:
         return MATH_SYMBOL_TOKENS[agl]
     if agl in SYMBOL_TOKENS:
@@ -318,8 +399,16 @@ def glyph_subcategory(char: str, agl: str) -> str:
         return "ギリシャ小文字"
     # 算術記号 ×÷（v3.2）も科学・数式記号（v3.3）と同じサブカテゴリへまとめる。
     # Misskey のカテゴリは一括インポートで全点更新されるため移動コストは無い。
-    if char in SCIENCE_SYMBOL_TOKENS or agl in MATH_SYMBOL_TOKENS:
+    if (char in SCIENCE_SYMBOL_TOKENS or agl in MATH_SYMBOL_TOKENS
+            or char in MATH_EXT_TOKENS):
         return "数式記号"
+    if char in LOGIC_SYMBOL_TOKENS:
+        return "論理記号"
+    if char in REF_SYMBOL_TOKENS:
+        return "参照記号"
+    if char in CURRENCY_TOKENS:
+        return "通貨"
+    # READABILITY_TOKENS（可読補助）は既定の「記号ほか」に落とす
     return "記号ほか"
 
 
@@ -369,6 +458,17 @@ def glyph_extra_aliases(char: str, agl: str) -> list[str]:
         return ["math", "数式記号", *SCIENCE_SYMBOL_ALIASES.get(char, [])]
     if agl in MATH_SYMBOL_TOKENS:
         return ["math", "数式記号"]
+    # v3.4 拡張記号: カテゴリタグ＋計画表のエイリアス
+    _EXT_TAGS: tuple[tuple[dict[str, str], list[str]], ...] = (
+        (MATH_EXT_TOKENS, ["math", "数式記号"]),
+        (LOGIC_SYMBOL_TOKENS, ["logic", "論理記号"]),
+        (REF_SYMBOL_TOKENS, ["reference", "参照記号"]),
+        (CURRENCY_TOKENS, ["currency", "通貨"]),
+        (READABILITY_TOKENS, ["punctuation", "約物"]),
+    )
+    for table, tags in _EXT_TAGS:
+        if char in table:
+            return [*tags, *EXT_SYMBOL_ALIASES.get(char, [])]
     return []
 
 

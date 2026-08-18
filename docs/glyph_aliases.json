@@ -1,8 +1,8 @@
 {
   "font": "PenchantManufacture",
-  "generated": "2026-08-15T06:01:52Z",
-  "unique_glyphs": 334,
-  "cmap_mappings": 340,
+  "generated": "2026-08-18T05:30:19Z",
+  "unique_glyphs": 385,
+  "cmap_mappings": 391,
   "alias_count": 0,
   "pending_skipped": {},
   "note": "異体字（アクセント付きラテン等）は基底グリフと同一アウトラインのため画像は 統合し、ここに検索エイリアスとして記録する。絵文字ビルダーが参照する。",
@@ -257,6 +257,13 @@
       "codepoint": "U+0397",
       "char": "Η",
       "agl": "Eta",
+      "aliases": []
+    },
+    "char_Euro_20AC": {
+      "glyph": "Euro",
+      "codepoint": "U+20AC",
+      "char": "€",
+      "agl": "Euro",
       "aliases": []
     },
     "char_F_0046": {
@@ -980,6 +987,13 @@
       "agl": "bar",
       "aliases": []
     },
+    "char_because_2235": {
+      "glyph": "because",
+      "codepoint": "U+2235",
+      "char": "∵",
+      "agl": "because",
+      "aliases": []
+    },
     "char_becyrillic_0431": {
       "glyph": "becyrillic",
       "codepoint": "U+0431",
@@ -1036,6 +1050,13 @@
       "agl": "ccedilla",
       "aliases": []
     },
+    "char_cent_00A2": {
+      "glyph": "cent",
+      "codepoint": "U+00A2",
+      "char": "¢",
+      "agl": "cent",
+      "aliases": []
+    },
     "char_checyrillic_0447": {
       "glyph": "checyrillic",
       "codepoint": "U+0447",
@@ -1064,6 +1085,20 @@
       "agl": "comma",
       "aliases": []
     },
+    "char_congruent_2245": {
+      "glyph": "congruent",
+      "codepoint": "U+2245",
+      "char": "≅",
+      "agl": "congruent",
+      "aliases": []
+    },
+    "char_copyright_00A9": {
+      "glyph": "copyright",
+      "codepoint": "U+00A9",
+      "char": "©",
+      "agl": "copyright",
+      "aliases": []
+    },
     "char_cuberoot_221B": {
       "glyph": "uni221b",
       "codepoint": "U+221B",
@@ -1071,11 +1106,32 @@
       "agl": "cuberoot",
       "aliases": []
     },
+    "char_currency_00A4": {
+      "glyph": "currency",
+      "codepoint": "U+00A4",
+      "char": "¤",
+      "agl": "currency",
+      "aliases": []
+    },
     "char_d_0064": {
       "glyph": "d",
       "codepoint": "U+0064",
       "char": "d",
       "agl": "d",
+      "aliases": []
+    },
+    "char_dagger_2020": {
+      "glyph": "dagger",
+      "codepoint": "U+2020",
+      "char": "†",
+      "agl": "dagger",
+      "aliases": []
+    },
+    "char_daggerdbl_2021": {
+      "glyph": "daggerdbl",
+      "codepoint": "U+2021",
+      "char": "‡",
+      "agl": "daggerdbl",
       "aliases": []
     },
     "char_decyrillic_0434": {
@@ -1183,11 +1239,25 @@
       "agl": "elcyrillic",
       "aliases": []
     },
+    "char_element_2208": {
+      "glyph": "element",
+      "codepoint": "U+2208",
+      "char": "∈",
+      "agl": "element",
+      "aliases": []
+    },
     "char_ell_2113": {
       "glyph": "lsquare",
       "codepoint": "U+2113",
       "char": "ℓ",
       "agl": "ell",
+      "aliases": []
+    },
+    "char_ellipsis_2026": {
+      "glyph": "ellipsis",
+      "codepoint": "U+2026",
+      "char": "…",
+      "agl": "ellipsis",
       "aliases": []
     },
     "char_emacron_0113": {
@@ -1204,11 +1274,32 @@
       "agl": "emcyrillic",
       "aliases": []
     },
+    "char_emdash_2014": {
+      "glyph": "emdash",
+      "codepoint": "U+2014",
+      "char": "—",
+      "agl": "emdash",
+      "aliases": []
+    },
+    "char_emptyset_2205": {
+      "glyph": "emptyset",
+      "codepoint": "U+2205",
+      "char": "∅",
+      "agl": "emptyset",
+      "aliases": []
+    },
     "char_encyrillic_043D": {
       "glyph": "encyrillic",
       "codepoint": "U+043D",
       "char": "н",
       "agl": "encyrillic",
+      "aliases": []
+    },
+    "char_endash_2013": {
+      "glyph": "endash",
+      "codepoint": "U+2013",
+      "char": "–",
+      "agl": "endash",
       "aliases": []
     },
     "char_epsilon_03B5": {
@@ -1237,6 +1328,13 @@
       "codepoint": "U+207C",
       "char": "⁼",
       "agl": "equalsuperior",
+      "aliases": []
+    },
+    "char_equivalence_2261": {
+      "glyph": "equivalence",
+      "codepoint": "U+2261",
+      "char": "≡",
+      "agl": "equivalence",
       "aliases": []
     },
     "char_ercyrillic_0440": {
@@ -1279,6 +1377,13 @@
       "codepoint": "U+0021",
       "char": "!",
       "agl": "exclam",
+      "aliases": []
+    },
+    "char_existential_2203": {
+      "glyph": "existential",
+      "codepoint": "U+2203",
+      "char": "∃",
+      "agl": "existential",
       "aliases": []
     },
     "char_f_0066": {
@@ -1363,6 +1468,13 @@
       "codepoint": "U+00DF",
       "char": "ß",
       "agl": "germandbls",
+      "aliases": []
+    },
+    "char_gradient_2207": {
+      "glyph": "nabla",
+      "codepoint": "U+2207",
+      "char": "∇",
+      "agl": "gradient",
       "aliases": []
     },
     "char_grave_0060": {
@@ -1484,6 +1596,20 @@
       "agl": "imacron",
       "aliases": []
     },
+    "char_infinity_221E": {
+      "glyph": "infinity",
+      "codepoint": "U+221E",
+      "char": "∞",
+      "agl": "infinity",
+      "aliases": []
+    },
+    "char_intersection_2229": {
+      "glyph": "intersection",
+      "codepoint": "U+2229",
+      "char": "∩",
+      "agl": "intersection",
+      "aliases": []
+    },
     "char_iocyrillic_0451": {
       "glyph": "iocyrillic",
       "codepoint": "U+0451",
@@ -1575,6 +1701,27 @@
       "agl": "lessequal",
       "aliases": []
     },
+    "char_logicaland_2227": {
+      "glyph": "logicaland",
+      "codepoint": "U+2227",
+      "char": "∧",
+      "agl": "logicaland",
+      "aliases": []
+    },
+    "char_logicalnot_00AC": {
+      "glyph": "logicalnot",
+      "codepoint": "U+00AC",
+      "char": "¬",
+      "agl": "logicalnot",
+      "aliases": []
+    },
+    "char_logicalor_2228": {
+      "glyph": "logicalor",
+      "codepoint": "U+2228",
+      "char": "∨",
+      "agl": "logicalor",
+      "aliases": []
+    },
     "char_m_006D": {
       "glyph": "m",
       "codepoint": "U+006D",
@@ -1608,6 +1755,13 @@
       "codepoint": "U+207B",
       "char": "⁻",
       "agl": "minussuperior",
+      "aliases": []
+    },
+    "char_models_22A8": {
+      "glyph": "uni22a8",
+      "codepoint": "U+22A8",
+      "char": "⊨",
+      "agl": "models",
       "aliases": []
     },
     "char_mugreek_03BC": {
@@ -1659,11 +1813,25 @@
       "agl": "ninferior",
       "aliases": []
     },
+    "char_notelement_2209": {
+      "glyph": "notelement",
+      "codepoint": "U+2209",
+      "char": "∉",
+      "agl": "notelement",
+      "aliases": []
+    },
     "char_notequal_2260": {
       "glyph": "notequal",
       "codepoint": "U+2260",
       "char": "≠",
       "agl": "notequal",
+      "aliases": []
+    },
+    "char_notexists_2204": {
+      "glyph": "uni2204",
+      "codepoint": "U+2204",
+      "char": "∄",
+      "agl": "notexists",
       "aliases": []
     },
     "char_nsuperior_207F": {
@@ -1692,6 +1860,13 @@
       "codepoint": "U+0023",
       "char": "#",
       "agl": "numbersign",
+      "aliases": []
+    },
+    "char_numero_2116": {
+      "glyph": "numero",
+      "codepoint": "U+2116",
+      "char": "№",
+      "agl": "numero",
       "aliases": []
     },
     "char_o_006F": {
@@ -1806,6 +1981,13 @@
       "agl": "p",
       "aliases": []
     },
+    "char_paragraph_00B6": {
+      "glyph": "paragraph",
+      "codepoint": "U+00B6",
+      "char": "¶",
+      "agl": "paragraph",
+      "aliases": []
+    },
     "char_parenleft_0028": {
       "glyph": "parenleft",
       "codepoint": "U+0028",
@@ -1848,6 +2030,13 @@
       "agl": "parenrightsuperior",
       "aliases": []
     },
+    "char_partialdiff_2202": {
+      "glyph": "partialdiff",
+      "codepoint": "U+2202",
+      "char": "∂",
+      "agl": "partialdiff",
+      "aliases": []
+    },
     "char_pecyrillic_043F": {
       "glyph": "pecyrillic",
       "codepoint": "U+043F",
@@ -1867,6 +2056,27 @@
       "codepoint": "U+002E",
       "char": ".",
       "agl": "period",
+      "aliases": []
+    },
+    "char_periodcentered_00B7": {
+      "glyph": "periodcentered",
+      "codepoint": "U+00B7",
+      "char": "·",
+      "agl": "periodcentered",
+      "aliases": []
+    },
+    "char_pertenthousand_2031": {
+      "glyph": "uni2031",
+      "codepoint": "U+2031",
+      "char": "‱",
+      "agl": "pertenthousand",
+      "aliases": []
+    },
+    "char_perthousand_2030": {
+      "glyph": "perthousand",
+      "codepoint": "U+2030",
+      "char": "‰",
+      "agl": "perthousand",
       "aliases": []
     },
     "char_phi_03C6": {
@@ -1911,6 +2121,27 @@
       "agl": "plussuperior",
       "aliases": []
     },
+    "char_propersubset_2282": {
+      "glyph": "subset",
+      "codepoint": "U+2282",
+      "char": "⊂",
+      "agl": "propersubset",
+      "aliases": []
+    },
+    "char_propersuperset_2283": {
+      "glyph": "superset",
+      "codepoint": "U+2283",
+      "char": "⊃",
+      "agl": "propersuperset",
+      "aliases": []
+    },
+    "char_proportional_221D": {
+      "glyph": "proportional",
+      "codepoint": "U+221D",
+      "char": "∝",
+      "agl": "proportional",
+      "aliases": []
+    },
     "char_psi_03C8": {
       "glyph": "psi",
       "codepoint": "U+03C8",
@@ -1923,6 +2154,13 @@
       "codepoint": "U+0071",
       "char": "q",
       "agl": "q",
+      "aliases": []
+    },
+    "char_qed_220E": {
+      "glyph": "uni220e",
+      "codepoint": "U+220E",
+      "char": "∎",
+      "agl": "qed",
       "aliases": []
     },
     "char_question_003F": {
@@ -1988,6 +2226,27 @@
       "agl": "radical",
       "aliases": []
     },
+    "char_referencemark_203B": {
+      "glyph": "referencemark",
+      "codepoint": "U+203B",
+      "char": "※",
+      "agl": "referencemark",
+      "aliases": []
+    },
+    "char_reflexsuperset_2287": {
+      "glyph": "supersetorequal",
+      "codepoint": "U+2287",
+      "char": "⊇",
+      "agl": "reflexsuperset",
+      "aliases": []
+    },
+    "char_registered_00AE": {
+      "glyph": "registered",
+      "codepoint": "U+00AE",
+      "char": "®",
+      "agl": "registered",
+      "aliases": []
+    },
     "char_rho_03C1": {
       "glyph": "rho",
       "codepoint": "U+03C1",
@@ -1995,11 +2254,25 @@
       "agl": "rho",
       "aliases": []
     },
+    "char_ruble_20BD": {
+      "glyph": "uni20bd",
+      "codepoint": "U+20BD",
+      "char": "₽",
+      "agl": "ruble",
+      "aliases": []
+    },
     "char_s_0073": {
       "glyph": "s",
       "codepoint": "U+0073",
       "char": "s",
       "agl": "s",
+      "aliases": []
+    },
+    "char_section_00A7": {
+      "glyph": "section",
+      "codepoint": "U+00A7",
+      "char": "§",
+      "agl": "section",
       "aliases": []
     },
     "char_semicolon_003B": {
@@ -2093,11 +2366,39 @@
       "agl": "softsigncyrillic",
       "aliases": []
     },
+    "char_sterling_00A3": {
+      "glyph": "sterling",
+      "codepoint": "U+00A3",
+      "char": "£",
+      "agl": "sterling",
+      "aliases": []
+    },
+    "char_subsetorequal_2286": {
+      "glyph": "uni2286",
+      "codepoint": "U+2286",
+      "char": "⊆",
+      "agl": "subsetorequal",
+      "aliases": []
+    },
+    "char_suchthat_220B": {
+      "glyph": "suchthat",
+      "codepoint": "U+220B",
+      "char": "∋",
+      "agl": "suchthat",
+      "aliases": []
+    },
     "char_t_0074": {
       "glyph": "t",
       "codepoint": "U+0074",
       "char": "t",
       "agl": "t",
+      "aliases": []
+    },
+    "char_tackdown_22A4": {
+      "glyph": "tackdown",
+      "codepoint": "U+22A4",
+      "char": "⊤",
+      "agl": "tackdown",
       "aliases": []
     },
     "char_tau_03C4": {
@@ -2112,6 +2413,13 @@
       "codepoint": "U+0442",
       "char": "т",
       "agl": "tecyrillic",
+      "aliases": []
+    },
+    "char_therefore_2234": {
+      "glyph": "therefore",
+      "codepoint": "U+2234",
+      "char": "∴",
+      "agl": "therefore",
       "aliases": []
     },
     "char_theta_03B8": {
@@ -2142,11 +2450,25 @@
       "agl": "threesuperior",
       "aliases": []
     },
+    "char_trademark_2122": {
+      "glyph": "trademark",
+      "codepoint": "U+2122",
+      "char": "™",
+      "agl": "trademark",
+      "aliases": []
+    },
     "char_tsecyrillic_0446": {
       "glyph": "tsecyrillic",
       "codepoint": "U+0446",
       "char": "ц",
       "agl": "tsecyrillic",
+      "aliases": []
+    },
+    "char_turnstile_22A2": {
+      "glyph": "uni22a2",
+      "codepoint": "U+22A2",
+      "char": "⊢",
+      "agl": "turnstile",
       "aliases": []
     },
     "char_two_0032": {
@@ -2226,6 +2548,20 @@
       "agl": "underscore",
       "aliases": []
     },
+    "char_union_222A": {
+      "glyph": "union",
+      "codepoint": "U+222A",
+      "char": "∪",
+      "agl": "union",
+      "aliases": []
+    },
+    "char_universal_2200": {
+      "glyph": "universal",
+      "codepoint": "U+2200",
+      "char": "∀",
+      "agl": "universal",
+      "aliases": []
+    },
     "char_upsilon_03C5": {
       "glyph": "upsilon",
       "codepoint": "U+03C5",
@@ -2247,11 +2583,25 @@
       "agl": "vecyrillic",
       "aliases": []
     },
+    "char_veebar_22BB": {
+      "glyph": "uni22bb",
+      "codepoint": "U+22BB",
+      "char": "⊻",
+      "agl": "veebar",
+      "aliases": []
+    },
     "char_w_0077": {
       "glyph": "w",
       "codepoint": "U+0077",
       "char": "w",
       "agl": "w",
+      "aliases": []
+    },
+    "char_won_20A9": {
+      "glyph": "won",
+      "codepoint": "U+20A9",
+      "char": "₩",
+      "agl": "won",
       "aliases": []
     },
     "char_x_0078": {
@@ -2287,6 +2637,13 @@
       "codepoint": "U+00FF",
       "char": "ÿ",
       "agl": "ydieresis",
+      "aliases": []
+    },
+    "char_yen_00A5": {
+      "glyph": "yen",
+      "codepoint": "U+00A5",
+      "char": "¥",
+      "agl": "yen",
       "aliases": []
     },
     "char_yericyrillic_044B": {

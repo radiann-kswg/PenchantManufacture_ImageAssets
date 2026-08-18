@@ -1,8 +1,8 @@
 # PenchantManufacture Glyph Map
 # Font: PenchantManufacture.otf
 # Units per em: 1000
-# Total glyphs: 341
-# Unicode mapped glyphs: 340
+# Total glyphs: 392
+# Unicode mapped glyphs: 391
 
 ## Unicode -> Glyph Name (AGL name)
 
@@ -105,10 +105,20 @@ U+007C  '|'    glyph=verticalbar       agl=bar
 U+007D  '}'    glyph=braceright        agl=braceright
 U+007E  '~'    glyph=asciitilde        agl=asciitilde
 U+00A0  '.'    glyph=nonbreakingspace  agl=-
+U+00A2  '¢'    glyph=cent              agl=cent
+U+00A3  '£'    glyph=sterling          agl=sterling
+U+00A4  '¤'    glyph=currency          agl=currency
+U+00A5  '¥'    glyph=yen               agl=yen
+U+00A7  '§'    glyph=section           agl=section
+U+00A9  '©'    glyph=copyright         agl=copyright
+U+00AC  '¬'    glyph=logicalnot        agl=logicalnot
 U+00AD  '.'    glyph=softhyphen        agl=-
+U+00AE  '®'    glyph=registered        agl=registered
 U+00B1  '±'    glyph=plusminus         agl=plusminus
 U+00B2  '²'    glyph=twosuperior       agl=-
 U+00B3  '³'    glyph=threesuperior     agl=-
+U+00B6  '¶'    glyph=paragraph         agl=paragraph
+U+00B7  '·'    glyph=periodcentered    agl=periodcentered
 U+00B9  '¹'    glyph=onesuperior       agl=-
 U+00C0  'À'    glyph=Agrave            agl=Agrave
 U+00C1  'Á'    glyph=Aacute            agl=Aacute
@@ -300,10 +310,18 @@ U+044E  'ю'    glyph=iucyrillic        agl=-
 U+044F  'я'    glyph=iacyrillic        agl=-
 U+0451  'ё'    glyph=iocyrillic        agl=-
 U+1E9E  'ẞ'    glyph=uni1e9e           agl=-
+U+2013  '–'    glyph=endash            agl=endash
+U+2014  '—'    glyph=emdash            agl=emdash
 U+2018  '‘'    glyph=quoteleft         agl=quoteleft
 U+2019  '’'    glyph=quoteright        agl=quoteright
 U+201C  '“'    glyph=quotedblleft      agl=quotedblleft
 U+201D  '”'    glyph=quotedblright     agl=quotedblright
+U+2020  '†'    glyph=dagger            agl=dagger
+U+2021  '‡'    glyph=daggerdbl         agl=daggerdbl
+U+2026  '…'    glyph=ellipsis          agl=ellipsis
+U+2030  '‰'    glyph=perthousand       agl=perthousand
+U+2031  '‱'    glyph=uni2031           agl=-
+U+203B  '※'    glyph=referencemark     agl=-
 U+2070  '⁰'    glyph=zerosuperior      agl=-
 U+2071  'ⁱ'    glyph=uni2071           agl=-
 U+2074  '⁴'    glyph=foursuperior      agl=-
@@ -334,18 +352,51 @@ U+208C  '₌'    glyph=uni208c           agl=-
 U+208D  '₍'    glyph=parenleftinferior  agl=-
 U+208E  '₎'    glyph=parenrightinferior  agl=-
 U+2099  'ₙ'    glyph=uni2099           agl=-
+U+20A9  '₩'    glyph=won               agl=-
+U+20AC  '€'    glyph=Euro              agl=Euro
+U+20BD  '₽'    glyph=uni20bd           agl=-
 U+210F  'ℏ'    glyph=uni210f           agl=-
 U+2113  'ℓ'    glyph=lsquare           agl=-
+U+2116  '№'    glyph=numero            agl=-
+U+2122  '™'    glyph=trademark         agl=trademark
 U+2127  '℧'    glyph=uni2127           agl=-
 U+212E  '℮'    glyph=estimated         agl=estimated
+U+2200  '∀'    glyph=universal         agl=universal
+U+2202  '∂'    glyph=partialdiff       agl=partialdiff
+U+2203  '∃'    glyph=existential       agl=existential
+U+2204  '∄'    glyph=uni2204           agl=-
+U+2205  '∅'    glyph=emptyset          agl=emptyset
+U+2207  '∇'    glyph=nabla             agl=gradient
+U+2208  '∈'    glyph=element           agl=element
+U+2209  '∉'    glyph=notelement        agl=notelement
+U+220B  '∋'    glyph=suchthat          agl=suchthat
+U+220E  '∎'    glyph=uni220e           agl=-
 U+2213  '∓'    glyph=minusplus         agl=-
 U+221A  '√'    glyph=radical           agl=radical
 U+221B  '∛'    glyph=uni221b           agl=-
 U+221C  '∜'    glyph=uni221c           agl=-
+U+221D  '∝'    glyph=proportional      agl=proportional
+U+221E  '∞'    glyph=infinity          agl=infinity
+U+2227  '∧'    glyph=logicaland        agl=logicaland
+U+2228  '∨'    glyph=logicalor         agl=logicalor
+U+2229  '∩'    glyph=intersection      agl=intersection
+U+222A  '∪'    glyph=union             agl=union
+U+2234  '∴'    glyph=therefore         agl=therefore
+U+2235  '∵'    glyph=because           agl=-
+U+2245  '≅'    glyph=congruent         agl=congruent
 U+2248  '≈'    glyph=approxequal       agl=approxequal
 U+2260  '≠'    glyph=notequal          agl=notequal
+U+2261  '≡'    glyph=equivalence       agl=equivalence
 U+2264  '≤'    glyph=lessequal         agl=lessequal
 U+2265  '≥'    glyph=greaterequal      agl=greaterequal
+U+2282  '⊂'    glyph=subset            agl=propersubset
+U+2283  '⊃'    glyph=superset          agl=propersuperset
+U+2286  '⊆'    glyph=uni2286           agl=reflexsubset
+U+2287  '⊇'    glyph=supersetorequal   agl=reflexsuperset
+U+22A2  '⊢'    glyph=uni22a2           agl=-
+U+22A4  '⊤'    glyph=tackdown          agl=-
+U+22A8  '⊨'    glyph=uni22a8           agl=-
+U+22BB  '⊻'    glyph=uni22bb           agl=-
 
 ## All Glyph Names
 
@@ -387,6 +438,7 @@ U+2265  '≥'    glyph=greaterequal      agl=greaterequal
   Ereversedcyrillic
   Escyrillic
   Eta
+  Euro
   F
   G
   Gamma
@@ -488,6 +540,7 @@ U+2265  '≥'    glyph=greaterequal      agl=greaterequal
   atilde
   b
   backslash
+  because
   becyrillic
   beta
   braceleft
@@ -496,13 +549,19 @@ U+2265  '≥'    glyph=greaterequal      agl=greaterequal
   bracketright
   c
   ccedilla
+  cent
   checyrillic
   chi
   colon
   comma
+  congruent
   controlCR
   controlLF
+  copyright
+  currency
   d
+  dagger
+  daggerdbl
   decyrillic
   delta
   divide
@@ -518,18 +577,25 @@ U+2265  '≥'    glyph=greaterequal      agl=greaterequal
   eightinferior
   eightsuperior
   elcyrillic
+  element
+  ellipsis
   emacron
   emcyrillic
+  emdash
+  emptyset
   encyrillic
+  endash
   epsilon
   equal
   equalsuperior
+  equivalence
   ercyrillic
   ereversedcyrillic
   escyrillic
   estimated
   eta
   exclam
+  existential
   f
   five
   fiveinferior
@@ -557,6 +623,8 @@ U+2265  '≥'    glyph=greaterequal      agl=greaterequal
   iicyrillic
   iishortcyrillic
   imacron
+  infinity
+  intersection
   iocyrillic
   iota
   iucyrillic
@@ -569,21 +637,27 @@ U+2265  '≥'    glyph=greaterequal      agl=greaterequal
   lambda
   less
   lessequal
+  logicaland
+  logicalnot
+  logicalor
   lsquare
   m
   minusplus
   mugreek
   multiply
   n
+  nabla
   nine
   nineinferior
   ninesuperior
   nonbreakingspace
+  notelement
   notequal
   nsuperior
   ntilde
   nu
   numbersign
+  numero
   o
   oacute
   ocircumflex
@@ -600,20 +674,25 @@ U+2265  '≥'    glyph=greaterequal      agl=greaterequal
   oslash
   otilde
   p
+  paragraph
   parenleft
   parenleftinferior
   parenleftsuperior
   parenright
   parenrightinferior
   parenrightsuperior
+  partialdiff
   pecyrillic
   percent
   period
+  periodcentered
+  perthousand
   phi
   pi
   plus
   plusminus
   plussuperior
+  proportional
   psi
   q
   question
@@ -625,8 +704,11 @@ U+2265  '≥'    glyph=greaterequal      agl=greaterequal
   quotesingle
   r
   radical
+  referencemark
+  registered
   rho
   s
+  section
   semicolon
   seven
   seveninferior
@@ -642,13 +724,21 @@ U+2265  '≥'    glyph=greaterequal      agl=greaterequal
   softhyphen
   softsigncyrillic
   space
+  sterling
+  subset
+  suchthat
+  superset
+  supersetorequal
   t
+  tackdown
   tau
   tecyrillic
+  therefore
   theta
   three
   threeinferior
   threesuperior
+  trademark
   tsecyrillic
   two
   twoinferior
@@ -662,26 +752,38 @@ U+2265  '≥'    glyph=greaterequal      agl=greaterequal
   umacron
   underscore
   uni1e9e
+  uni2031
   uni2071
   uni207b
   uni208a
   uni208b
   uni208c
   uni2099
+  uni20bd
   uni210f
   uni2127
+  uni2204
+  uni220e
   uni221b
   uni221c
+  uni2286
+  uni22a2
+  uni22a8
+  uni22bb
+  union
+  universal
   upsilon
   v
   vecyrillic
   verticalbar
   w
+  won
   x
   xi
   y
   yacute
   ydieresis
+  yen
   yericyrillic
   z
   zecyrillic
