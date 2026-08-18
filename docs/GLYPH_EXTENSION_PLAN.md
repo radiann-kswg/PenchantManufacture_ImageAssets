@@ -15,7 +15,10 @@
 | --- | --- | --- | --- |
 | **合成**（pipeline） | 既存グリフの縮小・配置・合字で `generate_decal.py` が生成 | A1 上付き / A2 下付き / スペーサ / 単位・型番合字 | 新規作字ほぼ不要 |
 | **作字**（font） | 作者がフォントに新規グリフを描き、`_original-fonts/` 更新 → `assets/fonts/*.otf` 差し替え | C1 キリル / C2 大型演算子 / C3 科学単位 / B枠（B5 等の保留分は §4Z Z枠） / D ラテン拡張 | 作者作業が前提 |
-| **別名のみ**（alias） | 既存グリフと同一字面 → 新規画像を作らず検索エイリアスに展開 | ギリシャ⇔ラテン同形、µ⇔μ、Ω⇔Ω、∆⇔Δ、Å⇔Å(Aring)、∅⇔Ø | 描画一致統合の踏襲 |
+| **別名のみ**（alias） | 既存グリフと同一字面 → 新規画像を作らず検索エイリアスに展開 | ギリシャ⇔ラテン同形、µ⇔μ、Ω⇔Ω、∆⇔Δ、Å⇔Å(Aring) | 描画一致統合の踏襲 |
+
+> `∅⇔Ø` は当初この別名運用だったが、**v3.4-release で作者が `∅` を独立作字**
+> （Ø と字形・advance 幅とも別）したため、独立グリフ（トークン `eset`）へ格上げした。
 
 > **アクセント記号付きラテン（Tier A/B 計72字）は v3.2-beta で実装済み。**
 > 収録判断・言語別要件・分音記号の配置帯規格は [DIACRITIC_EXTENSION_PLAN.md] を正とする。
@@ -320,7 +323,8 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | `⋀` | U+22C0 | E2 8B 80 | `bigwedge` | `bigwedgep` | nary_and |
 
 ### C3 科学単位 特殊字 — **ℓ ℧ ℏ ℮ は実装済み（v3.3-beta で作字）**
-µ/Ω/Å/∅ は既存グリフ（μ / Ω / Å(Aring) / Ø(Oslash)）と同形の別名運用（§1「別名のみ」）。
+µ/Ω/Å は既存グリフ（μ / Ω / Å(Aring)）と同形の別名運用（§1「別名のみ」）。
+∅ は v3.4-release で独立作字へ格上げ（下表参照）。
 ℓ/℧/ℏ/℮ は v3.3-beta で作字され、`scripts/glyph_tokens.py` の `SCIENCE_SYMBOL_TOKENS`
 （文字キー）で実装。フォント側グリフ名（`lsquare` `uni210f` 等）は
 `GLYPH_NAME_OVERRIDES` で可読名（`ell` `hbar` `mho`）へ揃えた。サブカテゴリは「数式記号」。
@@ -332,7 +336,7 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | `ℏ` | U+210F | E2 84 8F | `hbar` | `hbarp` | **済(v3.3)** | planck, ディラック定数 |
 | `℮` | U+212E | E2 84 AE | `estd` | `estdp` | **済(v3.3)** | estimated, 推定記号 |
 | `Å` | U+212B | E2 84 AB | — | — | **別名**→`uarg`(Å) | angstrom, angst, オングストローム |
-| `∅` | U+2205 | E2 88 85 | — | — | **別名**→`uosk`(Ø) | emptyset, empty, null, 空集合 |
+| `∅` | U+2205 | E2 88 85 | `eset` | `esetp` | **済(v3.4・独立作字へ格上げ)** | emptyset, empty, null, 空集合 |
 | `Ω` | U+03A9 | CE A9 | — | — | **別名**→`comega`(Ω) | ohm, omega_unit, resistance, オーム |
 | `µ` | U+00B5 | C2 B5 | — | — | **別名**→`mu`(μ) | micro, mu_unit, u_prefix, マイクロ |
 
@@ -340,17 +344,20 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 > `Å`(U+00C5 LATIN CAPITAL A WITH RING) は v3.2-beta で作字され、トークン `uarg` を持つ。
 > 単位のオングストローム記号 `Å`(U+212B) は Unicode 正規化（NFC）で U+00C5 へ合成されるため、
 > **独立グリフを作らず `uarg` の検索エイリアス**（`angstrom` `angst` `オングストローム`）とする。
-> 同様に `Ø`(U+00D8, トークン `uosk`) と空集合 `∅`(U+2205) は字面が同一のため、
-> `∅` は **`uosk` のエイリアス**とする（数式用途で必要になったら独立作字へ格上げする）。
+> `Ø`(U+00D8, トークン `uosk`) と空集合 `∅`(U+2205) は当初エイリアス運用だったが、
+> **v3.4-release で `∅` が独立作字され格上げ済み**（トークン `eset`、`MATH_EXT_TOKENS`）。
 > `Ω`/`µ` は従来どおりギリシャ側 `comega`/`mu` のエイリアス。
 > いずれも新規 PNG を作らないので絵文字点数は増えない。
 
-### B1 数式演算子（通常サイズ）
+### B1 数式演算子（通常サイズ）— **⊕ ⊗ ∘ を除き実装済み（v3.4-release）**
 
 > `×`(U+00D7) と `÷`(U+00F7) は **v3.2-beta で作字済み**（`MATH_SYMBOL_TOKENS`）。
 > `± ∓ ≈ ≠ ≤ ≥ √` と累乗根 `∛ ∜` は **v3.3-beta で作字済み**
 > （`SCIENCE_SYMBOL_TOKENS`・文字キー）。実装済みの数式・科学記号のサブカテゴリは
-> v3.3 で新設の **`数式記号`** に統一（`×` `÷` も `記号ほか` から移動）。残りは未実装。
+> v3.3 で新設の **`数式記号`** に統一（`×` `÷` も `記号ほか` から移動）。
+> 残り 17 字（`∞ ∂ ∇ ∈ ∉ ∋ ⊂ ⊃ ⊆ ⊇ ∩ ∪ ∴ ∵ ∝ ≡ ≅`）は **v3.4-release で作字済み**
+> （`glyph_tokens.py` の `MATH_EXT_TOKENS`・文字キー、サブカテゴリ `数式記号`）。
+> 未実装は `⊕ ⊗ ∘` の 3 字のみ。
 
 | 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
 | --- | --- | --- | --- | --- | --- |
@@ -365,23 +372,23 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | `√` | U+221A | E2 88 9A | `sqrt` | `sqrtp` | radical, root — **実装済み(v3.3-beta)** |
 | `∛` | U+221B | E2 88 9B | `cbrt` | `cbrtp` | cube_root, 立方根 — **実装済み(v3.3-beta)** |
 | `∜` | U+221C | E2 88 9C | `rt4` | `rt4p` | fourth_root, 四乗根 — **実装済み(v3.3-beta)** |
-| `∞` | U+221E | E2 88 9E | `inf` | `infp` | infinity |
-| `∂` | U+2202 | E2 88 82 | `del` | `delp` | partial |
-| `∇` | U+2207 | E2 88 87 | `nabla` | `nablap` | gradient |
-| `∈` | U+2208 | E2 88 88 | `isin` | `isinp` | element, in |
-| `∉` | U+2209 | E2 88 89 | `notin` | `notinp` | notelement |
-| `∋` | U+220B | E2 88 8B | `sthat` | `sthatp` | suchthat, owns |
-| `⊂` | U+2282 | E2 8A 82 | `subset` | `subsetp` | propersubset |
-| `⊃` | U+2283 | E2 8A 83 | `supset` | `supsetp` | propersuperset |
-| `⊆` | U+2286 | E2 8A 86 | `sube` | `subep` | subseteq |
-| `⊇` | U+2287 | E2 8A 87 | `supe` | `supep` | supseteq |
-| `∩` | U+2229 | E2 88 A9 | `cap` | `capp` | intersection |
-| `∪` | U+222A | E2 88 AA | `cup` | `cupp` | union |
-| `∴` | U+2234 | E2 88 B4 | `there4` | `there4p` | therefore |
-| `∵` | U+2235 | E2 88 B5 | `becoz` | `becozp` | because |
-| `∝` | U+221D | E2 88 9D | `propto` | `proptop` | proportional |
-| `≡` | U+2261 | E2 89 A1 | `equiv` | `equivp` | identical |
-| `≅` | U+2245 | E2 89 85 | `cong` | `congp` | congruent |
+| `∞` | U+221E | E2 88 9E | `inf` | `infp` | infinity — **実装済み(v3.4-release)** |
+| `∂` | U+2202 | E2 88 82 | `del` | `delp` | partial — **実装済み(v3.4-release)** |
+| `∇` | U+2207 | E2 88 87 | `nabla` | `nablap` | gradient — **実装済み(v3.4-release)** |
+| `∈` | U+2208 | E2 88 88 | `isin` | `isinp` | element, in — **実装済み(v3.4-release)** |
+| `∉` | U+2209 | E2 88 89 | `notin` | `notinp` | notelement — **実装済み(v3.4-release)** |
+| `∋` | U+220B | E2 88 8B | `sthat` | `sthatp` | suchthat, owns — **実装済み(v3.4-release)** |
+| `⊂` | U+2282 | E2 8A 82 | `subset` | `subsetp` | propersubset — **実装済み(v3.4-release)** |
+| `⊃` | U+2283 | E2 8A 83 | `supset` | `supsetp` | propersuperset — **実装済み(v3.4-release)** |
+| `⊆` | U+2286 | E2 8A 86 | `sube` | `subep` | subseteq — **実装済み(v3.4-release)** |
+| `⊇` | U+2287 | E2 8A 87 | `supe` | `supep` | supseteq — **実装済み(v3.4-release)** |
+| `∩` | U+2229 | E2 88 A9 | `cap` | `capp` | intersection — **実装済み(v3.4-release)** |
+| `∪` | U+222A | E2 88 AA | `cup` | `cupp` | union — **実装済み(v3.4-release)** |
+| `∴` | U+2234 | E2 88 B4 | `there4` | `there4p` | therefore — **実装済み(v3.4-release)** |
+| `∵` | U+2235 | E2 88 B5 | `becoz` | `becozp` | because — **実装済み(v3.4-release)** |
+| `∝` | U+221D | E2 88 9D | `propto` | `proptop` | proportional — **実装済み(v3.4-release)** |
+| `≡` | U+2261 | E2 89 A1 | `equiv` | `equivp` | identical — **実装済み(v3.4-release)** |
+| `≅` | U+2245 | E2 89 85 | `cong` | `congp` | congruent — **実装済み(v3.4-release)** |
 | `⊕` | U+2295 | E2 8A 95 | `oplus` | `oplusp` | circleplus, xor |
 | `⊗` | U+2297 | E2 8A 97 | `otimes` | `otimesp` | circletimes |
 | `∘` | U+2218 | E2 88 98 | `ring` | `ringp` | compose |
@@ -411,7 +418,11 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | `″` | U+2033 | E2 80 B3 | `dprime` | `dprimep` | second, inch |
 | `‴` | U+2034 | E2 80 B4 | `tprime` | `tprimep` | triprime |
 
-### B4 参照・校正記号
+### B4 参照・校正記号 — **実装済み（v3.4-release で全 9 字作字）**
+
+> `glyph_tokens.py` の `REF_SYMBOL_TOKENS`（文字キー）で実装。
+> サブカテゴリは v3.4 新設の **`参照記号`**（エイリアスタグ `reference`/`参照記号`）。
+
 | 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
 | --- | --- | --- | --- | --- | --- |
 | `№` | U+2116 | E2 84 96 | `numero` | `numerop` | numbersign_no, no |
@@ -426,7 +437,11 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 
 ### B5 状態・チェック・図形 → **保留（§4Z Z1 へ移動、2026-08-16）**
 
-### B6 通貨
+### B6 通貨 — **実装済み（v3.4-release で全 7 字作字）**
+
+> `glyph_tokens.py` の `CURRENCY_TOKENS`（文字キー）で実装。
+> サブカテゴリは v3.4 新設の **`通貨`**（エイリアスタグ `currency`/`通貨`）。
+
 | 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
 | --- | --- | --- | --- | --- | --- |
 | `¥` | U+00A5 | C2 A5 | `yen` | `yenp` | jpy, yensign |
@@ -437,7 +452,11 @@ Russian 基本 66 字（А–Я/а–я＋Ё/ё）。トークン `y`＋`u/l`＋
 | `₽` | U+20BD | E2 82 BD | `rub` | `rubp` | ruble |
 | `¤` | U+00A4 | C2 A4 | `curr` | `currp` | currency |
 
-### B7 可読補助
+### B7 可読補助 — **実装済み（v3.4-release で全 6 字作字）**
+
+> `glyph_tokens.py` の `READABILITY_TOKENS`（文字キー）で実装。
+> サブカテゴリは既存の **`記号ほか`** のまま（エイリアスタグ `punctuation`/`約物`）。
+
 | 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
 | --- | --- | --- | --- | --- | --- |
 | `·` | U+00B7 | C2 B7 | `mdot` | `mdotp` | middot, centerdot |
@@ -528,24 +547,27 @@ Mk.Ⅱ / Type Ⅲ / 弐号機的な版数表記の定番。型番検索（キリ
 
 ### B14 安全・設備標識 → **保留（§4Z Z4 へ移動、2026-08-16）**
 
-### B15 論理・証明記号 — **新規提案（2026-08-16）**
+### B15 論理・証明記号 — **実装済み（v3.4-release で全 11 字作字）**
 
 数式系（B1・C2）の欠落を埋める述語論理・命題論理の記号群。`∈ ∉ ∴ ∵ ⊂ ⊆ ∩ ∪`（B1）
 と組み合わせて論理式・証明をひと通り書けるようにする。
+2026-08-16 の新規提案から中 2 日で作者が作字し、B1 残り 17 字と同時に v3.4-release へ収録。
+`glyph_tokens.py` の `LOGIC_SYMBOL_TOKENS`（文字キー）で実装。
+サブカテゴリは v3.4 新設の **`論理記号`**（エイリアスタグ `logic`/`論理記号`）。
 
 | 字 | U+ | UTF-8 | トークン | 既定名(墨) | 主なエイリアス |
 | --- | --- | --- | --- | --- | --- |
-| `∀` | U+2200 | E2 88 80 | `forall` | `forallp` | for_all, 全称, すべて |
-| `∃` | U+2203 | E2 88 83 | `exist` | `existp` | exists, 存在 |
-| `∄` | U+2204 | E2 88 84 | `nexist` | `nexistp` | not_exists, 非存在 |
-| `¬` | U+00AC | C2 AC | `neg` | `negp` | not, lnot, 否定 |
-| `∧` | U+2227 | E2 88 A7 | `wedge` | `wedgep` | and, land, 論理積 |
-| `∨` | U+2228 | E2 88 A8 | `vee` | `veep` | or, lor, 論理和 |
-| `⊻` | U+22BB | E2 8A BB | `veebar` | `veebarp` | xor, 排他的論理和 |
-| `⊤` | U+22A4 | E2 8A A4 | `top` | `topp` | verum, 恒真 |
-| `⊢` | U+22A2 | E2 8A A2 | `vdash` | `vdashp` | proves, turnstile |
-| `⊨` | U+22A8 | E2 8A A8 | `models` | `modelsp` | entails, dbl_turnstile |
-| `∎` | U+220E | E2 88 8E | `qed` | `qedp` | tombstone, 証明終 |
+| `∀` | U+2200 | E2 88 80 | `forall` | `forallp` | for_all, 全称, すべて — **実装済み(v3.4-release)** |
+| `∃` | U+2203 | E2 88 83 | `exist` | `existp` | exists, 存在 — **実装済み(v3.4-release)** |
+| `∄` | U+2204 | E2 88 84 | `nexist` | `nexistp` | not_exists, 非存在 — **実装済み(v3.4-release)** |
+| `¬` | U+00AC | C2 AC | `neg` | `negp` | not, lnot, 否定 — **実装済み(v3.4-release)** |
+| `∧` | U+2227 | E2 88 A7 | `wedge` | `wedgep` | and, land, 論理積 — **実装済み(v3.4-release)** |
+| `∨` | U+2228 | E2 88 A8 | `vee` | `veep` | or, lor, 論理和 — **実装済み(v3.4-release)** |
+| `⊻` | U+22BB | E2 8A BB | `veebar` | `veebarp` | xor, 排他的論理和 — **実装済み(v3.4-release)** |
+| `⊤` | U+22A4 | E2 8A A4 | `top` | `topp` | verum, 恒真 — **実装済み(v3.4-release)** |
+| `⊢` | U+22A2 | E2 8A A2 | `vdash` | `vdashp` | proves, turnstile — **実装済み(v3.4-release)** |
+| `⊨` | U+22A8 | E2 8A A8 | `models` | `modelsp` | entails, dbl_turnstile — **実装済み(v3.4-release)** |
+| `∎` | U+220E | E2 88 8E | `qed` | `qedp` | tombstone, 証明終 — **実装済み(v3.4-release)** |
 
 > - **`⊥`(U+22A5) は B10 `perp` と同一コードポイント**（垂直記号 ⊥ falsum の Unicode 統合）。
 >   独立作字せず、`perp` へ論理側エイリアス `falsum` `bottom` `恒偽` を追加して兼用する。
@@ -665,12 +687,12 @@ B 枠から格下げした保留カテゴリ（2026-08-16）。トークン・�
 | P2b | A1 上付き 17字 / A2 下付き 16字（**済**） | 作字（v3.1.0） | P1 |
 | P2c | 単位・型番合字 | 合成 | P1 |
 | P3 | `text_to_emoji.py`＋チートシート | tool | P1,P2 |
-| P4 | C2 大型演算子・B1 演算子（`×` `÷` v3.2、`± ∓ ≈ ≠ ≤ ≥ √ ∛ ∜` v3.3 で**済**）・B2 矢印・B3 度/プライム | 作字 | 作者作字（B5 状態は Z1 へ保留） |
-| P5 | C1 キリル 66字（**済**）／ C3 単位特殊字（`ℓ ℧ ℏ ℮` v3.3 で**済**、`Å` `∅` は別名で**済**） | 作字 | 作者作字 |
-| P6 | B4 参照 / B6 通貨 / B7 補助 / B8 括弧（和文括弧は CJK 側へ移管） / B9 分数 / 特殊合字 | 作字 | 作者作字 |
+| P4 | C2 大型演算子・B1 演算子（`×` `÷` v3.2、`± ∓ ≈ ≠ ≤ ≥ √ ∛ ∜` v3.3、**残り17字 v3.4 で済**。未実装は `⊕ ⊗ ∘` と C2）・B2 矢印・B3 度/プライム | 作字 | 作者作字（B5 状態は Z1 へ保留） |
+| P5 | C1 キリル 66字（**済**）／ C3 単位特殊字（`ℓ ℧ ℏ ℮` v3.3 で**済**、`Å` は別名で**済**、`∅` は v3.4 で**独立作字へ格上げ済**） | 作字 | 作者作字 |
+| P6 | B4 参照（**v3.4 で済**）/ B6 通貨（**v3.4 で済**）/ B7 補助（**v3.4 で済**）/ B8 括弧（和文括弧は CJK 側へ移管） / B9 分数 / 特殊合字 | 作字 | 作者作字 |
 | **P7a** | **ラテン拡張 Tier A/B 計72字（v3.2-beta で済）** | 作字 | [DIACRITIC_EXTENSION_PLAN.md] |
 | P7b | ギリシャ アクセント（モノトニック20字） | 作字 | 同上 §4 |
-| P8 | B10 製図・GD&T / B12 ローマ数字 / B15 論理・証明 | 作字 | 作者作字（B10→B15→B12 の優先順を推奨。B15 は B1 残り実装と同時が効率的） |
+| P8 | B10 製図・GD&T / B12 ローマ数字 / B15 論理・証明（**v3.4 で済**。B1 残りと同時実装が実現） | 作字 | 作者作字（残りは B10→B12 の優先順を推奨） |
 | — | Z1–Z4 保留枠（旧 B5/B11/B13/B14） | 作字 | **凍結**。再開判断まで実装フェーズに含めない |
 
 ---
