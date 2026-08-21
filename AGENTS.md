@@ -118,7 +118,9 @@ v4.0-beta のローマ数字は、通常グリフと**コンセプトが異な�
 共用し、質感・縁取り・配置契約（win 帯）を単独グリフと完全に揃える。
 
 - 合成ソース: `src/glyphs_roman/roman_{u|l}{13..39}.svg`（配置フレーム埋め込みは通常グリフと同規約）
-- 出力: `dist/glyphs_roman/{variant}/`（幅可変・Misskey）/ `dist/glyphs_roman_square/{variant}/`（正方形・Discord）
+- 出力: `dist/glyphs_roman/{variant}/`（幅可変・**Misskey 専用**）。正方形版は生成しない —
+  横長の合成字は Discord の正方形スロットでは字が小さくなりすぎるため、
+  **Discord はローマ数字の単独グリフ24字（`dist/glyphs_decal_square/`）のみ登録**する運用
 - 対応表: `docs/glyph_romans.json`（`build_misskey_zip.py` が絵文字エントリ化に使用）
 - トークン: 大文字 `rom1`〜`rom39` / 小文字 `lrom1`〜`lrom39`（`glyph_tokens.py`。
   サブカテゴリは大小共通の **「ローマ数字」**）
@@ -306,8 +308,7 @@ PenchantManufacture_ImageAssets/
 │   ├── glyphs_decal/{variant}/       ← 工業デカール 幅可変PNG（Misskey向け・マスター）
 │   ├── glyphs_decal_square/{variant}/ ← 工業デカール 正方形PNG（Discord向け）
 │   │                               variant = sumi（既定）/ rust / hazard / patina / nickel
-│   ├── glyphs_roman/{variant}/        ← 合成ローマ数字 幅可変PNG（Misskey向け）
-│   ├── glyphs_roman_square/{variant}/ ← 合成ローマ数字 正方形PNG（Discord向け）
+│   ├── glyphs_roman/{variant}/        ← 合成ローマ数字 幅可変PNG（Misskey専用・正方形版なし）
 │   └── glyphs_spacer/                ← スペーサ 完全透過PNG（バリアント非依存・Misskey専用）
 ├── svg2png/
 │   └── glyphs/                 ← SVG の単純PNG変換（装飾なし、ユーティリティ用途）
@@ -403,8 +404,7 @@ PenchantManufacture.otf
   │
   ├─ [合成ローマ数字 13〜39] scripts/generate_roman.py  ※ フォントのカーニングを読む
   │         ├─ src/glyphs_roman/roman_{u|l}{13..39}.svg（カーニング適用の合成ソース）
-  │         ├─ dist/glyphs_roman/{variant}/roman_*_{512,128}.png        （幅可変・Misskey）
-  │         ├─ dist/glyphs_roman_square/{variant}/roman_*_{512,128}.png （正方形・Discord）
+  │         ├─ dist/glyphs_roman/{variant}/roman_*_{512,128}.png（幅可変・Misskey専用）
   │         └─ docs/glyph_romans.json（合成ローマ数字 対応表）
   │
   ├─ [スペーサ生成] scripts/generate_spacers.py  ※ decal の出力寸法を実測するため decal の後
@@ -459,6 +459,8 @@ python scripts/build.py --font "_original-fonts/.develop/penchant-manufacture_v3
 - **Discord**: 絵文字は正方形スロットで表示されるため **正方形版**
   （`dist/glyphs_decal_square/{variant}/*_128.png`）を個別アップロードする。
   1 ファイル 256KB 以下（本出力は全て充足）。
+  **合成ローマ数字 13〜39 は Misskey 専用**（横長字面が正方形パディングで
+  小さくなりすぎるため）。Discord へはローマ数字の単独グリフ24字のみ登録する。
 - **スペーサ（`spcp` 全角 / `gapp` 半角）は Misskey 専用**。バリアント非依存の完全透過PNGで、
   幅可変表示が効く Misskey でのみ余白幅の差が意味を持つ。Discord は正方形パディングで
   両者が同一画像に潰れるため対象外（正方形版を生成しない）。詳細は

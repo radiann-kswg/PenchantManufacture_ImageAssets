@@ -20,9 +20,13 @@ PenchantManufacture v4.0-beta のローマ数字は、通常グリフと**コン
 
 出力:
     src/glyphs_roman/roman_{u|l}{13..39}.svg              合成ソース（横長 viewBox）
-    dist/glyphs_roman/{variant}/roman_*_{512,128}.png       幅可変（Misskey 向け）
-    dist/glyphs_roman_square/{variant}/roman_*_{512,128}.png 正方形（Discord 向け）
+    dist/glyphs_roman/{variant}/roman_*_{512,128}.png       幅可変（**Misskey 専用**）
     docs/glyph_romans.json                                絵文字ビルダー用対応表
+
+合成 13〜39 は **Misskey 専用**。Discord は絵文字を正方形スロットで表示するため、
+横長の合成字（XXXVIII 等）は正方形パディングでは字が小さくなりすぎる。
+Discord へはローマ数字の単独グリフ 24 字（dist/glyphs_decal_square/ の正方形版）のみ
+登録する運用とし、本スクリプトは正方形版を生成しない。
 
 デカール描画は generate_decal.py の実装（SDF・5スキーム・シード）を共用し、
 質感・縁取り・配置契約（win 帯）を単独グリフと完全に揃える。
@@ -61,7 +65,6 @@ from glyph_tokens import roman_reading, roman_token
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src" / "glyphs_roman"
 DIST = ROOT / "dist" / "glyphs_roman"
-DIST_SQUARE = ROOT / "dist" / "glyphs_roman_square"
 ROMANS_PATH = ROOT / "docs" / "glyph_romans.json"
 
 VALUES = range(13, 40)          # 合成対象（13〜39）。1〜12 は単独グリフが通常経路で処理
@@ -264,8 +267,11 @@ def write_romans_json(entries: list[dict]) -> None:
     print(f"  対応表: {ROMANS_PATH}")
 
 
-def build_decals(variant: str | None = None, square: bool = True) -> int:
-    """src/glyphs_roman の合成SVGを工業デカール化する（generate_decal と同一質感）。"""
+def build_decals(variant: str | None = None) -> int:
+    """src/glyphs_roman の合成SVGを工業デカール化する（generate_decal と同一質感）。
+
+    幅可変版のみ生成する（Misskey 専用。正方形版は作らない — モジュール docstring 参照）。
+    """
     sources = sorted(SRC.glob("roman_*.svg"))
     if not sources:
         print(f"WARN: {SRC} にSVGがありません。先に SVG 合成を実行してください。")
@@ -274,27 +280,25 @@ def build_decals(variant: str | None = None, square: bool = True) -> int:
     count = 0
     for key, scheme in targets.items():
         out_dir = DIST / key
-        sq_dir = (DIST_SQUARE / key) if square else None
-        print(f"[{key}] {scheme.label}（{scheme.finish}）→ {out_dir}"
-              + (f" + {sq_dir}" if square else ""))
+        print(f"[{key}] {scheme.label}（{scheme.finish}）→ {out_dir}")
         for svg in sources:
             mask = load_mask(svg)
             img = render(mask, scheme, _seed_for(svg.stem + key))
-            _save_all_sizes(img, out_dir, svg.stem, frame_box(svg), square_dir=sq_dir)
+            _save_all_sizes(img, out_dir, svg.stem, frame_box(svg))
             count += 1
     return count
 
 
 def build(font_path: Path = FONT_PATH, variant: str | None = None,
-          square: bool = True, dry_run: bool = False) -> int:
+          dry_run: bool = False) -> int:
     """SVG合成 → 対応表 → デカール描画 を一括実行する。"""
     entries = build_svgs(font_path, dry_run=dry_run)
     if dry_run:
-        print(f"  DRY-RUN: {DIST}/ と {DIST_SQUARE}/ に "
-              f"{len(entries)} 点 × スキーム × 2サイズを生成予定")
+        print(f"  DRY-RUN: {DIST}/ に {len(entries)} 点 × スキーム × 2サイズを生成予定"
+              "（幅可変のみ・Misskey 専用）")
         return 0
     write_romans_json(entries)
-    return build_decals(variant=variant, square=square)
+    return build_decals(variant=variant)
 
 
 @click.command()
@@ -302,16 +306,14 @@ def build(font_path: Path = FONT_PATH, variant: str | None = None,
               help="PenchantManufacture OTFファイルのパス")
 @click.option("--variant", "-v", type=click.Choice(list(SCHEMES.keys())),
               default=None, help="単一スキームのみ生成（未指定なら全5種）")
-@click.option("--no-square", is_flag=True, help="正方形版（Discord向け）を生成しない")
 @click.option("--dry-run", is_flag=True, help="ファイルを生成せず対象を表示")
-def main(font_path: str, variant: str | None, no_square: bool, dry_run: bool) -> None:
+def main(font_path: str, variant: str | None, dry_run: bool) -> None:
     """合成ローマ数字（XIII〜XXXIX）をカーニング適用で組版し、工業デカール化します。"""
     print(f"フォント : {font_path}")
     print(f"出力(SVG): {SRC}")
-    print(f"出力(幅可変): {DIST}   … Misskey 向け")
-    print(f"出力(正方形): {DIST_SQUARE if not no_square else '（生成しない）'}   … Discord 向け")
+    print(f"出力(幅可変): {DIST}   … Misskey 専用（Discord は単独24字のみ登録）")
     print()
-    n = build(Path(font_path), variant=variant, square=not no_square, dry_run=dry_run)
+    n = build(Path(font_path), variant=variant, dry_run=dry_run)
     if not dry_run:
         print(f"\n完了: {n} 件（合成字×スキーム）を生成しました")
 
