@@ -1,8 +1,8 @@
 # PenchantManufacture Glyph Map
 # Font: PenchantManufacture.otf
 # Units per em: 1000
-# Total glyphs: 392
-# Unicode mapped glyphs: 391
+# Total glyphs: 416
+# Unicode mapped glyphs: 415
 
 ## Unicode -> Glyph Name (AGL name)
 
@@ -361,6 +361,30 @@ U+2116  '№'    glyph=numero            agl=-
 U+2122  '™'    glyph=trademark         agl=trademark
 U+2127  '℧'    glyph=uni2127           agl=-
 U+212E  '℮'    glyph=estimated         agl=estimated
+U+2160  'Ⅰ'    glyph=Oneroman          agl=-
+U+2161  'Ⅱ'    glyph=Tworoman          agl=-
+U+2162  'Ⅲ'    glyph=Threeroman        agl=-
+U+2163  'Ⅳ'    glyph=Fourroman         agl=-
+U+2164  'Ⅴ'    glyph=Fiveroman         agl=-
+U+2165  'Ⅵ'    glyph=Sixroman          agl=-
+U+2166  'Ⅶ'    glyph=Sevenroman        agl=-
+U+2167  'Ⅷ'    glyph=Eightroman        agl=-
+U+2168  'Ⅸ'    glyph=Nineroman         agl=-
+U+2169  'Ⅹ'    glyph=Tenroman          agl=-
+U+216A  'Ⅺ'    glyph=Elevenroman       agl=-
+U+216B  'Ⅻ'    glyph=Twelveroman       agl=-
+U+2170  'ⅰ'    glyph=oneroman          agl=-
+U+2171  'ⅱ'    glyph=tworoman          agl=-
+U+2172  'ⅲ'    glyph=threeroman        agl=-
+U+2173  'ⅳ'    glyph=fourroman         agl=-
+U+2174  'ⅴ'    glyph=fiveroman         agl=-
+U+2175  'ⅵ'    glyph=sixroman          agl=-
+U+2176  'ⅶ'    glyph=sevenroman        agl=-
+U+2177  'ⅷ'    glyph=eightroman        agl=-
+U+2178  'ⅸ'    glyph=nineroman         agl=-
+U+2179  'ⅹ'    glyph=tenroman          agl=-
+U+217A  'ⅺ'    glyph=elevenroman       agl=-
+U+217B  'ⅻ'    glyph=twelveroman       agl=-
 U+2200  '∀'    glyph=universal         agl=universal
 U+2202  '∂'    glyph=partialdiff       agl=partialdiff
 U+2203  '∃'    glyph=existential       agl=existential
@@ -429,7 +453,9 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   Edieresis
   Efcyrillic
   Egrave
+  Eightroman
   Elcyrillic
+  Elevenroman
   Emacron
   Emcyrillic
   Encyrillic
@@ -440,6 +466,8 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   Eta
   Euro
   F
+  Fiveroman
+  Fourroman
   G
   Gamma
   Gecyrillic
@@ -468,6 +496,7 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   M
   Mu
   N
+  Nineroman
   Ntilde
   Nu
   O
@@ -480,6 +509,7 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   Omacron
   Omegagreek
   Omicron
+  Oneroman
   Oslash
   Otilde
   P
@@ -491,15 +521,21 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   R
   Rho
   S
+  Sevenroman
   Shacyrillic
   Shchacyrillic
   Sigma
+  Sixroman
   Softsigncyrillic
   T
   Tau
   Tecyrillic
+  Tenroman
   Theta
+  Threeroman
   Tsecyrillic
+  Twelveroman
+  Tworoman
   U
   Uacute
   Ucircumflex
@@ -575,9 +611,11 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   egrave
   eight
   eightinferior
+  eightroman
   eightsuperior
   elcyrillic
   element
+  elevenroman
   ellipsis
   emacron
   emcyrillic
@@ -599,9 +637,11 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   f
   five
   fiveinferior
+  fiveroman
   fivesuperior
   four
   fourinferior
+  fourroman
   foursuperior
   g
   gamma
@@ -649,6 +689,7 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   nabla
   nine
   nineinferior
+  nineroman
   ninesuperior
   nonbreakingspace
   notelement
@@ -670,6 +711,7 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   omicron
   one
   oneinferior
+  oneroman
   onesuperior
   oslash
   otilde
@@ -712,6 +754,7 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   semicolon
   seven
   seveninferior
+  sevenroman
   sevensuperior
   shacyrillic
   shchacyrillic
@@ -719,6 +762,7 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   sigmafinal
   six
   sixinferior
+  sixroman
   sixsuperior
   slash
   softhyphen
@@ -733,15 +777,19 @@ U+22BB  '⊻'    glyph=uni22bb           agl=-
   tackdown
   tau
   tecyrillic
+  tenroman
   therefore
   theta
   three
   threeinferior
+  threeroman
   threesuperior
   trademark
   tsecyrillic
+  twelveroman
   two
   twoinferior
+  tworoman
   twosuperior
   u
   uacute

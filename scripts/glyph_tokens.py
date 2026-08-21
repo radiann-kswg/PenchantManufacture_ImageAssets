@@ -263,6 +263,34 @@ READABILITY_TOKENS: dict[str, str] = {
     "–": "ndash", "—": "mdash",
 }
 
+# ── B12 ローマ数字（v4.0-beta で大文字 Ⅰ–Ⅻ・小文字 ⅰ–ⅻ の24字を作字） ──
+# 大文字トークンは GLYPH_EXTENSION_PLAN B12 の予約どおり `rom{値}`。
+# 小文字は計画時未定だったため、ラテン拡張と同じ `l` マーカーで `lrom{値}` とする。
+# 13〜39 は単独グリフが無く、Ⅹ連結＋字詰め（GPOS カーニング）の**合成デカール**として
+# generate_roman.py が生成する（トークンは同系列の rom13〜rom39 / lrom13〜lrom39）。
+_ROMAN_UPPER = "ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ"
+_ROMAN_LOWER = "ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻ"
+ROMAN_UPPER_TOKENS: dict[str, str] = {
+    c: f"rom{i}" for i, c in enumerate(_ROMAN_UPPER, 1)
+}
+ROMAN_LOWER_TOKENS: dict[str, str] = {
+    c: f"lrom{i}" for i, c in enumerate(_ROMAN_LOWER, 1)
+}
+
+_ROMAN_UNITS = ("", "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix")
+
+
+def roman_token(value: int, upper: bool) -> str:
+    """ローマ数字の字体トークン（単独グリフ 1〜12・合成 13〜39 とも同系列）。"""
+    return ("rom" if upper else "lrom") + str(value)
+
+
+def roman_reading(value: int) -> str:
+    """ローマ数字の読み下し（ASCII 小文字。例 39 → 'xxxix'）。エイリアス用。"""
+    if not 1 <= value <= 39:
+        raise ValueError(f"1〜39 のみ対応: {value}")
+    return "x" * (value // 10) + _ROMAN_UNITS[value % 10]
+
 # v3.4 拡張記号の追加検索エイリアス（GLYPH_EXTENSION_PLAN の「主なエイリアス」列）
 EXT_SYMBOL_ALIASES: dict[str, list[str]] = {
     "∞": ["infinity"], "∂": ["partial"], "∇": ["gradient"],
@@ -348,7 +376,8 @@ def glyph_token(char: str, agl: str) -> str:
     if char in SCIENCE_SYMBOL_TOKENS:
         return SCIENCE_SYMBOL_TOKENS[char]
     for table in (MATH_EXT_TOKENS, LOGIC_SYMBOL_TOKENS, REF_SYMBOL_TOKENS,
-                  CURRENCY_TOKENS, READABILITY_TOKENS):
+                  CURRENCY_TOKENS, READABILITY_TOKENS,
+                  ROMAN_UPPER_TOKENS, ROMAN_LOWER_TOKENS):
         if char in table:
             return table[char]
     if agl in MATH_SYMBOL_TOKENS:
@@ -408,6 +437,9 @@ def glyph_subcategory(char: str, agl: str) -> str:
         return "参照記号"
     if char in CURRENCY_TOKENS:
         return "通貨"
+    # ローマ数字は数値が主目的のため大小をカテゴリで分けない（「数字」と同じ扱い）
+    if char in ROMAN_UPPER_TOKENS or char in ROMAN_LOWER_TOKENS:
+        return "ローマ数字"
     # READABILITY_TOKENS（可読補助）は既定の「記号ほか」に落とす
     return "記号ほか"
 
@@ -458,6 +490,14 @@ def glyph_extra_aliases(char: str, agl: str) -> list[str]:
         return ["math", "数式記号", *SCIENCE_SYMBOL_ALIASES.get(char, [])]
     if agl in MATH_SYMBOL_TOKENS:
         return ["math", "数式記号"]
+    # ローマ数字は算用数字（"4"）と読み下し（"iv"）の双方で引けるようにする。
+    token = ROMAN_UPPER_TOKENS.get(char) or ROMAN_LOWER_TOKENS.get(char)
+    if token:
+        value = int(token.removeprefix("lrom").removeprefix("rom"))
+        extra = ["roman", "ローマ数字", str(value), roman_reading(value)]
+        if value == 2:
+            extra.append("mk2")   # Mk.Ⅱ 表記の定番（GLYPH_EXTENSION_PLAN B12）
+        return extra
     # v3.4 拡張記号: カテゴリタグ＋計画表のエイリアス
     _EXT_TAGS: tuple[tuple[dict[str, str], list[str]], ...] = (
         (MATH_EXT_TOKENS, ["math", "数式記号"]),

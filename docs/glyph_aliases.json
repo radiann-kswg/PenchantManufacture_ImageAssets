@@ -1,8 +1,8 @@
 {
   "font": "PenchantManufacture",
-  "generated": "2026-08-18T05:30:19Z",
-  "unique_glyphs": 385,
-  "cmap_mappings": 391,
+  "generated": "2026-08-21T00:28:21Z",
+  "unique_glyphs": 409,
+  "cmap_mappings": 415,
   "alias_count": 0,
   "pending_skipped": {},
   "note": "異体字（アクセント付きラテン等）は基底グリフと同一アウトラインのため画像は 統合し、ここに検索エイリアスとして記録する。絵文字ビルダーが参照する。",
@@ -196,11 +196,25 @@
       "agl": "Egrave",
       "aliases": []
     },
+    "char_Eightroman_2167": {
+      "glyph": "Eightroman",
+      "codepoint": "U+2167",
+      "char": "Ⅷ",
+      "agl": "Eightroman",
+      "aliases": []
+    },
     "char_Elcyrillic_041B": {
       "glyph": "Elcyrillic",
       "codepoint": "U+041B",
       "char": "Л",
       "agl": "Elcyrillic",
+      "aliases": []
+    },
+    "char_Elevenroman_216A": {
+      "glyph": "Elevenroman",
+      "codepoint": "U+216A",
+      "char": "Ⅺ",
+      "agl": "Elevenroman",
       "aliases": []
     },
     "char_Emacron_0112": {
@@ -271,6 +285,20 @@
       "codepoint": "U+0046",
       "char": "F",
       "agl": "F",
+      "aliases": []
+    },
+    "char_Fiveroman_2164": {
+      "glyph": "Fiveroman",
+      "codepoint": "U+2164",
+      "char": "Ⅴ",
+      "agl": "Fiveroman",
+      "aliases": []
+    },
+    "char_Fourroman_2163": {
+      "glyph": "Fourroman",
+      "codepoint": "U+2163",
+      "char": "Ⅳ",
+      "agl": "Fourroman",
       "aliases": []
     },
     "char_G_0047": {
@@ -476,6 +504,13 @@
       "agl": "N",
       "aliases": []
     },
+    "char_Nineroman_2168": {
+      "glyph": "Nineroman",
+      "codepoint": "U+2168",
+      "char": "Ⅸ",
+      "agl": "Nineroman",
+      "aliases": []
+    },
     "char_Ntilde_00D1": {
       "glyph": "Ntilde",
       "codepoint": "U+00D1",
@@ -560,6 +595,13 @@
       "agl": "Omicron",
       "aliases": []
     },
+    "char_Oneroman_2160": {
+      "glyph": "Oneroman",
+      "codepoint": "U+2160",
+      "char": "Ⅰ",
+      "agl": "Oneroman",
+      "aliases": []
+    },
     "char_Oslash_00D8": {
       "glyph": "Oslash",
       "codepoint": "U+00D8",
@@ -637,6 +679,13 @@
       "agl": "S",
       "aliases": []
     },
+    "char_Sevenroman_2166": {
+      "glyph": "Sevenroman",
+      "codepoint": "U+2166",
+      "char": "Ⅶ",
+      "agl": "Sevenroman",
+      "aliases": []
+    },
     "char_Shacyrillic_0428": {
       "glyph": "Shacyrillic",
       "codepoint": "U+0428",
@@ -656,6 +705,13 @@
       "codepoint": "U+03A3",
       "char": "Σ",
       "agl": "Sigma",
+      "aliases": []
+    },
+    "char_Sixroman_2165": {
+      "glyph": "Sixroman",
+      "codepoint": "U+2165",
+      "char": "Ⅵ",
+      "agl": "Sixroman",
       "aliases": []
     },
     "char_Softsigncyrillic_042C": {
@@ -686,6 +742,13 @@
       "agl": "Tecyrillic",
       "aliases": []
     },
+    "char_Tenroman_2169": {
+      "glyph": "Tenroman",
+      "codepoint": "U+2169",
+      "char": "Ⅹ",
+      "agl": "Tenroman",
+      "aliases": []
+    },
     "char_Theta_0398": {
       "glyph": "Theta",
       "codepoint": "U+0398",
@@ -693,11 +756,32 @@
       "agl": "Theta",
       "aliases": []
     },
+    "char_Threeroman_2162": {
+      "glyph": "Threeroman",
+      "codepoint": "U+2162",
+      "char": "Ⅲ",
+      "agl": "Threeroman",
+      "aliases": []
+    },
     "char_Tsecyrillic_0426": {
       "glyph": "Tsecyrillic",
       "codepoint": "U+0426",
       "char": "Ц",
       "agl": "Tsecyrillic",
+      "aliases": []
+    },
+    "char_Twelveroman_216B": {
+      "glyph": "Twelveroman",
+      "codepoint": "U+216B",
+      "char": "Ⅻ",
+      "agl": "Twelveroman",
+      "aliases": []
+    },
+    "char_Tworoman_2161": {
+      "glyph": "Tworoman",
+      "codepoint": "U+2161",
+      "char": "Ⅱ",
+      "agl": "Tworoman",
       "aliases": []
     },
     "char_U_0055": {
@@ -1225,6 +1309,13 @@
       "agl": "eightinferior",
       "aliases": []
     },
+    "char_eightroman_2177": {
+      "glyph": "eightroman",
+      "codepoint": "U+2177",
+      "char": "ⅷ",
+      "agl": "eightroman",
+      "aliases": []
+    },
     "char_eightsuperior_2078": {
       "glyph": "eightsuperior",
       "codepoint": "U+2078",
@@ -1244,6 +1335,13 @@
       "codepoint": "U+2208",
       "char": "∈",
       "agl": "element",
+      "aliases": []
+    },
+    "char_elevenroman_217A": {
+      "glyph": "elevenroman",
+      "codepoint": "U+217A",
+      "char": "ⅺ",
+      "agl": "elevenroman",
       "aliases": []
     },
     "char_ell_2113": {
@@ -1407,6 +1505,13 @@
       "agl": "fiveinferior",
       "aliases": []
     },
+    "char_fiveroman_2174": {
+      "glyph": "fiveroman",
+      "codepoint": "U+2174",
+      "char": "ⅴ",
+      "agl": "fiveroman",
+      "aliases": []
+    },
     "char_fivesuperior_2075": {
       "glyph": "fivesuperior",
       "codepoint": "U+2075",
@@ -1426,6 +1531,13 @@
       "codepoint": "U+2084",
       "char": "₄",
       "agl": "fourinferior",
+      "aliases": []
+    },
+    "char_fourroman_2173": {
+      "glyph": "fourroman",
+      "codepoint": "U+2173",
+      "char": "ⅳ",
+      "agl": "fourroman",
       "aliases": []
     },
     "char_foursuperior_2074": {
@@ -1799,6 +1911,13 @@
       "agl": "nineinferior",
       "aliases": []
     },
+    "char_nineroman_2178": {
+      "glyph": "nineroman",
+      "codepoint": "U+2178",
+      "char": "ⅸ",
+      "agl": "nineroman",
+      "aliases": []
+    },
     "char_ninesuperior_2079": {
       "glyph": "ninesuperior",
       "codepoint": "U+2079",
@@ -1951,6 +2070,13 @@
       "codepoint": "U+2081",
       "char": "₁",
       "agl": "oneinferior",
+      "aliases": []
+    },
+    "char_oneroman_2170": {
+      "glyph": "oneroman",
+      "codepoint": "U+2170",
+      "char": "ⅰ",
+      "agl": "oneroman",
       "aliases": []
     },
     "char_onesuperior_00B9": {
@@ -2296,6 +2422,13 @@
       "agl": "seveninferior",
       "aliases": []
     },
+    "char_sevenroman_2176": {
+      "glyph": "sevenroman",
+      "codepoint": "U+2176",
+      "char": "ⅶ",
+      "agl": "sevenroman",
+      "aliases": []
+    },
     "char_sevensuperior_2077": {
       "glyph": "sevensuperior",
       "codepoint": "U+2077",
@@ -2343,6 +2476,13 @@
       "codepoint": "U+2086",
       "char": "₆",
       "agl": "sixinferior",
+      "aliases": []
+    },
+    "char_sixroman_2175": {
+      "glyph": "sixroman",
+      "codepoint": "U+2175",
+      "char": "ⅵ",
+      "agl": "sixroman",
       "aliases": []
     },
     "char_sixsuperior_2076": {
@@ -2415,6 +2555,13 @@
       "agl": "tecyrillic",
       "aliases": []
     },
+    "char_tenroman_2179": {
+      "glyph": "tenroman",
+      "codepoint": "U+2179",
+      "char": "ⅹ",
+      "agl": "tenroman",
+      "aliases": []
+    },
     "char_therefore_2234": {
       "glyph": "therefore",
       "codepoint": "U+2234",
@@ -2441,6 +2588,13 @@
       "codepoint": "U+2083",
       "char": "₃",
       "agl": "threeinferior",
+      "aliases": []
+    },
+    "char_threeroman_2172": {
+      "glyph": "threeroman",
+      "codepoint": "U+2172",
+      "char": "ⅲ",
+      "agl": "threeroman",
       "aliases": []
     },
     "char_threesuperior_00B3": {
@@ -2471,6 +2625,13 @@
       "agl": "turnstile",
       "aliases": []
     },
+    "char_twelveroman_217B": {
+      "glyph": "twelveroman",
+      "codepoint": "U+217B",
+      "char": "ⅻ",
+      "agl": "twelveroman",
+      "aliases": []
+    },
     "char_two_0032": {
       "glyph": "two",
       "codepoint": "U+0032",
@@ -2483,6 +2644,13 @@
       "codepoint": "U+2082",
       "char": "₂",
       "agl": "twoinferior",
+      "aliases": []
+    },
+    "char_tworoman_2171": {
+      "glyph": "tworoman",
+      "codepoint": "U+2171",
+      "char": "ⅱ",
+      "agl": "tworoman",
       "aliases": []
     },
     "char_twosuperior_00B2": {

@@ -44,13 +44,16 @@ from glyph_tokens import (
 
 ROOT = Path(__file__).parent.parent
 DIST = ROOT / "dist" / "glyphs_decal"          # 幅可変版（Misskey向け）
+ROMAN_DIST = ROOT / "dist" / "glyphs_roman"    # 合成ローマ数字 幅可変版（generate_roman.py 出力）
 SPACER_DIST = ROOT / "dist" / "glyphs_spacer"  # バリアント非依存スペーサ（Misskey専用）
 ALIASES_PATH = ROOT / "docs" / "glyph_aliases.json"        # 異体字（cmap再マップ）統合表
 MERGES_PATH = ROOT / "docs" / "glyph_render_merges.json"   # 描画一致グリフ統合表
 SPACERS_PATH = ROOT / "docs" / "glyph_spacers.json"        # スペーサ対応表
+ROMANS_PATH = ROOT / "docs" / "glyph_romans.json"          # 合成ローマ数字 対応表
 OUTPUT_DIR = ROOT / "_exported-dist"
 
 SPACER_CATEGORY = "PenchantManufacture/共通/スペーサ"
+ROMAN_SUBCATEGORY = "ローマ数字"   # 単独グリフ（glyph_subcategory）と同じサブカテゴリ名
 
 HOST = "radiann6631.net"
 
@@ -108,6 +111,13 @@ def _load_spacers() -> list[dict]:
     if not SPACERS_PATH.exists():
         return []
     return json.loads(SPACERS_PATH.read_text(encoding="utf-8")).get("spacers", [])
+
+
+def _load_romans() -> list[dict]:
+    """docs/glyph_romans.json の romans 配列を返す（未生成なら空）。"""
+    if not ROMANS_PATH.exists():
+        return []
+    return json.loads(ROMANS_PATH.read_text(encoding="utf-8")).get("romans", [])
 
 
 def _parse_stem(stem: str) -> tuple[str, str, str]:
@@ -181,6 +191,37 @@ def _collect_spacers(size: int) -> list[tuple[Path, str, dict]]:
     return entries
 
 
+def _collect_romans(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
+    """合成ローマ数字（13〜39、generate_roman.py 出力）のエントリを収集する。
+
+    単独グリフ 1〜12 は通常の ``collect`` 経路（char_*）で収録されるため、
+    ここでは合成分のみを扱う。カテゴリは単独グリフと同じ「ローマ数字」に載せる。
+    """
+    romans = _load_romans()
+    if not romans:
+        return []
+    variants = [variant] if variant else list(VARIANT_JP.keys())
+    entries: list[tuple[Path, str, dict]] = []
+    for var in variants:
+        var_dir = ROMAN_DIST / var
+        if not var_dir.exists():
+            print(f"  skip: {var_dir} がありません（generate_roman.py を実行してください）")
+            continue
+        vjp = VARIANT_JP.get(var, var)
+        suffix = VARIANT_SUFFIX[var]
+        for rm in romans:
+            src = var_dir / f"{rm['stem']}_{size}.png"
+            if not src.exists():
+                print(f"  skip: {src} がありません")
+                continue
+            name = f"{rm['token']}{suffix}"
+            zip_name = f"{name}.png"
+            category = f"PenchantManufacture/工業デカール_{vjp}/{ROMAN_SUBCATEGORY}"
+            aliases = _dedupe([rm["token"], var, vjp, *rm.get("aliases", [])])
+            entries.append((src, zip_name, _make_entry(zip_name, name, category, aliases)))
+    return entries
+
+
 def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
     """dist/glyphs_decal/{variant}/*_{size}.png のエントリを収集する。
 
@@ -189,6 +230,7 @@ def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
       - 描画完全一致グリフ（ギリシャ同形など）… glyph_render_merges.json
     統合された非正規グリフの PNG は生成されないため、エントリ自体は正規グリフのみ。
 
+    続けて合成ローマ数字（glyph_romans.json、バリアント別）を追加し、
     末尾にバリアント非依存のスペーサ（glyph_spacers.json）を 1 組だけ追加する。
     """
     aliases_map = _load_aliases()
@@ -251,6 +293,9 @@ def collect(variant: str | None, size: int) -> list[tuple[Path, str, dict]]:
     if skipped:
         print(f"  統合済みグリフの消し残り {skipped} 件を除外しました "
               f"（generate_decal.py の dedupe で削除に失敗した残骸）")
+
+    # 合成ローマ数字（13〜39）。単独グリフと同じ「ローマ数字」カテゴリに載せる。
+    entries.extend(_collect_romans(variant, size))
 
     # スペーサはバリアント非依存。variant 指定の有無に関わらず 1 組だけ追加する。
     entries.extend(_collect_spacers(size))

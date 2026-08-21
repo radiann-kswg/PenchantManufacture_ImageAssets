@@ -51,9 +51,9 @@ PenchantManufacture リポジトリ固有指示の **唯一の正（SSOT）** �
 
 ---
 
-## 収録グリフ（PenchantManufacture v3.4-release）
+## 収録グリフ（PenchantManufacture v4.0-beta）
 
-`_original-fonts/penchant-manufacture_v3.4-release/収録グリフ.txt` に記載の作者公式グリフ:
+`_original-fonts/.develop/penchant-manufacture_v4.0-beta/収録グリフ.txt` に記載の作者公式グリフ:
 
 ```
 ASCII可視記号・数字・英大文字・英小文字 : U+0021–U+007E（94字）
@@ -74,6 +74,7 @@ ASCII可視記号・数字・英大文字・英小文字 : U+0021–U+007E（94�
 参照・校正記号（v3.4追加）             : © ® ※ ¶ § № † ‡ ™（9字）
 通貨（v3.4追加）                       : ¥ € £ ¢ ₩ ₽ ¤（7字）
 可読補助（v3.4追加）                   : · … ‰ ‱ – —（6字）
+ローマ数字（v4.0追加）                 : Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ Ⅺ Ⅻ ⅰ ⅱ ⅲ ⅳ ⅴ ⅵ ⅶ ⅷ ⅸ ⅹ ⅺ ⅻ（24字）
 ```
 
 v3.0-release（Version 1.005）で **ギリシャ小文字 α–ω と ß が新規追加**され、
@@ -96,8 +97,36 @@ v3.4-release（Version 1.009）で **拡張記号51字が追加**された:
 `READABILITY_TOKENS`（すべて文字キー）で定義し、サブカテゴリ **「論理記号」「参照記号」
 「通貨」** を新設（数式演算子は「数式記号」へ、可読補助は「記号ほか」へ併合）。
 win 帯（793/198）は不変のため、既存絵文字の再登録は不要。
+v4.0-beta（Version 1.010）で **ローマ数字24字（Ⅰ–Ⅻ / ⅰ–ⅻ）が追加**された
+（詳細は次節）。既存グリフでは `‰` `‱` の2字のみ座標の丸め直し（再出力）があるが、
+フレーム・字形とも実質不変（サブピクセル差）。win 帯（793/198）も不変。
 
-### アクセント記号対応（v3.2-beta）
+### ローマ数字対応（v4.0-beta）— 専用ビルド generate_roman.py
+
+v4.0-beta のローマ数字は、通常グリフと**コンセプトが異なる**:
+
+1. **字幅が構成文字数分の advance** を持つ（Ⅷ = 1036 units ≈ 1.04 em で em 超え）。
+2. **「Ⅹ」「ⅹ」の直後に来るローマ数字**（Ⅲ〜Ⅻ）に GPOS カーニング（字詰め、
+   −42〜−51 units）が定義されており、Ⅹ を連結すると **XIII〜XXXIX（13〜39）** を
+   1 つの字面として組める（21・22 は Ⅹ＋Ⅺ・Ⅹ＋Ⅻ。Ⅹ＋Ⅰ／Ⅹ＋Ⅱ のペアは無い）。
+
+単独グリフ24字は通常パイプライン（extract → decal）でそのまま処理されるが、
+カスタム絵文字は 1 枚ずつ独立した画像のため**絵文字を並べてもカーニングは働かない**。
+そこで専用スクリプト **`scripts/generate_roman.py`** が 13〜39（大小54点）を
+フォントのカーニングを適用した**合成SVG（横長 viewBox）→ 合成デカール**として
+事前生成する。デカール描画は `generate_decal.py` の実装（SDF・5スキーム・シード）を
+共用し、質感・縁取り・配置契約（win 帯）を単独グリフと完全に揃える。
+
+- 合成ソース: `src/glyphs_roman/roman_{u|l}{13..39}.svg`（配置フレーム埋め込みは通常グリフと同規約）
+- 出力: `dist/glyphs_roman/{variant}/`（幅可変・Misskey）/ `dist/glyphs_roman_square/{variant}/`（正方形・Discord）
+- 対応表: `docs/glyph_romans.json`（`build_misskey_zip.py` が絵文字エントリ化に使用）
+- トークン: 大文字 `rom1`〜`rom39` / 小文字 `lrom1`〜`lrom39`（`glyph_tokens.py`。
+  サブカテゴリは大小共通の **「ローマ数字」**）
+- `Ⅰ Ⅴ Ⅹ` はラテン `I V X` とセリフ付きの独立作字＋別 advance で描き分けられており、
+  `dedupe_renders` の統合は発生しない（実測確認済み）
+- advance が viewBox を超える幅広グリフ（Ⅷ ⅷ）のため、`generate_decal.frame_box` は
+  キャンバス境界へクランプせず PIL crop の透明パディングで登録メトリクスどおりの
+  余白を保つ（範囲内のグリフでは従来と同一出力）
 
 v3.1 以前は cmap にアクセント付きラテン 56 コードポイントが登録されていたが、
 **すべて無印の基底グリフへ再マップ**されていた（`café` が `cafe` と表示される状態）。
@@ -166,7 +195,7 @@ v3.2-beta でこの 56 字すべてに実アウトラインが与えられ、さ
 
 ### 別バージョンのフォントでビルドする
 
-フォントを読むのは inspect / extract の 2 ステップだけなので、`--font` を渡せば
+フォントを読むのは inspect / extract / roman の 3 ステップだけなので、`--font` を渡せば
 `assets/fonts/` を差し替えずに任意の OTF でビルドできる。開発版フォントの試写に使う。
 
 ```bash
@@ -216,23 +245,24 @@ SNS カスタム絵文字（Discord・Misskey）向けには同一画像の重�
    キリルの同形字はラテン／ギリシャ側へ統合されるが、**トークン（`yua` など）と
    リテラル字（`А`）は正規側の検索エイリアスに残る**ため、型番検索での引きやすさは失われない。
 
-| 段階                       | 対象         | v3.1-release | v3.2-beta | v3.3-beta | v3.4-release |
-| -------------------------- | ------------ | ------------ | --------- | --------- | ------------ |
-| cmap マッピング            | —            | 309          | 327       | 340       | 391          |
-| 実グリフ                   | —            | 253          | 328       | 341       | 392          |
-| SVG ソース（cmap再マップ統合後） | src/glyphs   | **247**      | **321**   | **334**   | **385**      |
-| 絵文字 PNG（描画一致統合後）     | dist/glyphs_decal | **230** | **304**   | **321**   | **372**      |
+| 段階                       | 対象         | v3.2-beta | v3.3-beta | v3.4-release | v4.0-beta |
+| -------------------------- | ------------ | --------- | --------- | ------------ | --------- |
+| cmap マッピング            | —            | 327       | 340       | 391          | 415       |
+| 実グリフ                   | —            | 328       | 341       | 392          | 416       |
+| SVG ソース（cmap再マップ統合後） | src/glyphs   | **321**   | **334**   | **385**      | **409**   |
+| 絵文字 PNG（描画一致統合後）     | dist/glyphs_decal | **304** | **321** | **372**      | **396**   |
+| 合成ローマ数字（13〜39 大小）    | dist/glyphs_roman | —     | —         | —            | **54**    |
 
 | 項目                 | 値                                        |
 | -------------------- | ----------------------------------------- |
 | フォント名           | PenchantManufacture (Regular)             |
-| リリース             | v3.4-release (2026-08-18)                 |
-| バージョン文字列     | Version 1.009 (Fontself Maker 3.6.12)     |
+| リリース             | v4.0-beta (2026-08-21)                    |
+| バージョン文字列     | Version 1.010 (Fontself Maker 3.6.12)     |
 | Units per em         | 1000                                      |
 | cap height / x-height | 661 / 462                                |
 | 実インク上端 / 下端  | 793.0 / −198.2（帯 991.2 = 99.1% em）     |
-| cmap マッピング数    | 391                                       |
-| 実グリフ数           | 392                                       |
+| cmap マッピング数    | 415                                       |
+| 実グリフ数           | 416                                       |
 
 > v3.2-beta で懸案だった `name` テーブルの版数据え置きは v3.3-beta 以降
 > 適切に繰り上げられている（v3.4-release は 1.009。`head.fontRevision` は
@@ -269,12 +299,15 @@ PenchantManufacture_ImageAssets/
 │   └── fonts/
 │       └── PenchantManufacture.otf ← ビルド参照フォント（_original-fontsのコピー）
 ├── src/
-│   └── glyphs/                 ← グリフ SVGソース 321字（アウトライン化済み、extract_glyphs.py 出力）
+│   ├── glyphs/                 ← グリフ SVGソース 409字（アウトライン化済み、extract_glyphs.py 出力）
+│   └── glyphs_roman/           ← 合成ローマ数字 SVGソース 54点（横長 viewBox、generate_roman.py 出力）
 ├── dist/
 │   ├── glyphs/                 ← グリフ透過PNG（72px / 512px、装飾なし、export_png.py 出力）
 │   ├── glyphs_decal/{variant}/       ← 工業デカール 幅可変PNG（Misskey向け・マスター）
 │   ├── glyphs_decal_square/{variant}/ ← 工業デカール 正方形PNG（Discord向け）
 │   │                               variant = sumi（既定）/ rust / hazard / patina / nickel
+│   ├── glyphs_roman/{variant}/        ← 合成ローマ数字 幅可変PNG（Misskey向け）
+│   ├── glyphs_roman_square/{variant}/ ← 合成ローマ数字 正方形PNG（Discord向け）
 │   └── glyphs_spacer/                ← スペーサ 完全透過PNG（バリアント非依存・Misskey専用）
 ├── svg2png/
 │   └── glyphs/                 ← SVG の単純PNG変換（装飾なし、ユーティリティ用途）
@@ -283,6 +316,7 @@ PenchantManufacture_ImageAssets/
 │   ├── extract_glyphs.py       ← フォントアウトライン → src/glyphs/ SVG（重複排除＋制作途中グリフ除外）
 │   ├── export_png.py           ← SVG → PNG変換（dist/glyphs, svg2png/）
 │   ├── generate_decal.py       ← 工業デカール生成（幅可変＋正方形、描画一致統合）
+│   ├── generate_roman.py       ← 合成ローマ数字（13〜39）専用ビルド（カーニング適用組版）
 │   ├── generate_spacers.py     ← スペーサ透過PNG生成（バリアント非依存、Pillowのみ）
 │   ├── glyph_tokens.py         ← 字体トークン／後置タグ／サブカテゴリ 命名様式のSSOT
 │   ├── build_misskey_zip.py    ← Misskey一括インポートzip生成 → _exported-dist/
@@ -291,6 +325,7 @@ PenchantManufacture_ImageAssets/
 │   ├── glyph_map.txt           ← inspect_font.py が自動生成
 │   ├── glyph_aliases.json      ← 異体字→正規グリフ 対応表（extract_glyphs.py 生成）
 │   ├── glyph_render_merges.json ← 描画一致グリフ 統合表（generate_decal.py 生成）
+│   ├── glyph_romans.json       ← 合成ローマ数字 対応表（generate_roman.py 生成）
 │   ├── glyph_spacers.json      ← スペーサ対応表（generate_spacers.py 生成）
 │   ├── EMOJI_TECHCODE_SPEC.md   ← 絵文字 命名様式（確定）
 │   ├── GLYPH_EXTENSION_PLAN.md  ← 追加グリフ計画
@@ -366,6 +401,12 @@ PenchantManufacture.otf
   │         ├─ dist/glyphs_decal_square/{variant}/{stem}_{512,128}.png （正方形・Discord）
   │         └─ docs/glyph_render_merges.json（描画一致グリフ 統合表）
   │
+  ├─ [合成ローマ数字 13〜39] scripts/generate_roman.py  ※ フォントのカーニングを読む
+  │         ├─ src/glyphs_roman/roman_{u|l}{13..39}.svg（カーニング適用の合成ソース）
+  │         ├─ dist/glyphs_roman/{variant}/roman_*_{512,128}.png        （幅可変・Misskey）
+  │         ├─ dist/glyphs_roman_square/{variant}/roman_*_{512,128}.png （正方形・Discord）
+  │         └─ docs/glyph_romans.json（合成ローマ数字 対応表）
+  │
   ├─ [スペーサ生成] scripts/generate_spacers.py  ※ decal の出力寸法を実測するため decal の後
   │         ├─ dist/glyphs_spacer/spacer_{spc,gap}_{512,128}.png（完全透過・バリアント非依存）
   │         └─ docs/glyph_spacers.json（スペーサ対応表）
@@ -375,7 +416,7 @@ PenchantManufacture.otf
 ```
 
 一括実行は `python scripts/build.py`（全ステップ）。`--step` で個別指定。
-ステップ順: inspect → extract → png → svg2png → decal → spacer → misskey_zip。
+ステップ順: inspect → extract → png → svg2png → decal → roman → spacer → misskey_zip。
 
 ### ビルドコマンド早見表
 
@@ -388,6 +429,7 @@ python scripts/extract_glyphs.py --include-pending  # 制作途中グリフ（�
 python scripts/export_png.py             # src/glyphs/*.svg → dist/glyphs/, svg2png/
 python scripts/generate_decal.py         # 工業デカール（幅可変＋正方形）＋描画一致統合
 python scripts/generate_decal.py -v rust # 単一スキームのみ（統合はスキップ）
+python scripts/generate_roman.py         # 合成ローマ数字 13〜39（カーニング適用組版＋デカール）
 python scripts/generate_spacers.py       # スペーサ透過PNG（decal の後に実行）
 python scripts/build_misskey_zip.py      # Misskey一括インポートzip → _exported-dist/
 python scripts/build.py                  # 全ステップ一括
@@ -407,10 +449,12 @@ python scripts/build.py --font "_original-fonts/.develop/penchant-manufacture_v3
   非正方形の絵文字をそのまま扱えるため **幅可変版**（字面本来の比率）を収録する。
   meta.json のカテゴリは `PenchantManufacture/工業デカール_{和名}/{字種}`、
   各絵文字に基底文字・異体字（ギリシャ同形など）・バリアント名を alias 付与。
-  収録点数は **372字 × 5バリアント ＋ スペーサ2 = 1862点**（v3.4-release ビルド時）。
+  収録点数は **396字 × 5バリアント ＋ 合成ローマ数字54点 × 5バリアント ＋ スペーサ2
+  = 2252点**（v4.0-beta ビルド時）。
   字種サブカテゴリに v3.2-beta で **ラテン拡張大文字 / ラテン拡張小文字**、
   v3.3-beta で **数式記号**（科学・数式13字＋`×` `÷`）、
-  v3.4-release で **論理記号 / 参照記号 / 通貨** を追加
+  v3.4-release で **論理記号 / 参照記号 / 通貨**、
+  v4.0-beta で **ローマ数字**（単独24字＋合成54点。大小をカテゴリで分けない）を追加
   （数式演算子18字は既存の「数式記号」へ、可読補助6字は「記号ほか」へ併合）。
 - **Discord**: 絵文字は正方形スロットで表示されるため **正方形版**
   （`dist/glyphs_decal_square/{variant}/*_128.png`）を個別アップロードする。

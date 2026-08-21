@@ -132,23 +132,42 @@ VARIANT_GROUPS: dict[str, list[str]] = {
 # ────────────────────────────────────────────────────────────────
 # マスク・SDF ユーティリティ
 # ────────────────────────────────────────────────────────────────
+_VIEWBOX_RE = re.compile(rb'viewBox="0 0 ([\d.]+) ([\d.]+)"')
+
+
+def _render_width(svg_path: Path) -> int:
+    """SVG の viewBox から高さ RES 基準のラスタライズ幅（px）を返す。
+
+    通常グリフ（viewBox 512×512）では RES。合成ローマ数字（generate_roman.py）の
+    ような横長 viewBox では、高さを RES に固定したまま幅がアスペクト比で伸びる。
+    """
+    m = _VIEWBOX_RE.search(svg_path.read_bytes())
+    if m is None:
+        return RES
+    vb_w, vb_h = float(m.group(1)), float(m.group(2))
+    return max(1, round(RES * vb_w / vb_h))
+
+
 def load_mask(svg_path: Path) -> np.ndarray:
-    """アウトラインSVG → グリフ被覆率 [0,1]（WORK×WORK, 外周にPAD余白）。
+    """アウトラインSVG → グリフ被覆率 [0,1]（高さWORK×幅可変, 外周にPAD余白）。
 
     白背景に合成して黒字被覆を抽出し、外周に PAD の空き（被覆0）を確保した
-    WORK×WORK 配列で返す。これによりキャンバス上端等に接する字面でも、
+    配列で返す。これによりキャンバス上端等に接する字面でも、
     ハロー（外縁取り）がキャンバス外で切れない。
+    高さは常に RES（win 帯基準）、幅は viewBox のアスペクト比に従う
+    （正方形 viewBox の通常グリフでは従来どおり WORK×WORK）。
     """
+    width = _render_width(svg_path)
     png = cairosvg.svg2png(
         bytestring=svg_path.read_bytes(),
-        output_width=RES,
+        output_width=width,
         output_height=RES,
         background_color="white",
     )
     im = Image.open(BytesIO(png)).convert("L")
     core = 1.0 - np.asarray(im, dtype=np.float32) / 255.0
-    mask = np.zeros((WORK, WORK), dtype=np.float32)
-    mask[PAD:PAD + RES, PAD:PAD + RES] = core
+    mask = np.zeros((WORK, width + 2 * PAD), dtype=np.float32)
+    mask[PAD:PAD + RES, PAD:PAD + width] = core
     return mask
 
 
@@ -165,11 +184,12 @@ def region_alpha(sdf: np.ndarray, t: float) -> np.ndarray:
 
 def vertical_gradient(top: tuple, bottom: tuple, mask: np.ndarray) -> np.ndarray:
     """グリフbbox範囲で上→下の縦グラデRGB（H,W,3）。金属の面陰影に使う。"""
+    h, w = mask.shape
     ys = np.where(mask.max(axis=1) > 0.05)[0]
-    y0, y1 = (int(ys.min()), int(ys.max())) if len(ys) else (0, WORK - 1)
-    t = np.clip((np.arange(WORK) - y0) / max(1, (y1 - y0)), 0.0, 1.0)
+    y0, y1 = (int(ys.min()), int(ys.max())) if len(ys) else (0, h - 1)
+    t = np.clip((np.arange(h) - y0) / max(1, (y1 - y0)), 0.0, 1.0)
     rgb = np.array(top)[None, :] * (1 - t)[:, None] + np.array(bottom)[None, :] * t[:, None]
-    return np.repeat(rgb[:, None, :], WORK, axis=1)
+    return np.repeat(rgb[:, None, :], w, axis=1)
 
 
 def _over(dst: np.ndarray, color: np.ndarray, alpha: np.ndarray) -> None:
@@ -182,15 +202,17 @@ def _over(dst: np.ndarray, color: np.ndarray, alpha: np.ndarray) -> None:
 # ────────────────────────────────────────────────────────────────
 # 質感フィールド（ステンシル掠れ・ハザード斜線・回路トレース）
 # ────────────────────────────────────────────────────────────────
-def grain_field(seed: int, strength: float) -> np.ndarray:
+def grain_field(seed: int, strength: float,
+                shape: tuple[int, int] = (WORK, WORK)) -> np.ndarray:
     """スプレー掠れの被覆率倍率 [1-strength, 1]（ブロッチ状のノイズ）。
 
     seed 固定でリビルド時も同一結果になる（決定論的）。
+    通常グリフの WORK×WORK では従来と同一の値列を生成する。
     """
     if strength <= 0:
-        return np.ones((WORK, WORK), dtype=np.float32)
+        return np.ones(shape, dtype=np.float32)
     rng = np.random.default_rng(seed)
-    n = rng.random((WORK, WORK)).astype(np.float32)
+    n = rng.random(shape).astype(np.float32)
     n = uniform_filter(n, size=11, mode="reflect")     # 塗りムラ状に均す
     n = (n - n.min()) / (n.max() - n.min() + 1e-6)
     mult = 1.0 - strength * (1.0 - n)                  # 高ノイズ域を残し、低域を痩せさせる
@@ -198,21 +220,28 @@ def grain_field(seed: int, strength: float) -> np.ndarray:
     return mult.astype(np.float32)
 
 
-def stripe_field(period: int = 58) -> np.ndarray:
-    """左上→右下の斜めハザード縞（0/1）。"""
-    xx, yy = np.meshgrid(np.arange(WORK), np.arange(WORK))
+@lru_cache(maxsize=None)
+def stripe_field(shape: tuple[int, int] = (WORK, WORK), period: int = 58) -> np.ndarray:
+    """左上→右下の斜めハザード縞（0/1）。横長キャンバスでも自然に連続する。"""
+    h, w = shape
+    xx, yy = np.meshgrid(np.arange(w), np.arange(h))
     return ((xx + yy) % period < period * 0.5).astype(np.float32)
 
 
-def _trace_fields() -> tuple[np.ndarray, np.ndarray]:
+@lru_cache(maxsize=None)
+def _trace_fields(shape: tuple[int, int] = (WORK, WORK)) -> tuple[np.ndarray, np.ndarray]:
     """機械デカール共通の回路トレース（core=芯線, glow=滲み）を返す。
 
     全グリフ共通のグリッド状トレース。ボディ被覆でマスクするため、
     実際にはストロークと交差した箇所だけが「彫刻溝の発光」として現れる。
+    横長キャンバス（合成ローマ数字）では縦線・ノードを WORK 周期で繰り返し、
+    単独グリフとトレース密度を揃える（WORK×WORK では従来と同一）。
     """
-    xx, yy = np.meshgrid(np.arange(WORK), np.arange(WORK))
-    core = np.zeros((WORK, WORK), dtype=np.float32)
-    glow = np.zeros((WORK, WORK), dtype=np.float32)
+    h, w = shape
+    xx, yy = np.meshgrid(np.arange(w), np.arange(h))
+    tx = xx % WORK   # 縦線・ノードの繰り返し座標（正方形キャンバスでは恒等）
+    core = np.zeros((h, w), dtype=np.float32)
+    glow = np.zeros((h, w), dtype=np.float32)
 
     lines = [
         (("h", 0.44), 2, 6),
@@ -221,21 +250,17 @@ def _trace_fields() -> tuple[np.ndarray, np.ndarray]:
         (("v", 0.72), 2, 6),
     ]
     for (axis, frac), tc, tg in lines:
-        pos = frac * WORK
-        d = np.abs((yy if axis == "h" else xx) - pos)
+        pos = frac * (h if axis == "h" else WORK)
+        d = np.abs((yy if axis == "h" else tx) - pos)
         core = np.maximum(core, (d <= tc).astype(np.float32))
         glow = np.maximum(glow, (d <= tg).astype(np.float32))
 
     for px, py in [(0.30, 0.44), (0.72, 0.68), (0.30, 0.68), (0.72, 0.44)]:
-        r2 = (xx - px * WORK) ** 2 + (yy - py * WORK) ** 2
+        r2 = (tx - px * WORK) ** 2 + (yy - py * h) ** 2
         core = np.maximum(core, (r2 <= 9 ** 2).astype(np.float32))
         glow = np.maximum(glow, (r2 <= 15 ** 2).astype(np.float32))
 
     return core, glow
-
-
-_TRACE_CORE, _TRACE_GLOW = _trace_fields()
-_STRIPE = stripe_field()
 
 
 # ────────────────────────────────────────────────────────────────
@@ -259,32 +284,39 @@ def frame_box(svg_path: Path) -> tuple[int, int, int, int]:
         raise SystemExit(f"{svg_path.name} に配置フレームがありません。"
                          "scripts/extract_glyphs.py を再実行してください。")
     x0, x1, y0, y1 = map(float, m.groups())
-    return (max(0, round(PAD + x0 - CROP_MARGIN)),
-            max(0, round(PAD + y0 - CROP_MARGIN)),
-            min(WORK, round(PAD + x1 + CROP_MARGIN)),
-            min(WORK, round(PAD + y1 + CROP_MARGIN)))
+    # キャンバス境界へはクランプしない。advance 幅が viewBox を超える幅広グリフ
+    # （例 Ⅷ U+2167, adv≈1.04em）でも、PIL の crop が範囲外を透明で埋めるため
+    # 登録メトリクスどおりの余白が保たれる（範囲内のグリフでは従来と同一の矩形）。
+    return (round(PAD + x0 - CROP_MARGIN),
+            round(PAD + y0 - CROP_MARGIN),
+            round(PAD + x1 + CROP_MARGIN),
+            round(PAD + y1 + CROP_MARGIN))
 
 
 # ────────────────────────────────────────────────────────────────
 # レンダリング
 # ────────────────────────────────────────────────────────────────
 def render(mask: np.ndarray, s: Scheme, seed: int) -> Image.Image:
-    """1グリフを指定スキームの工業デカールとして透過RGBAで描画する。"""
+    """1グリフを指定スキームの工業デカールとして透過RGBAで描画する。
+
+    キャンバス形状はマスクに従う（通常グリフは WORK×WORK、合成ローマ数字は横長）。
+    """
+    shape = mask.shape
     sdf = signed_distance(mask)
-    canvas = np.zeros((WORK, WORK, 4), dtype=np.float32)
+    canvas = np.zeros((*shape, 4), dtype=np.float32)
 
     a_halo = region_alpha(sdf, float(W_HALO))
     a_key = region_alpha(sdf, 0.0)
     a_body = region_alpha(sdf, float(-W_KEY))
 
     if s.finish == "stencil":
-        g = grain_field(seed, s.grain)
+        g = grain_field(seed, s.grain, shape)
         a_body = a_body * g
         a_key = a_key * (0.4 + 0.6 * g)   # 縁も worn に
     elif s.finish == "mono":
         # 掠れはボディのみへ控えめに適用する。縁取り（キーライン／外ハロー）は
         # 二画面視認の要であり、削ると明地・暗地どちらかで輪郭が沈むため温存する。
-        a_body = a_body * grain_field(seed, s.grain)
+        a_body = a_body * grain_field(seed, s.grain, shape)
 
     # 二重縁取り（外ハロー → キーライン → ボディ）
     _over(canvas, np.array(s.halo, dtype=np.float32), a_halo)
@@ -294,12 +326,14 @@ def render(mask: np.ndarray, s: Scheme, seed: int) -> Image.Image:
 
     if s.finish == "stencil" and s.stripes:
         # ボディ上に黒斜線を重ねてハザード表現（ボディ被覆内のみ）
-        _over(canvas, np.array(s.accent, dtype=np.float32), a_body * _STRIPE * 0.85)
+        _over(canvas, np.array(s.accent, dtype=np.float32),
+              a_body * stripe_field(shape) * 0.85)
 
     if s.finish == "circuit":
+        trace_core, trace_glow = _trace_fields(shape)
         accent = np.array(s.accent, dtype=np.float32)
-        _over(canvas, accent, a_body * _TRACE_GLOW * 0.30)   # 滲み（発光の裾）
-        _over(canvas, accent, a_body * _TRACE_CORE * 0.95)   # 芯線
+        _over(canvas, accent, a_body * trace_glow * 0.30)   # 滲み（発光の裾）
+        _over(canvas, accent, a_body * trace_core * 0.95)   # 芯線
 
     out = np.empty_like(canvas)
     out[..., :3] = canvas[..., :3]

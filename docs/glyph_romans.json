@@ -1,0 +1,1292 @@
+{
+  "font": "PenchantManufacture",
+  "generated": "2026-08-21T00:25:42Z",
+  "note": "合成ローマ数字（13〜39）の対応表。単独グリフに無い値を、フォントの GPOS カーニング（Ⅹ/ⅹ 直後の字詰め）を適用した連結字面として事前生成する。build_misskey_zip.py が絵文字エントリ化に使う。",
+  "count": 54,
+  "romans": [
+    {
+      "stem": "roman_u13",
+      "value": 13,
+      "case": "upper",
+      "token": "rom13",
+      "chars": "ⅩⅢ",
+      "reading": "XIII",
+      "components": [
+        "Tenroman",
+        "Threeroman"
+      ],
+      "kerns": [
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "13",
+        "xiii",
+        "ⅩⅢ"
+      ]
+    },
+    {
+      "stem": "roman_u14",
+      "value": 14,
+      "case": "upper",
+      "token": "rom14",
+      "chars": "ⅩⅣ",
+      "reading": "XIV",
+      "components": [
+        "Tenroman",
+        "Fourroman"
+      ],
+      "kerns": [
+        -51
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "14",
+        "xiv",
+        "ⅩⅣ"
+      ]
+    },
+    {
+      "stem": "roman_u15",
+      "value": 15,
+      "case": "upper",
+      "token": "rom15",
+      "chars": "ⅩⅤ",
+      "reading": "XV",
+      "components": [
+        "Tenroman",
+        "Fiveroman"
+      ],
+      "kerns": [
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "15",
+        "xv",
+        "ⅩⅤ"
+      ]
+    },
+    {
+      "stem": "roman_u16",
+      "value": 16,
+      "case": "upper",
+      "token": "rom16",
+      "chars": "ⅩⅥ",
+      "reading": "XVI",
+      "components": [
+        "Tenroman",
+        "Sixroman"
+      ],
+      "kerns": [
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "16",
+        "xvi",
+        "ⅩⅥ"
+      ]
+    },
+    {
+      "stem": "roman_u17",
+      "value": 17,
+      "case": "upper",
+      "token": "rom17",
+      "chars": "ⅩⅦ",
+      "reading": "XVII",
+      "components": [
+        "Tenroman",
+        "Sevenroman"
+      ],
+      "kerns": [
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "17",
+        "xvii",
+        "ⅩⅦ"
+      ]
+    },
+    {
+      "stem": "roman_u18",
+      "value": 18,
+      "case": "upper",
+      "token": "rom18",
+      "chars": "ⅩⅧ",
+      "reading": "XVIII",
+      "components": [
+        "Tenroman",
+        "Eightroman"
+      ],
+      "kerns": [
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "18",
+        "xviii",
+        "ⅩⅧ"
+      ]
+    },
+    {
+      "stem": "roman_u19",
+      "value": 19,
+      "case": "upper",
+      "token": "rom19",
+      "chars": "ⅩⅨ",
+      "reading": "XIX",
+      "components": [
+        "Tenroman",
+        "Nineroman"
+      ],
+      "kerns": [
+        -49
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "19",
+        "xix",
+        "ⅩⅨ"
+      ]
+    },
+    {
+      "stem": "roman_u20",
+      "value": 20,
+      "case": "upper",
+      "token": "rom20",
+      "chars": "ⅩⅩ",
+      "reading": "XX",
+      "components": [
+        "Tenroman",
+        "Tenroman"
+      ],
+      "kerns": [
+        -49
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "20",
+        "xx",
+        "ⅩⅩ"
+      ]
+    },
+    {
+      "stem": "roman_u21",
+      "value": 21,
+      "case": "upper",
+      "token": "rom21",
+      "chars": "ⅩⅪ",
+      "reading": "XXI",
+      "components": [
+        "Tenroman",
+        "Elevenroman"
+      ],
+      "kerns": [
+        -49
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "21",
+        "xxi",
+        "ⅩⅪ"
+      ]
+    },
+    {
+      "stem": "roman_u22",
+      "value": 22,
+      "case": "upper",
+      "token": "rom22",
+      "chars": "ⅩⅫ",
+      "reading": "XXII",
+      "components": [
+        "Tenroman",
+        "Twelveroman"
+      ],
+      "kerns": [
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "22",
+        "xxii",
+        "ⅩⅫ"
+      ]
+    },
+    {
+      "stem": "roman_u23",
+      "value": 23,
+      "case": "upper",
+      "token": "rom23",
+      "chars": "ⅩⅩⅢ",
+      "reading": "XXIII",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Threeroman"
+      ],
+      "kerns": [
+        -49,
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "23",
+        "xxiii",
+        "ⅩⅩⅢ"
+      ]
+    },
+    {
+      "stem": "roman_u24",
+      "value": 24,
+      "case": "upper",
+      "token": "rom24",
+      "chars": "ⅩⅩⅣ",
+      "reading": "XXIV",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Fourroman"
+      ],
+      "kerns": [
+        -49,
+        -51
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "24",
+        "xxiv",
+        "ⅩⅩⅣ"
+      ]
+    },
+    {
+      "stem": "roman_u25",
+      "value": 25,
+      "case": "upper",
+      "token": "rom25",
+      "chars": "ⅩⅩⅤ",
+      "reading": "XXV",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Fiveroman"
+      ],
+      "kerns": [
+        -49,
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "25",
+        "xxv",
+        "ⅩⅩⅤ"
+      ]
+    },
+    {
+      "stem": "roman_u26",
+      "value": 26,
+      "case": "upper",
+      "token": "rom26",
+      "chars": "ⅩⅩⅥ",
+      "reading": "XXVI",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Sixroman"
+      ],
+      "kerns": [
+        -49,
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "26",
+        "xxvi",
+        "ⅩⅩⅥ"
+      ]
+    },
+    {
+      "stem": "roman_u27",
+      "value": 27,
+      "case": "upper",
+      "token": "rom27",
+      "chars": "ⅩⅩⅦ",
+      "reading": "XXVII",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Sevenroman"
+      ],
+      "kerns": [
+        -49,
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "27",
+        "xxvii",
+        "ⅩⅩⅦ"
+      ]
+    },
+    {
+      "stem": "roman_u28",
+      "value": 28,
+      "case": "upper",
+      "token": "rom28",
+      "chars": "ⅩⅩⅧ",
+      "reading": "XXVIII",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Eightroman"
+      ],
+      "kerns": [
+        -49,
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "28",
+        "xxviii",
+        "ⅩⅩⅧ"
+      ]
+    },
+    {
+      "stem": "roman_u29",
+      "value": 29,
+      "case": "upper",
+      "token": "rom29",
+      "chars": "ⅩⅩⅨ",
+      "reading": "XXIX",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Nineroman"
+      ],
+      "kerns": [
+        -49,
+        -49
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "29",
+        "xxix",
+        "ⅩⅩⅨ"
+      ]
+    },
+    {
+      "stem": "roman_u30",
+      "value": 30,
+      "case": "upper",
+      "token": "rom30",
+      "chars": "ⅩⅩⅩ",
+      "reading": "XXX",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Tenroman"
+      ],
+      "kerns": [
+        -49,
+        -49
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "30",
+        "xxx",
+        "ⅩⅩⅩ"
+      ]
+    },
+    {
+      "stem": "roman_u31",
+      "value": 31,
+      "case": "upper",
+      "token": "rom31",
+      "chars": "ⅩⅩⅪ",
+      "reading": "XXXI",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Elevenroman"
+      ],
+      "kerns": [
+        -49,
+        -49
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "31",
+        "xxxi",
+        "ⅩⅩⅪ"
+      ]
+    },
+    {
+      "stem": "roman_u32",
+      "value": 32,
+      "case": "upper",
+      "token": "rom32",
+      "chars": "ⅩⅩⅫ",
+      "reading": "XXXII",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Twelveroman"
+      ],
+      "kerns": [
+        -49,
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "32",
+        "xxxii",
+        "ⅩⅩⅫ"
+      ]
+    },
+    {
+      "stem": "roman_u33",
+      "value": 33,
+      "case": "upper",
+      "token": "rom33",
+      "chars": "ⅩⅩⅩⅢ",
+      "reading": "XXXIII",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Tenroman",
+        "Threeroman"
+      ],
+      "kerns": [
+        -49,
+        -49,
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "33",
+        "xxxiii",
+        "ⅩⅩⅩⅢ"
+      ]
+    },
+    {
+      "stem": "roman_u34",
+      "value": 34,
+      "case": "upper",
+      "token": "rom34",
+      "chars": "ⅩⅩⅩⅣ",
+      "reading": "XXXIV",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Tenroman",
+        "Fourroman"
+      ],
+      "kerns": [
+        -49,
+        -49,
+        -51
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "34",
+        "xxxiv",
+        "ⅩⅩⅩⅣ"
+      ]
+    },
+    {
+      "stem": "roman_u35",
+      "value": 35,
+      "case": "upper",
+      "token": "rom35",
+      "chars": "ⅩⅩⅩⅤ",
+      "reading": "XXXV",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Tenroman",
+        "Fiveroman"
+      ],
+      "kerns": [
+        -49,
+        -49,
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "35",
+        "xxxv",
+        "ⅩⅩⅩⅤ"
+      ]
+    },
+    {
+      "stem": "roman_u36",
+      "value": 36,
+      "case": "upper",
+      "token": "rom36",
+      "chars": "ⅩⅩⅩⅥ",
+      "reading": "XXXVI",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Tenroman",
+        "Sixroman"
+      ],
+      "kerns": [
+        -49,
+        -49,
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "36",
+        "xxxvi",
+        "ⅩⅩⅩⅥ"
+      ]
+    },
+    {
+      "stem": "roman_u37",
+      "value": 37,
+      "case": "upper",
+      "token": "rom37",
+      "chars": "ⅩⅩⅩⅦ",
+      "reading": "XXXVII",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Tenroman",
+        "Sevenroman"
+      ],
+      "kerns": [
+        -49,
+        -49,
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "37",
+        "xxxvii",
+        "ⅩⅩⅩⅦ"
+      ]
+    },
+    {
+      "stem": "roman_u38",
+      "value": 38,
+      "case": "upper",
+      "token": "rom38",
+      "chars": "ⅩⅩⅩⅧ",
+      "reading": "XXXVIII",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Tenroman",
+        "Eightroman"
+      ],
+      "kerns": [
+        -49,
+        -49,
+        -47
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "38",
+        "xxxviii",
+        "ⅩⅩⅩⅧ"
+      ]
+    },
+    {
+      "stem": "roman_u39",
+      "value": 39,
+      "case": "upper",
+      "token": "rom39",
+      "chars": "ⅩⅩⅩⅨ",
+      "reading": "XXXIX",
+      "components": [
+        "Tenroman",
+        "Tenroman",
+        "Tenroman",
+        "Nineroman"
+      ],
+      "kerns": [
+        -49,
+        -49,
+        -49
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "39",
+        "xxxix",
+        "ⅩⅩⅩⅨ"
+      ]
+    },
+    {
+      "stem": "roman_l13",
+      "value": 13,
+      "case": "lower",
+      "token": "lrom13",
+      "chars": "ⅹⅲ",
+      "reading": "xiii",
+      "components": [
+        "tenroman",
+        "threeroman"
+      ],
+      "kerns": [
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "13",
+        "xiii",
+        "ⅹⅲ"
+      ]
+    },
+    {
+      "stem": "roman_l14",
+      "value": 14,
+      "case": "lower",
+      "token": "lrom14",
+      "chars": "ⅹⅳ",
+      "reading": "xiv",
+      "components": [
+        "tenroman",
+        "fourroman"
+      ],
+      "kerns": [
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "14",
+        "xiv",
+        "ⅹⅳ"
+      ]
+    },
+    {
+      "stem": "roman_l15",
+      "value": 15,
+      "case": "lower",
+      "token": "lrom15",
+      "chars": "ⅹⅴ",
+      "reading": "xv",
+      "components": [
+        "tenroman",
+        "fiveroman"
+      ],
+      "kerns": [
+        -44
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "15",
+        "xv",
+        "ⅹⅴ"
+      ]
+    },
+    {
+      "stem": "roman_l16",
+      "value": 16,
+      "case": "lower",
+      "token": "lrom16",
+      "chars": "ⅹⅵ",
+      "reading": "xvi",
+      "components": [
+        "tenroman",
+        "sixroman"
+      ],
+      "kerns": [
+        -42
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "16",
+        "xvi",
+        "ⅹⅵ"
+      ]
+    },
+    {
+      "stem": "roman_l17",
+      "value": 17,
+      "case": "lower",
+      "token": "lrom17",
+      "chars": "ⅹⅶ",
+      "reading": "xvii",
+      "components": [
+        "tenroman",
+        "sevenroman"
+      ],
+      "kerns": [
+        -42
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "17",
+        "xvii",
+        "ⅹⅶ"
+      ]
+    },
+    {
+      "stem": "roman_l18",
+      "value": 18,
+      "case": "lower",
+      "token": "lrom18",
+      "chars": "ⅹⅷ",
+      "reading": "xviii",
+      "components": [
+        "tenroman",
+        "eightroman"
+      ],
+      "kerns": [
+        -42
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "18",
+        "xviii",
+        "ⅹⅷ"
+      ]
+    },
+    {
+      "stem": "roman_l19",
+      "value": 19,
+      "case": "lower",
+      "token": "lrom19",
+      "chars": "ⅹⅸ",
+      "reading": "xix",
+      "components": [
+        "tenroman",
+        "nineroman"
+      ],
+      "kerns": [
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "19",
+        "xix",
+        "ⅹⅸ"
+      ]
+    },
+    {
+      "stem": "roman_l20",
+      "value": 20,
+      "case": "lower",
+      "token": "lrom20",
+      "chars": "ⅹⅹ",
+      "reading": "xx",
+      "components": [
+        "tenroman",
+        "tenroman"
+      ],
+      "kerns": [
+        -46
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "20",
+        "xx",
+        "ⅹⅹ"
+      ]
+    },
+    {
+      "stem": "roman_l21",
+      "value": 21,
+      "case": "lower",
+      "token": "lrom21",
+      "chars": "ⅹⅺ",
+      "reading": "xxi",
+      "components": [
+        "tenroman",
+        "elevenroman"
+      ],
+      "kerns": [
+        -44
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "21",
+        "xxi",
+        "ⅹⅺ"
+      ]
+    },
+    {
+      "stem": "roman_l22",
+      "value": 22,
+      "case": "lower",
+      "token": "lrom22",
+      "chars": "ⅹⅻ",
+      "reading": "xxii",
+      "components": [
+        "tenroman",
+        "twelveroman"
+      ],
+      "kerns": [
+        -44
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "22",
+        "xxii",
+        "ⅹⅻ"
+      ]
+    },
+    {
+      "stem": "roman_l23",
+      "value": 23,
+      "case": "lower",
+      "token": "lrom23",
+      "chars": "ⅹⅹⅲ",
+      "reading": "xxiii",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "threeroman"
+      ],
+      "kerns": [
+        -46,
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "23",
+        "xxiii",
+        "ⅹⅹⅲ"
+      ]
+    },
+    {
+      "stem": "roman_l24",
+      "value": 24,
+      "case": "lower",
+      "token": "lrom24",
+      "chars": "ⅹⅹⅳ",
+      "reading": "xxiv",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "fourroman"
+      ],
+      "kerns": [
+        -46,
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "24",
+        "xxiv",
+        "ⅹⅹⅳ"
+      ]
+    },
+    {
+      "stem": "roman_l25",
+      "value": 25,
+      "case": "lower",
+      "token": "lrom25",
+      "chars": "ⅹⅹⅴ",
+      "reading": "xxv",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "fiveroman"
+      ],
+      "kerns": [
+        -46,
+        -44
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "25",
+        "xxv",
+        "ⅹⅹⅴ"
+      ]
+    },
+    {
+      "stem": "roman_l26",
+      "value": 26,
+      "case": "lower",
+      "token": "lrom26",
+      "chars": "ⅹⅹⅵ",
+      "reading": "xxvi",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "sixroman"
+      ],
+      "kerns": [
+        -46,
+        -42
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "26",
+        "xxvi",
+        "ⅹⅹⅵ"
+      ]
+    },
+    {
+      "stem": "roman_l27",
+      "value": 27,
+      "case": "lower",
+      "token": "lrom27",
+      "chars": "ⅹⅹⅶ",
+      "reading": "xxvii",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "sevenroman"
+      ],
+      "kerns": [
+        -46,
+        -42
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "27",
+        "xxvii",
+        "ⅹⅹⅶ"
+      ]
+    },
+    {
+      "stem": "roman_l28",
+      "value": 28,
+      "case": "lower",
+      "token": "lrom28",
+      "chars": "ⅹⅹⅷ",
+      "reading": "xxviii",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "eightroman"
+      ],
+      "kerns": [
+        -46,
+        -42
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "28",
+        "xxviii",
+        "ⅹⅹⅷ"
+      ]
+    },
+    {
+      "stem": "roman_l29",
+      "value": 29,
+      "case": "lower",
+      "token": "lrom29",
+      "chars": "ⅹⅹⅸ",
+      "reading": "xxix",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "nineroman"
+      ],
+      "kerns": [
+        -46,
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "29",
+        "xxix",
+        "ⅹⅹⅸ"
+      ]
+    },
+    {
+      "stem": "roman_l30",
+      "value": 30,
+      "case": "lower",
+      "token": "lrom30",
+      "chars": "ⅹⅹⅹ",
+      "reading": "xxx",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "tenroman"
+      ],
+      "kerns": [
+        -46,
+        -46
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "30",
+        "xxx",
+        "ⅹⅹⅹ"
+      ]
+    },
+    {
+      "stem": "roman_l31",
+      "value": 31,
+      "case": "lower",
+      "token": "lrom31",
+      "chars": "ⅹⅹⅺ",
+      "reading": "xxxi",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "elevenroman"
+      ],
+      "kerns": [
+        -46,
+        -44
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "31",
+        "xxxi",
+        "ⅹⅹⅺ"
+      ]
+    },
+    {
+      "stem": "roman_l32",
+      "value": 32,
+      "case": "lower",
+      "token": "lrom32",
+      "chars": "ⅹⅹⅻ",
+      "reading": "xxxii",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "twelveroman"
+      ],
+      "kerns": [
+        -46,
+        -44
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "32",
+        "xxxii",
+        "ⅹⅹⅻ"
+      ]
+    },
+    {
+      "stem": "roman_l33",
+      "value": 33,
+      "case": "lower",
+      "token": "lrom33",
+      "chars": "ⅹⅹⅹⅲ",
+      "reading": "xxxiii",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "tenroman",
+        "threeroman"
+      ],
+      "kerns": [
+        -46,
+        -46,
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "33",
+        "xxxiii",
+        "ⅹⅹⅹⅲ"
+      ]
+    },
+    {
+      "stem": "roman_l34",
+      "value": 34,
+      "case": "lower",
+      "token": "lrom34",
+      "chars": "ⅹⅹⅹⅳ",
+      "reading": "xxxiv",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "tenroman",
+        "fourroman"
+      ],
+      "kerns": [
+        -46,
+        -46,
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "34",
+        "xxxiv",
+        "ⅹⅹⅹⅳ"
+      ]
+    },
+    {
+      "stem": "roman_l35",
+      "value": 35,
+      "case": "lower",
+      "token": "lrom35",
+      "chars": "ⅹⅹⅹⅴ",
+      "reading": "xxxv",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "tenroman",
+        "fiveroman"
+      ],
+      "kerns": [
+        -46,
+        -46,
+        -44
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "35",
+        "xxxv",
+        "ⅹⅹⅹⅴ"
+      ]
+    },
+    {
+      "stem": "roman_l36",
+      "value": 36,
+      "case": "lower",
+      "token": "lrom36",
+      "chars": "ⅹⅹⅹⅵ",
+      "reading": "xxxvi",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "tenroman",
+        "sixroman"
+      ],
+      "kerns": [
+        -46,
+        -46,
+        -42
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "36",
+        "xxxvi",
+        "ⅹⅹⅹⅵ"
+      ]
+    },
+    {
+      "stem": "roman_l37",
+      "value": 37,
+      "case": "lower",
+      "token": "lrom37",
+      "chars": "ⅹⅹⅹⅶ",
+      "reading": "xxxvii",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "tenroman",
+        "sevenroman"
+      ],
+      "kerns": [
+        -46,
+        -46,
+        -42
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "37",
+        "xxxvii",
+        "ⅹⅹⅹⅶ"
+      ]
+    },
+    {
+      "stem": "roman_l38",
+      "value": 38,
+      "case": "lower",
+      "token": "lrom38",
+      "chars": "ⅹⅹⅹⅷ",
+      "reading": "xxxviii",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "tenroman",
+        "eightroman"
+      ],
+      "kerns": [
+        -46,
+        -46,
+        -42
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "38",
+        "xxxviii",
+        "ⅹⅹⅹⅷ"
+      ]
+    },
+    {
+      "stem": "roman_l39",
+      "value": 39,
+      "case": "lower",
+      "token": "lrom39",
+      "chars": "ⅹⅹⅹⅸ",
+      "reading": "xxxix",
+      "components": [
+        "tenroman",
+        "tenroman",
+        "tenroman",
+        "nineroman"
+      ],
+      "kerns": [
+        -46,
+        -46,
+        -48
+      ],
+      "aliases": [
+        "roman",
+        "ローマ数字",
+        "39",
+        "xxxix",
+        "ⅹⅹⅹⅸ"
+      ]
+    }
+  ]
+}
