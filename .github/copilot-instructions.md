@@ -41,6 +41,7 @@ dist/glyphs/char_*_72.png           ← export_png.py 出力（72px）
 dist/glyphs/char_*_512.png          ← export_png.py 出力（512px）
 svg2png/glyphs/char_*.png           ← SVG の単純PNG変換（装飾なし）
 docs/glyph_map.txt                  ← inspect_font.py 自動生成
+aiscript/*.is                       ← データ部は generate_aiscript.py 自動生成
 _exported-dist/*.zip                ← エクスポートzip（.gitignore対象）
 ```
 
@@ -54,6 +55,8 @@ _exported-dist/*.zip                ← エクスポートzip（.gitignore対象
 - `_original-fonts/` 内ファイルの変更・削除
 - 第三者フォントのグリフパス使用
 - `dist/` `svg2png/` への直接ファイル配置
+- `aiscript/*.is` のデータ部（`let character_map` 〜 `let variants`）の手編集
+  （`python scripts/build.py --step aiscript` で再生成する）
 - ライセンス表記の削除・改ざん
 
 ---

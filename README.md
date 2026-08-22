@@ -51,6 +51,8 @@ SVG 化し、統合した異体字は `docs/glyph_aliases.json` に検索エイ�
 
 ```
 PenchantManufacture_ImageAssets/
+├── aiscript/
+│   └── penchant-string-converter.is # 文字列→工業デカールMFM変換ツール（対応表は自動生成）
 ├── assets/
 │   └── fonts/
 │       └── PenchantManufacture.otf   # ビルドで参照するフォント
@@ -67,12 +69,14 @@ PenchantManufacture_ImageAssets/
 │   ├── extract_glyphs.py             # フォント → SVGアウトライン抽出（重複排除）
 │   ├── export_png.py                 # SVG → PNG 変換
 │   ├── generate_decal.py             # 工業デカール生成（幅可変＋正方形／描画一致統合）
+│   ├── generate_aiscript.py          # aiscript/*.is の対応表を再生成
 │   ├── build_misskey_zip.py          # Misskey一括インポートzip生成
 │   └── build.py                      # 全ステップ一括ビルド
 ├── docs/
 │   ├── glyph_map.txt                 # inspect_font.py が自動生成
 │   ├── glyph_aliases.json            # 異体字→正規グリフ 対応表
 │   ├── glyph_render_merges.json      # 描画一致グリフ 統合表
+│   ├── AISCRIPT_CONVERTER.md          # 文字列コンバーター導入・変換仕様
 │   └── DECAL_VARIANTS.md             # 工業デカール バリアント仕様
 ├── _original-fonts/                  # 原本フォント（読み取り専用・.gitignore対象）
 ├── _exported-dist/                   # エクスポートzip格納（.gitignore対象）
@@ -114,6 +118,9 @@ python scripts/export_png.py
 # 工業デカール生成（幅可変＋正方形／描画一致統合） → dist/glyphs_decal[_square]/
 python scripts/generate_decal.py
 
+# 文字列コンバーターの対応表を再生成 → aiscript/penchant-string-converter.is
+python scripts/generate_aiscript.py
+
 # Misskey一括インポートzip → _exported-dist/
 python scripts/build_misskey_zip.py
 
@@ -128,6 +135,17 @@ python scripts/build.py
   （非正方形をそのまま扱えるため幅可変版を収録。カテゴリ・エイリアス付き）。
 - **Discord**: `dist/glyphs_decal_square/{variant}/*_128.png` を個別アップロード
   （正方形スロット向け。1ファイル 256KB 以下）。
+
+### Misskey用文字列コンバーター
+
+[`aiscript/penchant-string-converter.is`](aiscript/penchant-string-converter.is) は、
+任意の文字列を登録済みのPenchantManufacture工業デカール絵文字のMFMへ変換する
+AiScript 1.2.1対応ツールです。5バリアントの選択、スペーサ（`:gapp:` / `:spcp:`）、
+字詰め済みローマ数字13～39（大小）、未収録文字の赤太字エラー表示に対応します。
+変換表は `python scripts/build.py --step aiscript` でビルド成果物から再生成されます。
+
+導入方法と変換仕様は
+[`docs/AISCRIPT_CONVERTER.md`](docs/AISCRIPT_CONVERTER.md)を参照してください。
 
 ---
 

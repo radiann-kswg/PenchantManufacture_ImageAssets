@@ -275,6 +275,37 @@ SNS カスタム絵文字（Discord・Misskey）向けには同一画像の重�
 
 ---
 
+## Misskey 文字列コンバーター（`aiscript/`）
+
+`aiscript/penchant-string-converter.is` は、任意の文字列を登録済み工業デカール絵文字の
+MFM へ変換する AiScript 1.2.1 ツール（Misskey Play / AiScript App / Scratchpad 用）。
+導入手順と変換仕様は [docs/AISCRIPT_CONVERTER.md] を参照。
+
+**このスクリプトはビルド成果物の一部として扱う。**収録字が変われば変換表も変わるため、
+グリフを追加・改名したら必ず再生成してコミットすること。
+
+| 区分 | 内容 | 扱い |
+| --- | --- | --- |
+| データ部 | `character_map` / `neutral_tokens` / `roman_ligatures` / `roman_max_length` / `variants` | **自動生成**（手編集禁止） |
+| ロジック部 | `@convert` 以降の UI・変換処理 | 手編集可 |
+
+- 生成元（SSOT）: `dist/glyphs_decal/sumi/`（収録字の正）＋ `scripts/glyph_tokens.py`
+  （字体トークン・後置タグ・バリアント名）＋ `docs/glyph_aliases.json` /
+  `glyph_render_merges.json` / `glyph_romans.json` / `glyph_spacers.json`。
+  `build_misskey_zip.py` と同じ収録判定を使うので、**zip に入る絵文字＝変換できる文字**。
+- 生成コマンド: `python scripts/build.py --step aiscript`（`build.py` の全実行にも含まれる）。
+- 統合済み異体字（描画一致のギリシャ同形・アクセント異体字）も、統合先トークンへの
+  入力として登録される（例: `Α` → `ua`）。「同形は作らない」方針と整合する。
+- スペーサはバリアント非依存のため `neutral_tokens` に載り、常に `{token}p`（`gapp` /
+  `spcp`）へ変換される。半角スペース = `gap`、全角スペース = `spc`。
+- 合成ローマ数字 13〜39 は `roman_ligatures` で最長一致。`ⅩⅢ` だけでなく `ⅩⅡⅠ`
+  `ⅫⅠ` のような等価表記も同じ合成へ寄せる（大文字 `rom{値}` / 小文字 `lrom{値}`）。
+- 変換できない文字は赤太字の MFM エラー行として出力に残す（黙って落とさない）。
+- 前提サーバー: `https://radiann6631.xsns.jp`。別サーバーでは同名の絵文字一式
+  （`_exported-dist/` の zip）が登録されていること。
+
+---
+
 ## 権限・ライセンス（最優先）
 
 - **著作権者**：RadianN_kswg / ラジアン（柏木主税）
@@ -300,6 +331,8 @@ PenchantManufacture_ImageAssets/
 ├── assets/
 │   └── fonts/
 │       └── PenchantManufacture.otf ← ビルド参照フォント（_original-fontsのコピー）
+├── aiscript/
+│   └── penchant-string-converter.is ← Misskey用 文字列→デカールMFM コンバーター（対応表は自動生成）
 ├── src/
 │   ├── glyphs/                 ← グリフ SVGソース 409字（アウトライン化済み、extract_glyphs.py 出力）
 │   └── glyphs_roman/           ← 合成ローマ数字 SVGソース 54点（横長 viewBox、generate_roman.py 出力）
@@ -319,6 +352,7 @@ PenchantManufacture_ImageAssets/
 │   ├── generate_decal.py       ← 工業デカール生成（幅可変＋正方形、描画一致統合）
 │   ├── generate_roman.py       ← 合成ローマ数字（13〜39）専用ビルド（カーニング適用組版）
 │   ├── generate_spacers.py     ← スペーサ透過PNG生成（バリアント非依存、Pillowのみ）
+│   ├── generate_aiscript.py    ← aiscript/*.is の対応表を再生成（収録字・命名様式のSSOTから）
 │   ├── glyph_tokens.py         ← 字体トークン／後置タグ／サブカテゴリ 命名様式のSSOT
 │   ├── build_misskey_zip.py    ← Misskey一括インポートzip生成 → _exported-dist/
 │   └── build.py                ← 全ステップ一括ビルド
@@ -331,7 +365,8 @@ PenchantManufacture_ImageAssets/
 │   ├── EMOJI_TECHCODE_SPEC.md   ← 絵文字 命名様式（確定）
 │   ├── GLYPH_EXTENSION_PLAN.md  ← 追加グリフ計画
 │   ├── DIACRITIC_EXTENSION_PLAN.md ← アクセント記号 収録計画・配置帯規格
-│   └── DECAL_VARIANTS.md        ← 工業デカール バリアント仕様
+│   ├── DECAL_VARIANTS.md        ← 工業デカール バリアント仕様
+│   └── AISCRIPT_CONVERTER.md    ← 文字列コンバーター 導入手順・変換仕様
 ├── _original-fonts/            ← 原本（読み取り専用、.gitignore対象）
 ├── _exported-dist/             ← エクスポートzip格納（.gitignore対象）
 ├── requirements.txt
@@ -411,12 +446,16 @@ PenchantManufacture.otf
   │         ├─ dist/glyphs_spacer/spacer_{spc,gap}_{512,128}.png（完全透過・バリアント非依存）
   │         └─ docs/glyph_spacers.json（スペーサ対応表）
   │
+  ├─ [文字列コンバーター対応表] scripts/generate_aiscript.py  ※ 収録字が確定した後
+  │         └─ aiscript/penchant-string-converter.is のデータ部を再生成
+  │            （character_map / neutral_tokens / roman_ligatures / roman_max_length / variants）
+  │
   └─ [Misskey zip] scripts/build_misskey_zip.py
             └─ _exported-dist/penchant-misskey-{timestamp}.zip（meta.json付き）
 ```
 
 一括実行は `python scripts/build.py`（全ステップ）。`--step` で個別指定。
-ステップ順: inspect → extract → png → svg2png → decal → roman → spacer → misskey_zip。
+ステップ順: inspect → extract → png → svg2png → decal → roman → spacer → aiscript → misskey_zip。
 
 ### ビルドコマンド早見表
 
@@ -431,6 +470,8 @@ python scripts/generate_decal.py         # 工業デカール（幅可変＋正�
 python scripts/generate_decal.py -v rust # 単一スキームのみ（統合はスキップ）
 python scripts/generate_roman.py         # 合成ローマ数字 13〜39（カーニング適用組版＋デカール）
 python scripts/generate_spacers.py       # スペーサ透過PNG（decal の後に実行）
+python scripts/generate_aiscript.py      # AiScript コンバーターの対応表を再生成
+python scripts/generate_aiscript.py --dry-run  # 差分の有無だけ確認
 python scripts/build_misskey_zip.py      # Misskey一括インポートzip → _exported-dist/
 python scripts/build.py                  # 全ステップ一括
 python scripts/build.py --dry-run        # 実行確認（ファイル生成なし）
@@ -530,6 +571,8 @@ docs: add AGENTS.md / CLAUDE.md for PenchantManufacture setup
 - `_original-fonts/` 内ファイルの変更・削除
 - PenchantManufacture 以外の商用フォント・第三者フォントのグリフパス流用
 - `dist/` `svg2png/` への直接ファイル配置（スクリプト経由のみ）
+- `aiscript/*.is` の**データ部**（`let character_map` 〜 `let variants`）の手編集
+  （`scripts/generate_aiscript.py` の出力のみ。UI・変換ロジックは手編集してよい）
 - ライセンス表記（CC BY 4.0 / 著作者名）の削除・改ざん
 - `assets/fonts/PenchantManufacture.otf` の上書き（差し替えはコミット履歴を残すこと）
 
@@ -541,3 +584,4 @@ docs: add AGENTS.md / CLAUDE.md for PenchantManufacture setup
   （未生成の場合は `python scripts/inspect_font.py` を実行）
 - Python依存の追加は `requirements.txt` に記録し、インストール手順も更新すること
 - テスト実行: `python scripts/build.py --dry-run`
+  （`aiscript` ステップが「変更なし」でなければ、対応表の再生成漏れ）
