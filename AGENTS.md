@@ -355,7 +355,7 @@ PenchantManufacture_ImageAssets/
 │   ├── generate_aiscript.py    ← aiscript/*.is の対応表を再生成（収録字・命名様式のSSOTから）
 │   ├── glyph_tokens.py         ← 字体トークン／後置タグ／サブカテゴリ 命名様式のSSOT
 │   ├── build_misskey_zip.py    ← Misskey一括インポートzip生成 → _exported-dist/
-│   ├── build_previews.py       ← README冒頭バナー生成 → docs/previews/hero.png
+│   ├── build_previews.py       ← README掲載画像生成 → docs/previews/{hero,glyphset}.png
 │   └── build.py                ← 全ステップ一括ビルド
 ├── docs/
 │   ├── previews/               ← README掲載用プレビュー画像（build_previews.py 生成）
@@ -475,7 +475,7 @@ python scripts/generate_spacers.py       # スペーサ透過PNG（decal の後�
 python scripts/generate_aiscript.py      # AiScript コンバーターの対応表を再生成
 python scripts/generate_aiscript.py --dry-run  # 差分の有無だけ確認
 python scripts/build_misskey_zip.py      # Misskey一括インポートzip → _exported-dist/
-python scripts/build_previews.py         # README冒頭バナー → docs/previews/hero.png
+python scripts/build_previews.py         # README掲載画像 → docs/previews/hero.png, glyphset.png
 python scripts/build.py                  # 全ステップ一括
 python scripts/build.py --dry-run        # 実行確認（ファイル生成なし）
 python scripts/build.py --step decal     # 特定ステップのみ

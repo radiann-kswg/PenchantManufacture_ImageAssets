@@ -9,6 +9,14 @@
 > **著作権者**: RadianN_kswg / ラジアン（柏木主税）
 > **ライセンス**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.ja)
 
+### 収録グリフ一覧（工業デカール）
+
+ラテン・ギリシャ・キリル・数学記号・ローマ数字までを、5 種の工業デカール
+（hazard / nickel / patina / rust / sumi）で統一した作風で収録しています。
+下図は Unicode ブロック別の収録内容で、ブロックごとに異なるバリアントを表示しています。
+
+![PenchantManufacture 収録グリフ一覧（Unicodeブロック別・工業デカール5バリアント）](docs/previews/glyphset.png)
+
 ---
 
 ## フォント収録グリフ
