@@ -1,5 +1,7 @@
 # PenchantManufacture ImageAssets
 
+![PenchantManufacture ImageAssets カスタム絵文字プレビュー（工業デカール5バリアント）](docs/previews/hero.png)
+
 各種SNSおよびチャットサービス（Discord・Misskeyなど）向けに、**RadianN_kswg / ラジアン（柏木主税）による独自フォント PenchantManufacture** と **Claude による Agent 機能** によって制作するカスタム画像アセット／グリフ素材集です。
 
 姉妹プロジェクト **Secvier_ImageAssets** と同じ設計思想・命名規則・ビルドフローを踏襲しています。本リポジトリは現時点では、フォントグリフを起点とした画像アセット生成パイプラインの **初期設定** を収録しています。
