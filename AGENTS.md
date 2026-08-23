@@ -487,6 +487,23 @@ python scripts/build.py --font "_original-fonts/.develop/penchant-manufacture_v3
 > `docs/glyph_render_merges.json` を見て消し残りを除外するため zip は正しく作られる。
 > 消し残った PNG は次回の `generate_decal.py` 実行時に削除される。
 
+### README掲載プレビューの更新（必須）
+
+`docs/previews/` の画像は README の顔であり、**収録内容が変わったら必ず作り直す**。
+
+| ファイル                     | 役割                                                     |
+| ---------------------------- | -------------------------------------------------------- |
+| `docs/previews/hero.png`     | README 冒頭バナー（各バリアント名を自身のデカールで綴る） |
+| `docs/previews/glyphset.png` | 収録グリフ一覧（Unicodeブロック別・バリアント巡回）       |
+
+- **更新トリガ**: グリフを追加・削除したとき、デカールのバリアントを増減したとき、
+  フォントを差し替えて `dist/` を再生成したとき。
+- **手順**: `python scripts/build_previews.py` を実行し、生成画像を目視確認して
+  `dist/` の変更と**同じコミットに含める**（README とプレビューの乖離を残さない）。
+- 新しい Unicode ブロックを収録したら `BLOCKS` に範囲を 1 行追加する。範囲の重複や
+  未分類があると `group_by_block()` の assert で落ちるので、そこで気付ける。
+- 見出しは Pillow 既定フォントで描画するため **ASCII のみ**（日本語は豆腐になる）。
+
 ### SNS カスタム絵文字 登録の前提
 
 - **Misskey**: `_exported-dist/penchant-misskey-*.zip` を管理画面から一括インポート。
@@ -588,3 +605,5 @@ docs: add AGENTS.md / CLAUDE.md for PenchantManufacture setup
 - Python依存の追加は `requirements.txt` に記録し、インストール手順も更新すること
 - テスト実行: `python scripts/build.py --dry-run`
   （`aiscript` ステップが「変更なし」でなければ、対応表の再生成漏れ）
+- `dist/` を更新したら `python scripts/build_previews.py` でプレビューを作り直し、
+  同じコミットに含めること（→ [README掲載プレビューの更新](#readme掲載プレビューの更新必須)）
