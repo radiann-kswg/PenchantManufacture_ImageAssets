@@ -99,7 +99,7 @@ cmap を増やす作業は補助的（Tier A で新規 cmap が要るのは 12�
 ### 2.1 なぜ厳格な上限があるか
 
 v3.1 で `Ё Й` の分音記号（y=792.5）がアセンダ 660 を超えたため、
-`compute_vertical_fit` が**全グリフのベースラインを 67.9px 下げ**、
+当時の `compute_vertical_fit` が**全グリフのベースラインを 67.9px 下げ**、
 共通縦バンドが 440px → 508px（+15.5%）に拡大した。
 副作用として**既存グリフはすべて従来比 86.6% のサイズで描画**されるようになり、
 
@@ -495,7 +495,7 @@ Tier A+B のラテン 72字は、**10 種類の記号パーツ**の組み合わ�
 | `scripts/inspect_font.py` | **不要** | cmap/グリフを走査するだけ。差分は `docs/glyph_map.txt` に自動反映 |
 | `scripts/extract_glyphs.py` | **不要** | グリフ名でユニーク化しているため、実グリフが増えれば自動的に SVG 化される。コンポーネントも `SVGPathPen` が自動分解 |
 | `scripts/export_png.py` | **不要** | — |
-| `scripts/generate_decal.py` | **不要** | `compute_vertical_fit` は実インクを基準にするため、§2.2 の帯規格内なら挙動不変 |
+| `scripts/generate_decal.py` | **不要** | v3.3 以降は縦位置が **OS/2 win 帯 [−198, 793] 固定**（`metrics_fit`）。`compute_vertical_fit` によるインク実測は廃止済みで、§2.2 の帯規格内なら挙動不変 |
 | `scripts/glyph_tokens.py` | **要 → 実装済み** | ラテン拡張トークン（`ACCENT_CODES` / `LATIN_EXT_TOKENS` / `LATIN_LIGATURE_TOKENS` / `MATH_SYMBOL_TOKENS`）、サブカテゴリ、追加エイリアス、`GLYPH_NAME_OVERRIDES` に U+1E9E |
 | `scripts/check_vertical_band.py` | **新規推奨**（未実装） | §2.3 の規格逸脱チェッカ |
 | `docs/GLYPH_EXTENSION_PLAN.md` | **要 → 反映済み** | 実装フェーズ表に `P7a/P7b`、B1 の `× ÷` 消化、C3 の `Å`/`∅` 別名方針 |
