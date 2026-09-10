@@ -1,6 +1,6 @@
 {
   "font": "PenchantManufacture",
-  "generated": "2026-08-21T00:25:42Z",
+  "generated": "2026-09-10T02:26:47Z",
   "note": "合成ローマ数字（13〜39）の対応表。単独グリフに無い値を、フォントの GPOS カーニング（Ⅹ/ⅹ 直後の字詰め）を適用した連結字面として事前生成する。build_misskey_zip.py が絵文字エントリ化に使う。",
   "count": 54,
   "romans": [
