@@ -475,6 +475,10 @@ PenchantManufacture_ImageAssets/
   - `click` — CLIインターフェース
   - `svgwrite` — SVGファイル生成補助（将来の合成SVG用）
 - **フォントファイル**: `assets/fonts/PenchantManufacture.otf`
+- **libcairo（OS 別の注意）**: `cairosvg` が使う libcairo は pip では入らない。
+  - macOS（Homebrew）: `brew install cairo`。`/opt/homebrew/lib` は dyld の既定の探索先に無いため
+    `DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib` を渡してから実行する。
+  - Windows: libcairo の DLL（例: KiCad 同梱の `cairo-2.dll`）があるディレクトリを `PATH` に足す。
 
 ---
 
@@ -546,6 +550,11 @@ python scripts/build.py --font "_original-fonts/.develop/penchant-manufacture_v3
 > 読み取り専用マウント等で削除に失敗すると WARN が出るが、`build_misskey_zip.py` は
 > `docs/glyph_render_merges.json` を見て消し残りを除外するため zip は正しく作られる。
 > 消し残った PNG は次回の `generate_decal.py` 実行時に削除される。
+
+> 実行環境（Pillow・zlib 等の版）が変わると、画素が同一でも PNG の圧縮バイト列が変わり、
+> 全ステップ実行後に PNG が大量に modified になる（2026-09-11 に macOS で再ビルドした際は
+> 9,517 点がすべて画素一致・バイト差分のみ）。字形やスキームを変えていないのに大量の差分が出たら
+> 画素比較で確かめ、画素差分の無い PNG はコミットに含めない（`git restore` で戻す）。
 
 ### README掲載プレビューの更新（必須）
 
