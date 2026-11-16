@@ -33,7 +33,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from build_misskey_zip import build_zip as build_misskey_zip
 from export_png import export_category, svg2png_category
 from extract_glyphs import FONT_PATH as DEFAULT_FONT
-from extract_glyphs import extract_all
+from extract_glyphs import VARIANT_FONTS, extract_all
 from generate_decal import SCHEMES as DECAL_SCHEMES
 from generate_aiscript import build as build_aiscript
 from generate_decal import build as build_decal
@@ -62,7 +62,8 @@ def run_step(step: str, dry_run: bool, font_path: Path = DEFAULT_FONT,
         else:
             inspect_font(font_path)
     elif step == "extract":
-        extract_all(font_path, dry_run=dry_run, include_pending=include_pending)
+        extract_all(font_path, dry_run=dry_run, include_pending=include_pending,
+                    variant_fonts=VARIANT_FONTS)
     elif step == "png":
         if dry_run:
             print("  DRY-RUN: dist/glyphs/*_72.png / *_512.png を生成予定")

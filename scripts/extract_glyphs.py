@@ -244,6 +244,7 @@ def extract_all(
     prune: bool = True,
     aliases_path: Path = ALIASES_PATH,
     include_pending: bool = False,
+    variant_fonts: tuple[tuple[Path, int, str], ...] = (),
 ) -> list[Path]:
     """cmap を走査し、**グリフ単位で重複排除した** アウトライン化SVGを出力する。
 
@@ -260,6 +261,9 @@ def extract_all(
                      （旧・重複SVGの掃除）
         aliases_path: 異体字→正規グリフ対応表(JSON)の出力先
         include_pending: True の場合、``PENDING_RANGES``（制作途中グリフ）も抽出する
+        variant_fonts: 追加抽出する別字形（``VARIANT_FONTS`` の形式）。既定は空。
+                     本家のビルド（``build.py`` と本スクリプトの CLI）だけが ``VARIANT_FONTS`` を
+                     渡す。本関数を import して別のフォントに使う下流（CJK）へ別字形を混ぜないため。
 
     Returns:
         生成した（または dry-run で生成予定の）正規SVGファイルのパスリスト
@@ -333,7 +337,7 @@ def extract_all(
             print(f"  OK: {out_path.name}  (glyph={glyph_name!r})")
 
     # ── 別字形（バリアント OTF から 1 字ずつ追加抽出） ──
-    for variant_font, codepoint, variant_name in VARIANT_FONTS:
+    for variant_font, codepoint, variant_name in variant_fonts:
         vt = ttLib.TTFont(str(variant_font))
         glyph_name = vt.getBestCmap()[codepoint]
         agl_name = f"{_agl_name(codepoint, glyph_name)}_{variant_name}"
@@ -452,7 +456,7 @@ def main(font_path: str, out_dir: str, viewbox: int, no_prune: bool,
     print()
 
     paths = extract_all(fp, od, viewbox, dry_run=dry_run, prune=not no_prune,
-                        include_pending=include_pending)
+                        include_pending=include_pending, variant_fonts=VARIANT_FONTS)
 
     verb = "生成予定" if dry_run else "生成"
     print(f"\n完了: {len(paths)} 正規グリフを{verb}しました")

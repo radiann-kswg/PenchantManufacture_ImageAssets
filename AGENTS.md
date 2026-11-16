@@ -210,6 +210,9 @@ v4.0 のローマ数字は、通常グリフと**コンセプトが異なる**:
 - 抽出: `extract_glyphs.VARIANT_FONTS` の `(フォント, コードポイント, 別字形名)` を読み、
   `src/glyphs/char_zero_numeral_0030.svg`（ステムは `char_{AGL}_{別字形名}_{CP}`）を書き出す。
   以降の png / decal / zip は通常グリフと同じ経路で処理される。
+  `extract_all` は引数 `variant_fonts` を渡されたときだけ別字形を足す（`build.py` と
+  `extract_glyphs.py` の CLI が `VARIANT_FONTS` を渡す）。`extract_all` を import して別のフォントに
+  使う下流（CJK の `build_cjk.py` / `build_font.py`）へは別字形が混ざらない。
 - 命名: `glyph_tokens.GLYPH_VARIANT_TOKENS`（`zero_numeral` → `n0n`）。絵文字名は
   `n0np` / `n0npr` / `n0nph` / `n0npt` / `n0npn`、サブカテゴリは既定字と同じ「数字」。
 - 文字列コンバーター: 「0 の字形」の選択で `0` の変換先を `n0` / `n0n` に切り換える
