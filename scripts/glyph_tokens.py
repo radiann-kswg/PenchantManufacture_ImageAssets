@@ -42,6 +42,21 @@ VARIANT_JP: dict[str, str] = {
 # 打鍵リズムが崩れない利点を優先する（SPEC §2.4 注記）。
 NEUTRAL_SUFFIX = "p"
 
+# ── 別字形（同じコードポイントの差し替え字形） ──
+# ステムの名前部 ``{AGL}_{別字形名}`` → 字体トークン（既定字のトークン＋別字形の 1 字）。
+# 抽出元のフォントは extract_glyphs.VARIANT_FONTS。
+#   n0n: 数字 0 の numeral 形。斜線が縁から離れて浮く字形で、英大文字 O との見分けを
+#        比較的重視しない場面向け（既定の n0 は斜線が縁につながり、O と明確に区別できる）。
+GLYPH_VARIANT_TOKENS: dict[str, str] = {
+    "zero_numeral": "n0n",
+}
+
+# 文字列コンバーターの「0 の字形」選択肢（字体トークン → 表示名）。先頭が既定。
+ZERO_STYLES: dict[str, str] = {
+    "n0": "標準（斜線が縁につながる）",
+    "n0n": "numeral（斜線が浮く）",
+}
+
 # ── ASCII 記号 → 2字略号（AGL名キー。SPEC §2.3 と一致） ──
 SYMBOL_TOKENS: dict[str, str] = {
     "hyphen": "hy", "period": "dt", "colon": "co", "slash": "sl",
@@ -351,6 +366,8 @@ def glyph_token(char: str, agl: str) -> str:
     Returns:
         字体トークン（例 'ua' / 'n2' / 'hy' / 'alpha' / 'cdelta' / 'sup2' / 'subn'）。
     """
+    if agl in GLYPH_VARIANT_TOKENS:
+        return GLYPH_VARIANT_TOKENS[agl]
     if len(char) == 1 and char.isascii():
         if char.isdigit():
             return f"n{char}"
@@ -458,6 +475,9 @@ def glyph_extra_aliases(char: str, agl: str) -> list[str]:
     Returns:
         追加エイリアスのリスト（該当しない字種では空）。
     """
+    if agl in GLYPH_VARIANT_TOKENS:
+        # 別字形は既定字の AGL 名（zero）でも引けるようにする。
+        return [agl.split("_")[0], "alt", "別字形"]
     token = SUPERSCRIPT_TOKENS.get(char)
     if token:
         return ["superscript", "上付き", f"sup_{token[len('sup'):]}"]

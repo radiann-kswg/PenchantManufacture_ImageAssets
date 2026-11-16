@@ -55,7 +55,7 @@ _exported-dist/*.zip                ← エクスポートzip（.gitignore対象
 - `_original-fonts/` 内ファイルの変更・削除
 - 第三者フォントのグリフパス使用
 - `dist/` `svg2png/` への直接ファイル配置
-- `aiscript/*.is` のデータ部（`let character_map` 〜 `let variants`）の手編集
+- `aiscript/*.is` のデータ部（`let character_map` 〜 `let zero_styles`）の手編集
   （`python scripts/build.py --step aiscript` で再生成する）
 - ライセンス表記の削除・改ざん
 

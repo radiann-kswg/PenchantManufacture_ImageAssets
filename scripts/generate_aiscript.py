@@ -11,6 +11,7 @@
 - ``roman_ligatures``: ローマ数字の並び → 合成トークン（``rom13``〜``lrom39``）
 - ``roman_max_length``: 上記キーの最大長
 - ``variants``       : バリアント選択肢（``VARIANT_JP`` / ``VARIANT_SUFFIX``）
+- ``zero_styles``    : 「0 の字形」選択肢（``ZERO_STYLES``。収録済みの字形だけ）
 
 グリフを追加したら ``python scripts/build.py``（または ``--step aiscript``）を実行し、
 生成された ``.is`` をコミットすること。
@@ -35,8 +36,10 @@ from build_misskey_zip import (  # noqa: E402
     _parse_stem,
 )
 from glyph_tokens import (  # noqa: E402
+    GLYPH_VARIANT_TOKENS,
     VARIANT_JP,
     VARIANT_SUFFIX,
+    ZERO_STYLES,
     glyph_token,
     roman_token,
 )
@@ -108,11 +111,14 @@ def character_map() -> dict[str, str]:
         if len(char) == 1 and char.isprintable():
             table.setdefault(char, token)
 
-    for png in sorted(src_dir.glob(f"char_*_{SIZE}.png")):
+    # 名前（文字列）で並べる。Path のままだと Windows だけ大小無視の順になり、表の並びが OS で変わる。
+    for png in sorted(src_dir.glob(f"char_*_{SIZE}.png"), key=lambda p: p.name):
         stem = png.stem[: -(len(str(SIZE)) + 1)]
         if stem in skip_stems:
             continue
         agl, _cp, char = _parse_stem(stem)
+        if agl in GLYPH_VARIANT_TOKENS:
+            continue    # 別字形は文字からは引かない（zero_styles の選択で差し替える）
         token = glyph_token(char, agl)
         put(char, token)
         for al in aliases_map.get(stem, {}).get("aliases", []):
@@ -130,6 +136,15 @@ def character_map() -> dict[str, str]:
     if bad:
         raise click.ClickException(f"不正な字体トークン: {bad}（glyph_tokens.py を確認）")
     return table
+
+
+def zero_styles() -> dict[str, str]:
+    """「0 の字形」選択肢（字体トークン → 表示名）。収録済みの字形だけを載せる。"""
+    found: set[str] = set()
+    for png in (DECAL_DIST / REFERENCE_VARIANT).glob(f"char_zero_*_{SIZE}.png"):
+        agl, _cp, char = _parse_stem(png.stem[: -(len(str(SIZE)) + 1)])
+        found.add(glyph_token(char, agl))
+    return {token: label for token, label in ZERO_STYLES.items() if token in found}
 
 
 def neutral_tokens() -> list[str]:
@@ -193,6 +208,12 @@ def _render_blocks() -> dict[str, list[str]]:
             f"let roman_max_length = {max((len(k) for k in romans), default=1)}"
         ],
         "variants": ["let variants = [", *variants, "]"],
+        "zero_styles": [
+            "let zero_styles = [",
+            *(f'\t{{text: "{label}", value: "{token}"}}'
+              for token, label in zero_styles().items()),
+            "]",
+        ],
     }
 
 

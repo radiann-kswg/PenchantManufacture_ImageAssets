@@ -91,12 +91,13 @@ zip 一括インポートなので登録の手間は点数に比例しない）�
 
 | 時点 | 点数 | 内訳 |
 | --- | --- | --- |
-| v4.0-release（現行） | **2252** | 396字 × 5 ＋ 合成ローマ数字 54 × 5 ＋ スペーサ 2（v4.0-beta から点数不変） |
-| 実装予定分を加算 | **2482** | ＋ 46字 × 5（[GLYPH_EXTENSION_PLAN.md] §6-2） |
-| 凍結枠を将来解凍しても | 2727 | ＋ C2 15字 / P2c 14字 / P7b 20字 × 5 |
+| v4.0-release | 2252 | 396字 × 5 ＋ 合成ローマ数字 54 × 5 ＋ スペーサ 2（v4.0-beta から点数不変） |
+| ＋ `0` の別字形（現行） | **2257** | ＋ 別字形 1字 × 5（`n0n`。下記「別字形」節） |
+| 実装予定分を加算 | **2487** | ＋ 46字 × 5（[GLYPH_EXTENSION_PLAN.md] §6-2） |
+| 凍結枠を将来解凍しても | 2732 | ＋ C2 15字 / P2c 14字 / P7b 20字 × 5 |
 
 > 実装予定 46 字のうち `⌀`(`dia`) は `Ø`(`uosk`) と描画一致統合される可能性があり、
-> 統合された場合は 45 字 / 225 点 / **2477 点**になる（`dedupe_renders` がビルド時に機械判定）。
+> 統合された場合は 45 字 / 225 点 / **2482 点**になる（`dedupe_renders` がビルド時に機械判定）。
 
 > **TODO（未定義）**: **Discord へ登録するサブセットの選定基準が、どの docs にも書かれていない。**
 > Discord は 1 サーバー 50〜250 枠のため既定（墨）396 字ですら全点は入らない。
@@ -189,6 +190,33 @@ v4.0 のローマ数字は、通常グリフと**コンセプトが異なる**:
 - advance が viewBox を超える幅広グリフ（Ⅷ ⅷ）のため、`generate_decal.frame_box` は
   キャンバス境界へクランプせず PIL crop の透明パディングで登録メトリクスどおりの
   余白を保つ（範囲内のグリフでは従来と同一出力）
+
+### 別字形（数字 `0` の numeral 形）— バリアント OTF
+
+同じコードポイントに字形を 2 つ持たせたい字は、**字形だけを差し替えたバリアント OTF** を
+`assets/fonts/` に並べて同梱し、その 1 字だけを追加抽出して**別の絵文字として並存**させる。
+現在の対象は数字 `0`（U+0030）の 1 字。
+
+| 字形 | トークン | 抽出元 | 特徴 |
+| --- | --- | --- | --- |
+| 標準（既定） | `n0` | `PenchantManufacture.otf` | 斜線が縁につながる。英大文字 `O` と明確に区別できる |
+| numeral 形 | `n0n` | `PenchantManufacture-zero-numeral.otf` | 斜線が縁から離れて浮く。`O` との見分けを比較的重視しない場面向け |
+
+- バリアント OTF は作者が 2026-10-05 に書き出したもの（当初は `v4.1-alpha` として分かれていたが、
+  v4.0-release のバリアントという位置づけに改めた）。原本は
+  `_original-fonts/penchant-manufacture_v4.0-release/PenchantManufacture-zero-numeral.otf`。
+  本体 OTF との差は **`0` の輪郭と advance 幅（455 → 456）だけ**で、cmap・GSUB・GPOS・name・
+  win 帯はすべて同一（`name` も同名なので、2 つを同時に OS へインストールすることはできない）。
+- 抽出: `extract_glyphs.VARIANT_FONTS` の `(フォント, コードポイント, 別字形名)` を読み、
+  `src/glyphs/char_zero_numeral_0030.svg`（ステムは `char_{AGL}_{別字形名}_{CP}`）を書き出す。
+  以降の png / decal / zip は通常グリフと同じ経路で処理される。
+- 命名: `glyph_tokens.GLYPH_VARIANT_TOKENS`（`zero_numeral` → `n0n`）。絵文字名は
+  `n0np` / `n0npr` / `n0nph` / `n0npt` / `n0npn`、サブカテゴリは既定字と同じ「数字」。
+- 文字列コンバーター: 「0 の字形」の選択で `0` の変換先を `n0` / `n0n` に切り換える
+  （`zero_styles`。`character_map` 自体は常に `0` → `n0`）。
+- 上付き `⁰`・下付き `₀` は標準の字形のみ（バリアント OTF 側も未変更）。
+- 別字形を増やすときは、OTF を `assets/fonts/` に置き、`VARIANT_FONTS` と
+  `GLYPH_VARIANT_TOKENS` に 1 行ずつ足す。コンバーターで切り換えるなら選択肢も足す。
 
 v3.1 以前は cmap にアクセント付きラテン 56 コードポイントが登録されていたが、
 **すべて無印の基底グリフへ再マップ**されていた（`café` が `cafe` と表示される状態）。
@@ -315,6 +343,9 @@ SNS カスタム絵文字（Discord・Misskey）向けには同一画像の重�
 | 絵文字 PNG（描画一致統合後）     | dist/glyphs_decal | **304** | **321** | **372**      | **396**   |
 | 合成ローマ数字（13〜39 大小）    | dist/glyphs_roman | —     | —         | —            | **54**    |
 
+> 上表はフォント本体（cmap 由来）の数。これとは別に、`0` の別字形 1 字をバリアント OTF から
+> 追加抽出するため、現行の `src/glyphs/` は **410 点**、絵文字 PNG は **397 点**／バリアントになる。
+
 | 項目                 | 値                                        |
 | -------------------- | ----------------------------------------- |
 | フォント名           | PenchantManufacture (Regular)             |
@@ -346,7 +377,7 @@ MFM へ変換する AiScript 1.2.1 ツール（Misskey Play / AiScript App / Scr
 
 | 区分 | 内容 | 扱い |
 | --- | --- | --- |
-| データ部 | `character_map` / `neutral_tokens` / `roman_ligatures` / `roman_max_length` / `variants` | **自動生成**（手編集禁止） |
+| データ部 | `character_map` / `neutral_tokens` / `roman_ligatures` / `roman_max_length` / `variants` / `zero_styles` | **自動生成**（手編集禁止） |
 | ロジック部 | `@convert` 以降の UI・変換処理 | 手編集可 |
 
 - 生成元（SSOT）: `dist/glyphs_decal/sumi/`（収録字の正）＋ `scripts/glyph_tokens.py`
@@ -390,11 +421,12 @@ PenchantManufacture_ImageAssets/
 │   └── copilot-instructions.md ← GitHub Copilot 向け補足
 ├── assets/
 │   └── fonts/
-│       └── PenchantManufacture.otf ← ビルド参照フォント（_original-fontsのコピー）
+│       ├── PenchantManufacture.otf ← ビルド参照フォント（_original-fontsのコピー）
+│       └── PenchantManufacture-zero-numeral.otf ← `0` の別字形だけを差し替えたバリアント OTF（同上）
 ├── aiscript/
 │   └── penchant-string-converter.is ← Misskey用 文字列→デカールMFM コンバーター（対応表は自動生成）
 ├── src/
-│   ├── glyphs/                 ← グリフ SVGソース 409字（アウトライン化済み、extract_glyphs.py 出力）
+│   ├── glyphs/                 ← グリフ SVGソース 409字＋別字形1（アウトライン化済み、extract_glyphs.py 出力）
 │   └── glyphs_roman/           ← 合成ローマ数字 SVGソース 54点（横長 viewBox、generate_roman.py 出力）
 ├── dist/
 │   ├── glyphs/                 ← グリフ透過PNG（72px / 512px、装飾なし、export_png.py 出力）
@@ -491,7 +523,7 @@ PenchantManufacture.otf
   │         └─ docs/glyph_map.txt
   │
   ├─ [グリフ アウトライン抽出＋重複排除] scripts/extract_glyphs.py
-  │         ├─ src/glyphs/char_*.svg  （正規409字、fontToolsのSVGPathPenで純粋パス）
+  │         ├─ src/glyphs/char_*.svg  （正規409字＋別字形1、fontToolsのSVGPathPenで純粋パス）
   │         └─ docs/glyph_aliases.json（異体字→正規グリフ 対応表）
   │
   ├─ [単純PNG変換] scripts/export_png.py
@@ -514,7 +546,7 @@ PenchantManufacture.otf
   │
   ├─ [文字列コンバーター対応表] scripts/generate_aiscript.py  ※ 収録字が確定した後
   │         └─ aiscript/penchant-string-converter.is のデータ部を再生成
-  │            （character_map / neutral_tokens / roman_ligatures / roman_max_length / variants）
+  │            （character_map / neutral_tokens / roman_ligatures / roman_max_length / variants / zero_styles）
   │
   └─ [Misskey zip] scripts/build_misskey_zip.py
             └─ _exported-dist/penchant-misskey-{timestamp}.zip（meta.json付き）
@@ -579,8 +611,8 @@ python scripts/build.py --font "_original-fonts/.develop/penchant-manufacture_v3
   非正方形の絵文字をそのまま扱えるため **幅可変版**（字面本来の比率）を収録する。
   meta.json のカテゴリは `PenchantManufacture/工業デカール_{和名}/{字種}`、
   各絵文字に基底文字・異体字（ギリシャ同形など）・バリアント名を alias 付与。
-  収録点数は **396字 × 5バリアント ＋ 合成ローマ数字54点 × 5バリアント ＋ スペーサ2
-  = 2252点**（v4.0-release ビルド時。v4.0-beta と同数）。
+  収録点数は **（396字 ＋ `0` の別字形 1）× 5バリアント ＋ 合成ローマ数字54点 × 5バリアント
+  ＋ スペーサ2 = 2257点**（v4.0-release ＋ 別字形。別字形を除くと v4.0-beta と同じ 2252 点）。
   字種サブカテゴリに v3.2-beta で **ラテン拡張大文字 / ラテン拡張小文字**、
   v3.3-beta で **数式記号**（科学・数式13字＋`×` `÷`）、
   v3.4-release で **論理記号 / 参照記号 / 通貨**、
@@ -660,7 +692,7 @@ docs: add AGENTS.md / CLAUDE.md for PenchantManufacture setup
 - `_original-fonts/` 内ファイルの変更・削除
 - PenchantManufacture 以外の商用フォント・第三者フォントのグリフパス流用
 - `dist/` `svg2png/` への直接ファイル配置（スクリプト経由のみ）
-- `aiscript/*.is` の**データ部**（`let character_map` 〜 `let variants`）の手編集
+- `aiscript/*.is` の**データ部**（`let character_map` 〜 `let zero_styles`）の手編集
   （`scripts/generate_aiscript.py` の出力のみ。UI・変換ロジックは手編集してよい）
 - ライセンス表記（CC BY 4.0 / 著作者名）の削除・改ざん
 - `assets/fonts/PenchantManufacture.otf` の上書き（差し替えはコミット履歴を残すこと）

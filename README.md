@@ -59,6 +59,15 @@ SVG 化。統合した異体字は `docs/glyph_aliases.json` に検索エイリ�
 `docs/glyph_render_merges.json`。ソース SVG の 409 字は温存）。この 2 段の重複排除により、
 **同一画像が別名で二重登録されることを防ぎます**。
 
+### 数字 `0` の別字形
+
+数字 `0` だけは字形を 2 つ収録しています。既定の `n0`（斜線が縁につながり、英大文字 `O` と
+明確に区別できる形）に加えて、斜線が縁から離れて浮く **numeral 形 `n0n`** を、字形だけを
+差し替えたバリアント OTF（`assets/fonts/PenchantManufacture-zero-numeral.otf`）から抽出します。
+`O` との見分けを比較的重視しない場面向けの字形で、絵文字としては別名（`:n0np:` など）で並存し、
+文字列コンバーターでは「0 の字形」の選択で切り換えられます。これを加えた現行の絵文字点数は
+**2257**（（396 字 ＋ 別字形 1）× 5 バリアント ＋ 合成ローマ数字 54 × 5 ＋ スペーサ 2）です。
+
 ---
 
 ## ディレクトリ構成
@@ -72,7 +81,8 @@ PenchantManufacture_ImageAssets/
 │   └── penchant-string-converter.is # 文字列→工業デカールMFM変換ツール（対応表は自動生成）
 ├── assets/
 │   └── fonts/
-│       └── PenchantManufacture.otf   # ビルドで参照するフォント
+│       ├── PenchantManufacture.otf   # ビルドで参照するフォント
+│       └── PenchantManufacture-zero-numeral.otf # 数字 0 の別字形だけを差し替えたバリアント
 ├── src/
 │   └── glyphs/                       # グリフ SVG 148字（アウトライン化済み）
 ├── dist/
@@ -166,7 +176,7 @@ python scripts/build.py
 
 [`aiscript/penchant-string-converter.is`](aiscript/penchant-string-converter.is) は、
 任意の文字列を登録済みのPenchantManufacture工業デカール絵文字のMFMへ変換する
-AiScript 1.2.1対応ツールです。5バリアントの選択、スペーサ（`:gapp:` / `:spcp:`）、
+AiScript 1.2.1対応ツールです。5バリアントの選択、数字 `0` の字形の選択、スペーサ（`:gapp:` / `:spcp:`）、
 字詰め済みローマ数字13～39（大小）、未収録文字の赤太字エラー表示に対応します。
 変換表は `python scripts/build.py --step aiscript` でビルド成果物から再生成されます。
 

@@ -67,6 +67,14 @@ FONT_TITLE = "PenchantManufacture"
 # キリル U+0400–U+04FF は v3.1-release で全66字が確定したため除外を解除した。
 PENDING_RANGES: tuple[tuple[int, int, str], ...] = ()
 
+# ── 別字形フォント（同じコードポイントの差し替え字形） ──
+# (フォント, コードポイント, 別字形名)。本体フォントと同じメトリクス契約（win 帯）の
+# バリアント OTF から、その 1 字だけを ``char_{AGL}_{別字形名}_{CP}.svg`` として追加抽出する。
+# 字体トークンは glyph_tokens.GLYPH_VARIANT_TOKENS（``{AGL}_{別字形名}`` がキー）。
+VARIANT_FONTS: tuple[tuple[Path, int, str], ...] = (
+    (FONT_PATH.with_name("PenchantManufacture-zero-numeral.otf"), 0x0030, "numeral"),
+)
+
 _SAFE_RE = re.compile(r"[^A-Za-z0-9]+")
 
 
@@ -323,6 +331,33 @@ def extract_all(
         else:
             out_path.write_text(svg, encoding="utf-8")
             print(f"  OK: {out_path.name}  (glyph={glyph_name!r})")
+
+    # ── 別字形（バリアント OTF から 1 字ずつ追加抽出） ──
+    for variant_font, codepoint, variant_name in VARIANT_FONTS:
+        vt = ttLib.TTFont(str(variant_font))
+        glyph_name = vt.getBestCmap()[codepoint]
+        agl_name = f"{_agl_name(codepoint, glyph_name)}_{variant_name}"
+        svg = extract_glyph_svg(
+            glyph_name, vt.getGlyphSet(), vt["hmtx"].metrics, fit, upm, viewbox,
+            f"{FONT_TITLE} {_printable(codepoint)} ({variant_name})",
+        )
+        stem = f"char_{agl_name}_{codepoint:04X}"
+        seen_stems.add(stem)
+        canonical[stem] = {
+            "stem": stem,
+            "glyph": glyph_name,
+            "codepoint": f"U+{codepoint:04X}",
+            "char": _printable(codepoint),
+            "agl": agl_name,
+            "aliases": [],
+        }
+        out_path = out_dir / f"{stem}.svg"
+        produced.append(out_path)
+        if dry_run:
+            print(f"  DRY-RUN: {out_path.name}  (別字形: {variant_font.name})")
+        else:
+            out_path.write_text(svg, encoding="utf-8")
+            print(f"  OK: {out_path.name}  (別字形: {variant_font.name})")
 
     if pending_skipped:
         print()

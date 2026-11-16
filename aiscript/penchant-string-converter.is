@@ -630,8 +630,14 @@ let variants = [
 	{text: "白銅燐光", value: "pn"}
 ]
 
+let zero_styles = [
+	{text: "標準（斜線が縁につながる）", value: "n0"}
+	{text: "numeral（斜線が浮く）", value: "n0n"}
+]
+
 var input_text = ""
 var selected_variant = "p"
+var selected_zero = "n0"
 
 @emoji(name) {
 	`:{name}:`
@@ -665,8 +671,10 @@ var selected_variant = "p"
 
 		if !matched {
 			let character = text.slice(index, index + 1)
-			let stem = character_map[character]
-			if (Core:type(stem) == "str") {
+			let mapped = character_map[character]
+			if (Core:type(mapped) == "str") {
+				// 数字 0 は「0 の字形」で選んだ字形のトークンへ差し替える。
+				let stem = if (mapped == "n0") selected_zero else mapped
 				// スペーサ等のバリアント非依存トークンは全バリアント共通で `{token}p`。
 				let emoji_name = if (neutral_tokens.incl(stem)) `{stem}p` else `{stem}{selected_variant}`
 				output = `{output}{emoji(emoji_name)}`
@@ -706,6 +714,12 @@ Ui:render([
 				default: "p"
 				label: "バリアント"
 				onChange: @(value) { selected_variant = value }
+			})
+			Ui:C:select({
+				items: zero_styles
+				default: "n0"
+				label: "0 の字形"
+				onChange: @(value) { selected_zero = value }
 			})
 			Ui:C:button({
 				text: "変換"

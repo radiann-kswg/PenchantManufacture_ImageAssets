@@ -1,7 +1,7 @@
 {
   "font": "PenchantManufacture",
-  "generated": "2026-09-10T02:20:35Z",
-  "unique_glyphs": 409,
+  "generated": "2026-11-16T03:43:25Z",
+  "unique_glyphs": 410,
   "cmap_mappings": 415,
   "alias_count": 0,
   "pending_skipped": {},
@@ -2840,6 +2840,13 @@
       "codepoint": "U+0030",
       "char": "0",
       "agl": "zero",
+      "aliases": []
+    },
+    "char_zero_numeral_0030": {
+      "glyph": "zero",
+      "codepoint": "U+0030",
+      "char": "0",
+      "agl": "zero_numeral",
       "aliases": []
     },
     "char_zeroinferior_2080": {
