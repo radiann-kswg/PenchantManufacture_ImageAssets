@@ -679,7 +679,8 @@ var selected_zero = "n0"
 				let emoji_name = if (neutral_tokens.incl(stem)) `{stem}p` else `{stem}{selected_variant}`
 				output = `{output}{emoji(emoji_name)}`
 			} else {
-				output = `{output}\n{error_mfm(display_position, character)}`
+				// AiScript の文字列に `\n` のエスケープは無い。改行は Str:lf。
+				output = `{output}{Str:lf}{error_mfm(display_position, character)}`
 			}
 			index = index + 1
 			display_position = display_position + 1
