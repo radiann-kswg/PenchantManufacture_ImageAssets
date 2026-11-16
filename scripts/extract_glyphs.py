@@ -71,8 +71,11 @@ PENDING_RANGES: tuple[tuple[int, int, str], ...] = ()
 # (フォント, コードポイント, 別字形名)。本体フォントと同じメトリクス契約（win 帯）の
 # バリアント OTF から、その 1 字だけを ``char_{AGL}_{別字形名}_{CP}.svg`` として追加抽出する。
 # 字体トークンは glyph_tokens.GLYPH_VARIANT_TOKENS（``{AGL}_{別字形名}`` がキー）。
+_ZERO_NUMERAL_FONT = FONT_PATH.with_name("PenchantManufacture-zero-numeral.otf")
 VARIANT_FONTS: tuple[tuple[Path, int, str], ...] = (
-    (FONT_PATH.with_name("PenchantManufacture-zero-numeral.otf"), 0x0030, "numeral"),
+    (_ZERO_NUMERAL_FONT, 0x0030, "numeral"),   # 0
+    (_ZERO_NUMERAL_FONT, 0x2070, "numeral"),   # ⁰
+    (_ZERO_NUMERAL_FONT, 0x2080, "numeral"),   # ₀
 )
 
 _SAFE_RE = re.compile(r"[^A-Za-z0-9]+")

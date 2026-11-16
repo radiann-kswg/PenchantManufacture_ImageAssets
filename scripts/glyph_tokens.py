@@ -47,11 +47,15 @@ NEUTRAL_SUFFIX = "p"
 # 抽出元のフォントは extract_glyphs.VARIANT_FONTS。
 #   n0n: 数字 0 の numeral 形。斜線が縁から離れて浮く字形で、英大文字 O との見分けを
 #        比較的重視しない場面向け（既定の n0 は斜線が縁につながり、O と明確に区別できる）。
+#   sup0n / sub0n: 上付き ⁰・下付き ₀ の numeral 形（同じ意匠）。
 GLYPH_VARIANT_TOKENS: dict[str, str] = {
     "zero_numeral": "n0n",
+    "zerosuperior_numeral": "sup0n",
+    "zeroinferior_numeral": "sub0n",
 }
 
-# 文字列コンバーターの「0 の字形」選択肢（字体トークン → 表示名）。先頭が既定。
+# 文字列コンバーターの「0 の字形」選択肢（数字 0 の字体トークン → 表示名）。先頭が既定。
+# numeral を選ぶと 0 だけでなく ⁰ ₀ も numeral 形へ変換する（対応は収録済みの別字形から自動生成）。
 ZERO_STYLES: dict[str, str] = {
     "n0": "標準（斜線が縁につながる）",
     "n0n": "numeral（斜線が浮く）",
@@ -476,8 +480,9 @@ def glyph_extra_aliases(char: str, agl: str) -> list[str]:
         追加エイリアスのリスト（該当しない字種では空）。
     """
     if agl in GLYPH_VARIANT_TOKENS:
-        # 別字形は既定字の AGL 名（zero）でも引けるようにする。
-        return [agl.split("_")[0], "alt", "別字形"]
+        # 別字形は既定字の AGL 名（zero）と、既定字の追加エイリアス（上付き等）でも引けるようにする。
+        base = agl.split("_")[0]
+        return [base, "alt", "別字形", *glyph_extra_aliases(char, base)]
     token = SUPERSCRIPT_TOKENS.get(char)
     if token:
         return ["superscript", "上付き", f"sup_{token[len('sup'):]}"]

@@ -1,7 +1,7 @@
 {
   "font": "PenchantManufacture",
-  "generated": "2026-11-16T03:43:25Z",
-  "unique_glyphs": 410,
+  "generated": "2026-11-16T04:16:19Z",
+  "unique_glyphs": 412,
   "cmap_mappings": 415,
   "alias_count": 0,
   "pending_skipped": {},
@@ -2856,11 +2856,25 @@
       "agl": "zeroinferior",
       "aliases": []
     },
+    "char_zeroinferior_numeral_2080": {
+      "glyph": "zeroinferior",
+      "codepoint": "U+2080",
+      "char": "₀",
+      "agl": "zeroinferior_numeral",
+      "aliases": []
+    },
     "char_zerosuperior_2070": {
       "glyph": "zerosuperior",
       "codepoint": "U+2070",
       "char": "⁰",
       "agl": "zerosuperior",
+      "aliases": []
+    },
+    "char_zerosuperior_numeral_2070": {
+      "glyph": "zerosuperior",
+      "codepoint": "U+2070",
+      "char": "⁰",
+      "agl": "zerosuperior_numeral",
       "aliases": []
     },
     "char_zeta_03B6": {

@@ -12,6 +12,7 @@
 - ``roman_max_length``: 上記キーの最大長
 - ``variants``       : バリアント選択肢（``VARIANT_JP`` / ``VARIANT_SUFFIX``）
 - ``zero_styles``    : 「0 の字形」選択肢（``ZERO_STYLES``。収録済みの字形だけ）
+- ``zero_numeral_tokens``: numeral 選択時の差し替え表（``n0``→``n0n`` / ``sup0``→``sup0n`` / ``sub0``→``sub0n``）
 
 グリフを追加したら ``python scripts/build.py``（または ``--step aiscript``）を実行し、
 生成された ``.is`` をコミットすること。
@@ -118,7 +119,7 @@ def character_map() -> dict[str, str]:
             continue
         agl, _cp, char = _parse_stem(stem)
         if agl in GLYPH_VARIANT_TOKENS:
-            continue    # 別字形は文字からは引かない（zero_styles の選択で差し替える）
+            continue    # 別字形は文字からは引かない（zero_numeral_tokens で差し替える）
         token = glyph_token(char, agl)
         put(char, token)
         for al in aliases_map.get(stem, {}).get("aliases", []):
@@ -145,6 +146,17 @@ def zero_styles() -> dict[str, str]:
         agl, _cp, char = _parse_stem(png.stem[: -(len(str(SIZE)) + 1)])
         found.add(glyph_token(char, agl))
     return {token: label for token, label in ZERO_STYLES.items() if token in found}
+
+
+def zero_numeral_tokens() -> dict[str, str]:
+    """numeral 選択時の差し替え表（既定字のトークン → 別字形のトークン）。収録済みの別字形から作る。"""
+    table: dict[str, str] = {}
+    pngs = (DECAL_DIST / REFERENCE_VARIANT).glob(f"char_*_{SIZE}.png")
+    for png in sorted(pngs, key=lambda p: p.name):
+        agl, _cp, char = _parse_stem(png.stem[: -(len(str(SIZE)) + 1)])
+        if agl in GLYPH_VARIANT_TOKENS:
+            table[glyph_token(char, agl.split("_")[0])] = GLYPH_VARIANT_TOKENS[agl]
+    return table
 
 
 def neutral_tokens() -> list[str]:
@@ -213,6 +225,9 @@ def _render_blocks() -> dict[str, list[str]]:
             *(f'\t{{text: "{label}", value: "{token}"}}'
               for token, label in zero_styles().items()),
             "]",
+        ],
+        "zero_numeral_tokens": [
+            "let zero_numeral_tokens = {", *_obj(zero_numeral_tokens()), "}"
         ],
     }
 

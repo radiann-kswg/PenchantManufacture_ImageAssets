@@ -635,6 +635,12 @@ let zero_styles = [
 	{text: "numeral（斜線が浮く）", value: "n0n"}
 ]
 
+let zero_numeral_tokens = {
+	"n0": "n0n",
+	"sub0": "sub0n",
+	"sup0": "sup0n"
+}
+
 var input_text = ""
 var selected_variant = "p"
 var selected_zero = "n0"
@@ -673,8 +679,9 @@ var selected_zero = "n0"
 			let character = text.slice(index, index + 1)
 			let mapped = character_map[character]
 			if (Core:type(mapped) == "str") {
-				// 数字 0 は「0 の字形」で選んだ字形のトークンへ差し替える。
-				let stem = if (mapped == "n0") selected_zero else mapped
+				// 「0 の字形」で numeral を選んだら、0・⁰・₀ を numeral 形のトークンへ差し替える。
+				let numeral = zero_numeral_tokens[mapped]
+				let stem = if ((selected_zero == "n0n") && (Core:type(numeral) == "str")) numeral else mapped
 				// スペーサ等のバリアント非依存トークンは全バリアント共通で `{token}p`。
 				let emoji_name = if (neutral_tokens.incl(stem)) `{stem}p` else `{stem}{selected_variant}`
 				output = `{output}{emoji(emoji_name)}`
